@@ -1,0 +1,317 @@
+[
+  {
+    "word": "Zettel,",
+    "start": 0.04,
+    "end": 0.412
+  },
+  {
+    "word": "Excel,",
+    "start": 0.62,
+    "end": 1.015
+  },
+  {
+    "word": "Ordner",
+    "start": 1.166,
+    "end": 1.48
+  },
+  {
+    "word": "überall?",
+    "start": 1.526,
+    "end": 1.909
+  },
+  {
+    "word": "Damit",
+    "start": 2.209,
+    "end": 2.534
+  },
+  {
+    "word": "ist",
+    "start": 2.604,
+    "end": 2.732
+  },
+  {
+    "word": "jetzt",
+    "start": 2.79,
+    "end": 3.022
+  },
+  {
+    "word": "Schluss.",
+    "start": 3.092,
+    "end": 3.266
+  },
+  {
+    "word": "Das",
+    "start": 3.566,
+    "end": 3.775
+  },
+  {
+    "word": "ist",
+    "start": 3.844,
+    "end": 3.926
+  },
+  {
+    "word": "AutoKontor,",
+    "start": 3.995,
+    "end": 4.622
+  },
+  {
+    "word": "die",
+    "start": 4.808,
+    "end": 4.878
+  },
+  {
+    "word": "Software",
+    "start": 4.947,
+    "end": 5.354
+  },
+  {
+    "word": "für",
+    "start": 5.412,
+    "end": 5.505
+  },
+  {
+    "word": "kleine",
+    "start": 5.563,
+    "end": 5.818
+  },
+  {
+    "word": "Gebrauchtwagenhändler.",
+    "start": 5.864,
+    "end": 6.816
+  },
+  {
+    "word": "Fahrzeuge,",
+    "start": 7.116,
+    "end": 7.755
+  },
+  {
+    "word": "Kunden,",
+    "start": 7.964,
+    "end": 8.324
+  },
+  {
+    "word": "Kaufverträge",
+    "start": 8.556,
+    "end": 9.218
+  },
+  {
+    "word": "und",
+    "start": 9.264,
+    "end": 9.357
+  },
+  {
+    "word": "Rechnungen",
+    "start": 9.392,
+    "end": 9.822
+  },
+  {
+    "word": "als",
+    "start": 9.868,
+    "end": 9.961
+  },
+  {
+    "word": "PDF,",
+    "start": 10.042,
+    "end": 10.53
+  },
+  {
+    "word": "mit",
+    "start": 10.762,
+    "end": 10.832
+  },
+  {
+    "word": "wenigen",
+    "start": 10.901,
+    "end": 11.192
+  },
+  {
+    "word": "Klicks.",
+    "start": 11.273,
+    "end": 11.517
+  },
+  {
+    "word": "Auch",
+    "start": 11.766,
+    "end": 11.975
+  },
+  {
+    "word": "als",
+    "start": 12.022,
+    "end": 12.149
+  },
+  {
+    "word": "E-Rechnung,",
+    "start": 12.207,
+    "end": 12.8
+  },
+  {
+    "word": "ZUGFeRD",
+    "start": 12.997,
+    "end": 13.38
+  },
+  {
+    "word": "und",
+    "start": 13.485,
+    "end": 13.636
+  },
+  {
+    "word": "XRechnung.",
+    "start": 13.694,
+    "end": 14.17
+  },
+  {
+    "word": "Deine",
+    "start": 14.47,
+    "end": 14.795
+  },
+  {
+    "word": "Daten",
+    "start": 14.864,
+    "end": 15.131
+  },
+  {
+    "word": "bleiben",
+    "start": 15.224,
+    "end": 15.48
+  },
+  {
+    "word": "auf",
+    "start": 15.526,
+    "end": 15.619
+  },
+  {
+    "word": "deinem",
+    "start": 15.677,
+    "end": 15.886
+  },
+  {
+    "word": "Rechner,",
+    "start": 15.956,
+    "end": 16.258
+  },
+  {
+    "word": "nicht",
+    "start": 16.675,
+    "end": 16.826
+  },
+  {
+    "word": "in",
+    "start": 16.884,
+    "end": 16.942
+  },
+  {
+    "word": "der",
+    "start": 16.989,
+    "end": 17.105
+  },
+  {
+    "word": "Cloud.",
+    "start": 17.163,
+    "end": 17.419
+  },
+  {
+    "word": "Automatische",
+    "start": 17.719,
+    "end": 18.438
+  },
+  {
+    "word": "Sicherung",
+    "start": 18.496,
+    "end": 18.845
+  },
+  {
+    "word": "jeden",
+    "start": 18.903,
+    "end": 19.042
+  },
+  {
+    "word": "Tag.",
+    "start": 19.088,
+    "end": 19.356
+  },
+  {
+    "word": "Für",
+    "start": 19.656,
+    "end": 19.899
+  },
+  {
+    "word": "Windows,",
+    "start": 19.934,
+    "end": 20.375
+  },
+  {
+    "word": "Mac",
+    "start": 20.631,
+    "end": 20.875
+  },
+  {
+    "word": "und",
+    "start": 20.991,
+    "end": 21.107
+  },
+  {
+    "word": "Linux.",
+    "start": 21.176,
+    "end": 21.629
+  },
+  {
+    "word": "Ab",
+    "start": 21.902,
+    "end": 22.088
+  },
+  {
+    "word": "19",
+    "start": 22.227,
+    "end": 22.634
+  },
+  {
+    "word": "€",
+    "start": 22.715,
+    "end": 23.028
+  },
+  {
+    "word": "im",
+    "start": 23.098,
+    "end": 23.168
+  },
+  {
+    "word": "Monat,",
+    "start": 23.226,
+    "end": 23.527
+  },
+  {
+    "word": "monatlich",
+    "start": 23.644,
+    "end": 24.062
+  },
+  {
+    "word": "kündbar.",
+    "start": 24.131,
+    "end": 24.503
+  },
+  {
+    "word": "Jetzt",
+    "start": 24.803,
+    "end": 25.105
+  },
+  {
+    "word": "7",
+    "start": 25.186,
+    "end": 25.43
+  },
+  {
+    "word": "Tage",
+    "start": 25.464,
+    "end": 25.778
+  },
+  {
+    "word": "kostenlos",
+    "start": 25.813,
+    "end": 26.37
+  },
+  {
+    "word": "testen!",
+    "start": 26.451,
+    "end": 26.823
+  }
+]

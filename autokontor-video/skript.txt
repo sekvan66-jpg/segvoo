@@ -8,6 +8,7 @@
 #   flash   – roter Hintergrund, schwarze Schrift
 #   morph   – rote Form verwandelt sich hinter dem Wort (Kreis → Quadrat → Stern)
 #   type    – Schreibmaschine in Code-Schrift mit roter Markierung (*Wort* = rot markiert, sonst das letzte Wort)
+#   (überall: Wort~teil = Trennstelle für sehr lange Wörter, wird nicht gesprochen)
 #   laptop  – Laptop mit deiner Software (public/screenshot.png) + Text
 #   lock    – Schloss schließt sich + Text
 #   os      – Karten mit Symbol für Windows / Mac / Linux / Büro / Laptop (erscheinen, wenn das Wort fällt)
@@ -31,7 +32,7 @@ slam    | Schluss.
 # Szene 2 – Was ist es
 laptop  | Das ist AutoKontor,
 stretch | die Software
-slam    | für kleine Gebrauchtwagenhändler.
+slam    | für kleine Gebrauchtwagen~händler.
 type    | Sie läuft direkt auf deinem *PC,*
 os      | unter Windows, Mac und Linux.
 

@@ -1,20 +1,18 @@
 import React from "react";
 import { AbsoluteFill, Audio, Sequence, interpolate, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
-import timeline from "./data/timeline.json";
-import { Beat, BeatProps, EASE, cardWords, clamp, toFrames } from "./lib";
+import { Beat, BeatProps, EASE, Timeline, cardWords, clamp, toFrames } from "./lib";
 import { Flash, Glitch, Morph, Slam, Stretch, Type } from "./effects/text";
 import { Doc, End, Laptop, Lock, OS, Preis } from "./effects/scenes";
-import { BRAND, C, FONT, FPS } from "./theme";
-
-const beats = timeline.beats as Beat[];
+import { BRAND, C, FONT, FPS, P } from "./theme";
+import { PREMIUM_EFFECTS } from "./premium/scenes";
 
 const EFFECTS: Record<string, React.FC<any>> = { slam: Slam, glitch: Glitch, stretch: Stretch, flash: Flash, morph: Morph, type: Type, laptop: Laptop, lock: Lock, os: OS, doc: Doc, preis: Preis, end: End };
 
 /** Ein Bild: Wisch-Übergang + Kamera-Punch beim Schnitt, Kamera-Kick auf jedem Wort, Drift. */
-const BeatView: React.FC<{ beat: Beat; index: number; occ: number; dur: number }> = ({ beat, index, occ, dur }) => {
+const BeatView: React.FC<{ beat: Beat; index: number; occ: number; dur: number; screenshot: string | null; premium: boolean }> = ({ beat, index, occ, dur, screenshot, premium }) => {
   const frame = useCurrentFrame();
   const { width, height } = useVideoConfig();
-  const Comp = EFFECTS[beat.effect] ?? Slam;
+  const Comp = (premium ? PREMIUM_EFFECTS[beat.effect] : EFFECTS[beat.effect]) ?? Slam;
   const isEnd = beat.effect === "end";
   const words = toFrames(beat);
   const dir = index % 2 ? 1 : -1;
@@ -39,8 +37,17 @@ const BeatView: React.FC<{ beat: Beat; index: number; occ: number; dur: number }
     width,
     height,
     vertical: height > width,
-    screenshot: timeline.screenshot,
+    screenshot,
   };
+  if (premium) {
+    // Premium: weiches Einblenden (Unschärfe + leichter Zoom) und langsamer Kamera-Push
+    const t = interpolate(frame, [0, 8], [0, 1], { ...clamp, easing: EASE });
+    return (
+      <AbsoluteFill style={{ transform: `scale(${(1.06 - 0.06 * t) * (1 + (frame / Math.max(1, dur)) * 0.025)})`, filter: t < 1 ? `blur(${(1 - t) * 12}px)` : undefined }}>
+        <Comp {...props} />
+      </AbsoluteFill>
+    );
+  }
   return (
     <AbsoluteFill
       style={{
@@ -93,8 +100,11 @@ const Corner: React.FC<{ endFrom: number }> = ({ endFrom }) => {
   );
 };
 
+type Sfx = { at: number; file: "impact" | "whoosh" | "glitch" | "pop" | "swish" | "click" | "ding"; vol: number };
+const wordStart = (b: Beat, re: RegExp, fallback = b.start) => b.words.find((w) => re.test(w.w))?.start ?? fallback;
+
 /** Soundeffekte passend zu den Effekten. */
-const SFX_FOR: Record<string, (b: Beat) => { at: number; file: "impact" | "whoosh" | "glitch"; vol: number }[]> = {
+const SFX_FOR: Record<string, (b: Beat) => Sfx[]> = {
   slam: (b) => [b.words[0], b.words.at(-1)!].filter((w, i, a) => i === 0 || w !== a[0]).map((w) => ({ at: w.start, file: "impact" as const, vol: 0.9 })),
   glitch: (b) => b.words.map((w) => ({ at: w.start, file: "glitch" as const, vol: 0.5 })),
   stretch: (b) => [{ at: b.start, file: "whoosh", vol: 0.8 }],
@@ -109,8 +119,32 @@ const SFX_FOR: Record<string, (b: Beat) => { at: number; file: "impact" | "whoos
   end: (b) => [{ at: b.start, file: "whoosh", vol: 0.8 }, { at: b.start + 0.05, file: "impact", vol: 0.8 }],
 };
 
-const Sound: React.FC<{ total: number }> = ({ total }) => {
+/** Weiche Sounds für den Premium-Stil. */
+const SFX_PREMIUM: Record<string, (b: Beat) => Sfx[]> = {
+  chaos: (b) => b.words.map((w) => ({ at: w.start, file: "pop", vol: 0.5 })),
+  schluss: (b) => [{ at: b.start, file: "swish", vol: 0.6 }, { at: b.words.at(-1)!.start, file: "impact", vol: 0.35 }],
+  logo: (b) => [{ at: b.start, file: "swish", vol: 0.6 }, { at: wordStart(b, /autokontor/i), file: "ding", vol: 0.45 }],
+  kugel: (b) => [{ at: b.start + 0.3, file: "pop", vol: 0.7 }],
+  karten: (b) => b.words.filter((w) => /fahrzeuge|kunden|kaufvertr|rechnungen|pdf/i.test(w.w)).map((w) => ({ at: w.start, file: "pop", vol: 0.55 })),
+  klick: (b) => [{ at: wordStart(b, /klicks/i), file: "click", vol: 0.9 }, { at: wordStart(b, /klicks/i) + 0.15, file: "swish", vol: 0.4 }],
+  badges: (b) => b.words.filter((w) => /rechnung|zugferd/i.test(w.w)).map((w) => ({ at: w.start, file: "pop", vol: 0.55 })),
+  lokal: (b) => [{ at: b.start, file: "swish", vol: 0.5 }, { at: b.start + 0.35, file: "pop", vol: 0.6 }],
+  wolke: (b) => [{ at: wordStart(b, /cloud/i), file: "pop", vol: 0.7 }],
+  backup: (b) => {
+    const durF = (b.end - b.start) * FPS;
+    return Array.from({ length: 7 }, (_, i) => ({ at: b.start + (6 + i * Math.max(2, (durF - 14) / 7)) / FPS, file: "click" as const, vol: 0.35 }));
+  },
+  plattform: (b) => b.words.filter((w) => /windows|mac|linux|büro|laptop/i.test(w.w)).map((w) => ({ at: w.start, file: "pop", vol: 0.6 })),
+  preis: (b) => [{ at: wordStart(b, /\d/), file: "ding", vol: 0.6 }],
+  kuendbar: (b) => [{ at: wordStart(b, /kündbar/i), file: "click", vol: 0.7 }],
+  end: (b) => [{ at: b.start, file: "swish", vol: 0.5 }, { at: wordStart(b, /\d/), file: "ding", vol: 0.5 }],
+};
+
+const Sound: React.FC<{ total: number; timeline: Timeline }> = ({ total, timeline }) => {
   const a = timeline.audio;
+  const premium = timeline.stil === "premium";
+  const sfxMap = premium ? SFX_PREMIUM : SFX_FOR;
+  const musicVol = a.voice ? (premium ? 0.16 : 0.14) : 0.6;
   const sfxVol = a.voice ? 0.55 : 1;
   return (
     <>
@@ -118,11 +152,11 @@ const Sound: React.FC<{ total: number }> = ({ total }) => {
       {a.music && (
         <Audio
           src={staticFile(a.music)}
-          volume={(f) => interpolate(f, [0, 6, total - 60, total], [0, a.voice ? 0.14 : 0.6, a.voice ? 0.14 : 0.6, 0], clamp)}
+          volume={(f) => interpolate(f, [0, 6, total - 60, total], [0, musicVol, musicVol, 0], clamp)}
         />
       )}
-      {beats.flatMap((b, i) =>
-        (SFX_FOR[b.effect]?.(b) ?? []).map((s, k) => {
+      {timeline.beats.flatMap((b, i) =>
+        (sfxMap[b.effect]?.(b) ?? []).map((s, k) => {
           const file = a.sfx[s.file];
           if (!file) return null;
           return (
@@ -136,12 +170,15 @@ const Sound: React.FC<{ total: number }> = ({ total }) => {
   );
 };
 
-export const Spot: React.FC = () => {
+/** Der ganze Spot. Welche Fassung (60 s, 30 s …) gerendert wird, bestimmt die übergebene timeline. */
+export const Spot: React.FC<{ timeline: Timeline }> = ({ timeline }) => {
   const { durationInFrames } = useVideoConfig();
+  const beats = timeline.beats;
+  const premium = timeline.stil === "premium";
   const count: Record<string, number> = {};
   const endBeat = beats.find((b) => b.effect === "end");
   return (
-    <AbsoluteFill style={{ background: C.black }}>
+    <AbsoluteFill style={{ background: premium ? P.bg : C.black }}>
       {beats.map((b, i) => {
         const occ = count[b.effect] ?? 0;
         count[b.effect] = occ + 1;
@@ -150,13 +187,13 @@ export const Spot: React.FC = () => {
         const dur = Math.max(1, to - from);
         return (
           <Sequence key={i} from={from} durationInFrames={dur}>
-            <BeatView beat={b} index={i} occ={occ} dur={dur} />
+            <BeatView beat={b} index={i} occ={occ} dur={dur} screenshot={timeline.screenshot} premium={premium} />
           </Sequence>
         );
       })}
-      <Corner endFrom={endBeat ? Math.round(endBeat.start * FPS) : durationInFrames} />
-      <Overlays />
-      <Sound total={durationInFrames} />
+      {!premium && <Corner endFrom={endBeat ? Math.round(endBeat.start * FPS) : durationInFrames} />}
+      {!premium && <Overlays />}
+      <Sound total={durationInFrames} timeline={timeline} />
     </AbsoluteFill>
   );
 };

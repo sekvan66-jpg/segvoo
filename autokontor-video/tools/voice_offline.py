@@ -9,6 +9,8 @@ Alternative zu tools/voice.py (Chatterbox), wenn kein Chatterbox/Whisper verfüg
 
 Einmalig installieren:   .venv/bin/pip install "coqui-tts[codec]" "gruut[de]"
 Aufruf:                  .venv/bin/python tools/voice_offline.py
+Kurzfassung:             .venv/bin/python tools/voice_offline.py --fassung tiktok30
+                         (liest skript-tiktok30.txt, schreibt nach public/tiktok30/)
 Optionen: --tempo 0.88  (Sprechdauer: kleiner = schneller, 1.0 = ruhig)
           --pause 0.16  (Sekunden Pause nach jedem Satz)
           --zeige       (nur Lautschrift jedes Worts anzeigen, nichts erzeugen)
@@ -28,9 +30,9 @@ MODEL_URL = "https://github.com/coqui-ai/TTS/releases/download/v0.7.0_models/tts
 PUNCT = ".,!?;:"
 
 
-def read_script():
+def read_script(fassung):
     beats = []
-    for raw in (ROOT / "skript.txt").read_text(encoding="utf-8").splitlines():
+    for raw in (ROOT / (f"skript-{fassung}.txt" if fassung else "skript.txt")).read_text(encoding="utf-8").splitlines():
         raw = raw.strip()
         if not raw or raw.startswith("#"):
             continue
@@ -75,7 +77,9 @@ def main():
     ap.add_argument("--pause", type=float, default=0.16)
     ap.add_argument("--zeige", action="store_true")
     ap.add_argument("--seed", type=int, default=7)
+    ap.add_argument("--fassung", default="", help="z. B. tiktok30 → skript-tiktok30.txt, public/tiktok30/")
     args = ap.parse_args()
+    out_dir = PUBLIC / args.fassung if args.fassung else PUBLIC
 
     from TTS.tts.utils.text.cleaners import multilingual_cleaners
     from TTS.tts.utils.text.phonemizers.gruut_wrapper import Gruut
@@ -85,7 +89,7 @@ def main():
 
     def phonemes(word):
         """Lautschrift eines Skript-Worts (ohne Satzzeichen am Ende) + die Satzzeichen."""
-        word = word.replace("*", "")
+        word = word.replace("*", "").replace("~", "")
         core = word.rstrip(PUNCT)
         punct = word[len(core):]
         spoken = lex.get(core.lower(), core)
@@ -95,7 +99,7 @@ def main():
             ph = g2p.phonemize(multilingual_cleaners(spoken, lang="de"), separator="", language="de-de")
         return ph.strip(), punct
 
-    beats = read_script()
+    beats = read_script(args.fassung)
     flat = [(bi, w) for bi, words in enumerate(beats) for w in words]
 
     if args.zeige:
@@ -170,7 +174,7 @@ def main():
         wav = wav[int(cut * sr):]
         for i in idxs:
             ks = [k for k, o in enumerate(own) if o == i]
-            words_out.append({"word": flat[i][1].replace("*", ""), "start": round(t + edges[ks[0]] - cut, 3), "end": round(t + edges[ks[-1] + 1] - cut, 3)})
+            words_out.append({"word": flat[i][1].replace("*", "").replace("~", ""), "start": round(t + edges[ks[0]] - cut, 3), "end": round(t + edges[ks[-1] + 1] - cut, 3)})
         last = max(k for k, o in enumerate(own) if o is not None)
         wav = wav[: int((edges[last + 1] - cut + 0.12) * sr)]
         out += [wav, gap]
@@ -178,15 +182,16 @@ def main():
 
     full = np.concatenate(out)
     full = full / max(1e-6, np.abs(full).max()) * 0.9
-    sf.write(PUBLIC / "voice.wav", full, sr)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    sf.write(out_dir / "voice.wav", full, sr)
 
     segs = []
     for bi, words in enumerate(beats):
         ws = [w for w, (b, _) in zip(words_out, flat) if b == bi]
         segs.append({"text": " ".join(words), "start": ws[0]["start"], "end": ws[-1]["end"]})
-    (PUBLIC / "voice-segments.json").write_text(json.dumps(segs, ensure_ascii=False, indent=2), encoding="utf-8")
-    (PUBLIC / "voice-words.json").write_text(json.dumps(words_out, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"Fertig: public/voice.wav ({len(full) / sr:.1f} s) + Wort-Timing. Jetzt: npm run timeline")
+    (out_dir / "voice-segments.json").write_text(json.dumps(segs, ensure_ascii=False, indent=2), encoding="utf-8")
+    (out_dir / "voice-words.json").write_text(json.dumps(words_out, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"Fertig: {out_dir.relative_to(ROOT)}/voice.wav ({len(full) / sr:.1f} s) + Wort-Timing. Jetzt: npm run timeline")
 
 
 if __name__ == "__main__":

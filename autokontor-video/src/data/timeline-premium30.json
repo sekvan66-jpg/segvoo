@@ -1,0 +1,448 @@
+{
+  "stil": "premium",
+  "source": "whisper",
+  "duration": 29.623,
+  "audio": {
+    "voice": "tiktok30/voice.wav",
+    "music": "musik-hell.mp3",
+    "sfx": {
+      "impact": "sfx/impact.wav",
+      "whoosh": "sfx/whoosh.wav",
+      "glitch": "sfx/glitch.wav",
+      "pop": "sfx/pop.wav",
+      "swish": "sfx/swish.wav",
+      "click": "sfx/click.wav",
+      "ding": "sfx/ding.wav"
+    }
+  },
+  "screenshot": null,
+  "beats": [
+    {
+      "effect": "chaos",
+      "text": "Zettel, Excel, Ordner *überall?*",
+      "words": [
+        {
+          "w": "Zettel,",
+          "start": 0.04,
+          "end": 0.412
+        },
+        {
+          "w": "Excel,",
+          "start": 0.62,
+          "end": 1.015
+        },
+        {
+          "w": "Ordner",
+          "start": 1.166,
+          "end": 1.48
+        },
+        {
+          "w": "*überall?*",
+          "start": 1.526,
+          "end": 1.909
+        }
+      ],
+      "start": 0,
+      "end": 2.149
+    },
+    {
+      "effect": "schluss",
+      "text": "Damit ist jetzt Schluss.",
+      "words": [
+        {
+          "w": "Damit",
+          "start": 2.209,
+          "end": 2.534
+        },
+        {
+          "w": "ist",
+          "start": 2.604,
+          "end": 2.732
+        },
+        {
+          "w": "jetzt",
+          "start": 2.79,
+          "end": 3.022
+        },
+        {
+          "w": "Schluss.",
+          "start": 3.092,
+          "end": 3.266
+        }
+      ],
+      "start": 2.149,
+      "end": 3.506
+    },
+    {
+      "effect": "logo",
+      "text": "Das ist AutoKontor,",
+      "words": [
+        {
+          "w": "Das",
+          "start": 3.566,
+          "end": 3.775
+        },
+        {
+          "w": "ist",
+          "start": 3.844,
+          "end": 3.926
+        },
+        {
+          "w": "AutoKontor,",
+          "start": 3.995,
+          "end": 4.622
+        }
+      ],
+      "start": 3.506,
+      "end": 4.748
+    },
+    {
+      "effect": "kugel",
+      "text": "die Software für kleine *Gebrauchtwagen~händler.*",
+      "words": [
+        {
+          "w": "die",
+          "start": 4.808,
+          "end": 4.878
+        },
+        {
+          "w": "Software",
+          "start": 4.947,
+          "end": 5.354
+        },
+        {
+          "w": "für",
+          "start": 5.412,
+          "end": 5.505
+        },
+        {
+          "w": "kleine",
+          "start": 5.563,
+          "end": 5.818
+        },
+        {
+          "w": "*Gebrauchtwagen~händler.*",
+          "start": 5.864,
+          "end": 6.816
+        }
+      ],
+      "start": 4.748,
+      "end": 7.056
+    },
+    {
+      "effect": "karten",
+      "text": "Fahrzeuge, Kunden, Kaufverträge und Rechnungen als PDF,",
+      "words": [
+        {
+          "w": "Fahrzeuge,",
+          "start": 7.116,
+          "end": 7.755
+        },
+        {
+          "w": "Kunden,",
+          "start": 7.964,
+          "end": 8.324
+        },
+        {
+          "w": "Kaufverträge",
+          "start": 8.556,
+          "end": 9.218
+        },
+        {
+          "w": "und",
+          "start": 9.264,
+          "end": 9.357
+        },
+        {
+          "w": "Rechnungen",
+          "start": 9.392,
+          "end": 9.822
+        },
+        {
+          "w": "als",
+          "start": 9.868,
+          "end": 9.961
+        },
+        {
+          "w": "PDF,",
+          "start": 10.042,
+          "end": 10.53
+        }
+      ],
+      "start": 7.056,
+      "end": 10.702
+    },
+    {
+      "effect": "klick",
+      "text": "mit wenigen *Klicks.*",
+      "words": [
+        {
+          "w": "mit",
+          "start": 10.762,
+          "end": 10.832
+        },
+        {
+          "w": "wenigen",
+          "start": 10.901,
+          "end": 11.192
+        },
+        {
+          "w": "*Klicks.*",
+          "start": 11.273,
+          "end": 11.517
+        }
+      ],
+      "start": 10.702,
+      "end": 11.706
+    },
+    {
+      "effect": "badges",
+      "text": "Auch als E-Rechnung, ZUGFeRD und XRechnung.",
+      "words": [
+        {
+          "w": "Auch",
+          "start": 11.766,
+          "end": 11.975
+        },
+        {
+          "w": "als",
+          "start": 12.022,
+          "end": 12.149
+        },
+        {
+          "w": "E-Rechnung,",
+          "start": 12.207,
+          "end": 12.8
+        },
+        {
+          "w": "ZUGFeRD",
+          "start": 12.997,
+          "end": 13.38
+        },
+        {
+          "w": "und",
+          "start": 13.485,
+          "end": 13.636
+        },
+        {
+          "w": "XRechnung.",
+          "start": 13.694,
+          "end": 14.17
+        }
+      ],
+      "start": 11.706,
+      "end": 14.41
+    },
+    {
+      "effect": "lokal",
+      "text": "Deine Daten bleiben auf *deinem* *Rechner,*",
+      "words": [
+        {
+          "w": "Deine",
+          "start": 14.47,
+          "end": 14.795
+        },
+        {
+          "w": "Daten",
+          "start": 14.864,
+          "end": 15.131
+        },
+        {
+          "w": "bleiben",
+          "start": 15.224,
+          "end": 15.48
+        },
+        {
+          "w": "auf",
+          "start": 15.526,
+          "end": 15.619
+        },
+        {
+          "w": "*deinem*",
+          "start": 15.677,
+          "end": 15.886
+        },
+        {
+          "w": "*Rechner,*",
+          "start": 15.956,
+          "end": 16.258
+        }
+      ],
+      "start": 14.41,
+      "end": 16.615000000000002
+    },
+    {
+      "effect": "wolke",
+      "text": "nicht in der *Cloud.*",
+      "words": [
+        {
+          "w": "nicht",
+          "start": 16.675,
+          "end": 16.826
+        },
+        {
+          "w": "in",
+          "start": 16.884,
+          "end": 16.942
+        },
+        {
+          "w": "der",
+          "start": 16.989,
+          "end": 17.105
+        },
+        {
+          "w": "*Cloud.*",
+          "start": 17.163,
+          "end": 17.419
+        }
+      ],
+      "start": 16.615000000000002,
+      "end": 17.659000000000002
+    },
+    {
+      "effect": "backup",
+      "text": "Automatische Sicherung *jeden* *Tag.*",
+      "words": [
+        {
+          "w": "Automatische",
+          "start": 17.719,
+          "end": 18.438
+        },
+        {
+          "w": "Sicherung",
+          "start": 18.496,
+          "end": 18.845
+        },
+        {
+          "w": "*jeden*",
+          "start": 18.903,
+          "end": 19.042
+        },
+        {
+          "w": "*Tag.*",
+          "start": 19.088,
+          "end": 19.356
+        }
+      ],
+      "start": 17.659000000000002,
+      "end": 19.596
+    },
+    {
+      "effect": "plattform",
+      "text": "Für Windows, Mac und Linux.",
+      "words": [
+        {
+          "w": "Für",
+          "start": 19.656,
+          "end": 19.899
+        },
+        {
+          "w": "Windows,",
+          "start": 19.934,
+          "end": 20.375
+        },
+        {
+          "w": "Mac",
+          "start": 20.631,
+          "end": 20.875
+        },
+        {
+          "w": "und",
+          "start": 20.991,
+          "end": 21.107
+        },
+        {
+          "w": "Linux.",
+          "start": 21.176,
+          "end": 21.629
+        }
+      ],
+      "start": 19.596,
+      "end": 21.842000000000002
+    },
+    {
+      "effect": "preis",
+      "text": "Ab 19 € *im* *Monat,*",
+      "words": [
+        {
+          "w": "Ab",
+          "start": 21.902,
+          "end": 22.088
+        },
+        {
+          "w": "19",
+          "start": 22.227,
+          "end": 22.634
+        },
+        {
+          "w": "€",
+          "start": 22.634,
+          "end": 23.098
+        },
+        {
+          "w": "*im*",
+          "start": 23.098,
+          "end": 23.168
+        },
+        {
+          "w": "*Monat,*",
+          "start": 23.226,
+          "end": 23.527
+        }
+      ],
+      "start": 21.842000000000002,
+      "end": 23.584
+    },
+    {
+      "effect": "kuendbar",
+      "text": "monatlich *kündbar.*",
+      "words": [
+        {
+          "w": "monatlich",
+          "start": 23.644,
+          "end": 24.062
+        },
+        {
+          "w": "*kündbar.*",
+          "start": 24.131,
+          "end": 24.503
+        }
+      ],
+      "start": 23.584,
+      "end": 24.743000000000002
+    },
+    {
+      "effect": "end",
+      "text": "Jetzt 7 Tage kostenlos testen!",
+      "words": [
+        {
+          "w": "Jetzt",
+          "start": 24.803,
+          "end": 25.105
+        },
+        {
+          "w": "7",
+          "start": 25.186,
+          "end": 25.43
+        },
+        {
+          "w": "Tage",
+          "start": 25.464,
+          "end": 25.778
+        },
+        {
+          "w": "kostenlos",
+          "start": 25.813,
+          "end": 26.37
+        },
+        {
+          "w": "testen!",
+          "start": 26.451,
+          "end": 26.823
+        }
+      ],
+      "start": 24.743000000000002,
+      "end": 29.623
+    }
+  ]
+}

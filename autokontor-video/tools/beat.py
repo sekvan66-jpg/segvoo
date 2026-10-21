@@ -4,6 +4,8 @@ komplett per Code – keine fremde Musik, keine Lizenzfragen.
 Ergebnis: public/musik.mp3  → wird von npm run timeline automatisch eingebunden (leise unter der Stimme).
 
 Aufruf:   .venv/bin/python tools/beat.py  [--bpm 150] [--sekunden 80]
+          .venv/bin/python tools/beat.py --stil hell   → public/musik-hell.mp3 (leichter, fröhlicher Beat
+                                                         mit Marimba-Arpeggio für den Premium-Stil, 112 BPM)
 Eigene Musik (z. B. aus Suno) ist meist schöner: einfach als public/musik.mp3 ablegen.
 """
 import argparse
@@ -80,6 +82,68 @@ def pad(freqs, length):
     return x * a
 
 
+def pluck(f, length=0.5):
+    n = int(length * SR)
+    tt = np.arange(n) / SR
+    x = sum(a * np.sin(2 * np.pi * f * h * tt) * np.exp(-tt / (0.28 / h)) for h, a in [(1, 1), (2, 0.35), (3, 0.12), (4.2, 0.06)])
+    return x * np.minimum(1, tt / 0.002)
+
+
+def soft_kick():
+    n = int(0.3 * SR)
+    tt = np.arange(n) / SR
+    f = 50 + 70 * np.exp(-tt / 0.025)
+    return np.sin(2 * np.pi * np.cumsum(f) / SR) * env(n, 0.09)
+
+
+def snap():
+    n = int(0.15 * SR)
+    return bp(rng.standard_normal(n), 1500, 6000) * env(n, 0.03) * 0.8
+
+
+def shaker():
+    n = int(0.06 * SR)
+    a = np.minimum(1, np.arange(n) / (0.01 * SR)) * env(n, 0.015)
+    return hp(rng.standard_normal(n), 6000) * a * 0.25
+
+
+def warm_bass(f, length):
+    n = int(length * SR)
+    tt = np.arange(n) / SR
+    x = np.sin(2 * np.pi * f * tt) + 0.25 * np.sin(2 * np.pi * 2 * f * tt)
+    return x * np.minimum(1, tt / 0.01) * np.minimum(1, (length - tt) / 0.05)
+
+
+def light_track(bpm, seconds):
+    step = 60 / bpm / 4
+    bar = step * 16
+    bars = int(np.ceil(seconds / bar))
+    n = int(bars * bar * SR) + SR
+    drums, music = np.zeros(n), np.zeros(n)
+    # F-Dur: Fmaj7 – Am7 – Dm7 – Bbmaj7
+    chords = [[349.2, 440.0, 523.3, 659.3], [440.0, 523.3, 659.3, 784.0], [293.7, 349.2, 440.0, 523.3], [233.1, 293.7, 349.2, 440.0]]
+    roots = [87.3, 110.0, 73.4, 58.3]
+    K, S = soft_kick(), snap()
+    pattern = [0, 1, 2, 3, 2, 1, 3, 2]  # Arpeggio-Reihenfolge
+    for b in range(bars):
+        t0 = b * bar
+        ch = chords[b % 4]
+        intro = b == 0
+        for s in (0, 8) if intro else (0, 6, 8, 11):
+            add(drums, K, t0 + s * step, 0.8)
+        if not intro:
+            for s in (4, 12):
+                add(drums, S, t0 + s * step, 0.6)
+        for s in range(16):
+            add(drums, shaker(), t0 + s * step, 0.9 if s % 2 else 0.5)
+        for k in range(8):
+            f = ch[pattern[k]] * (2 if k in (3, 6) else 1)
+            add(music, pluck(f), t0 + k * 2 * step, 0.32)
+        add(music, warm_bass(roots[b % 4], bar * 0.95), t0, 0.28)
+    mix = np.tanh(1.1 * (drums + music))
+    return mix[: int(seconds * SR)]
+
+
 def add(track, sample, at, gain=1.0):
     s = int(at * SR)
     if s >= len(track):
@@ -88,11 +152,28 @@ def add(track, sample, at, gain=1.0):
     track[s:e] += sample[: e - s] * gain
 
 
+def write(mix, name):
+    import soundfile as sf
+
+    mix = mix / np.abs(mix).max() * 0.89
+    wav = ROOT / "out" / "beat.wav"
+    wav.parent.mkdir(exist_ok=True)
+    sf.write(wav, np.stack([mix, mix], axis=1), SR)
+    out = ROOT / "public" / name
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(wav), "-codec:a", "libmp3lame", "-b:a", "192k", str(out)], check=True)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--bpm", type=float, default=150)
     ap.add_argument("--sekunden", type=float, default=80)
+    ap.add_argument("--stil", default="trap", choices=["trap", "hell"])
     args = ap.parse_args()
+    if args.stil == "hell":
+        bpm = args.bpm if args.bpm != 150 else 112
+        write(light_track(bpm, args.sekunden), "musik-hell.mp3")
+        print(f"Fertig: public/musik-hell.mp3 ({args.sekunden:.0f} s, {bpm:.0f} BPM)")
+        return
 
     step = 60 / args.bpm / 4  # 16tel
     bar = step * 16
@@ -125,15 +206,7 @@ def main():
     mix = drums + low + mid
     mix = np.tanh(1.2 * mix)
     mix = mix[: int(args.sekunden * SR)]
-    mix = mix / np.abs(mix).max() * 0.89
-    stereo = np.stack([mix, mix], axis=1)
-    wav = ROOT / "out" / "beat.wav"
-    wav.parent.mkdir(exist_ok=True)
-    import soundfile as sf
-
-    sf.write(wav, stereo, SR)
-    out = ROOT / "public" / "musik.mp3"
-    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(wav), "-codec:a", "libmp3lame", "-b:a", "192k", str(out)], check=True)
+    write(mix, "musik.mp3")
     print(f"Fertig: public/musik.mp3 ({args.sekunden:.0f} s, {args.bpm:.0f} BPM). Jetzt: npm run timeline")
 
 

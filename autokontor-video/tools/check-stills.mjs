@@ -1,5 +1,5 @@
 // Rendert pro Bild (Beat) ein Standbild zur Qualitätskontrolle nach out/check/.
-// Aufruf:  node tools/check-stills.mjs [AutoKontorTikTok|AutoKontorYouTube]
+// Aufruf:  node tools/check-stills.mjs [AutoKontorTikTok|AutoKontorYouTube|AutoKontorTikTok30] [fassung]
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -9,7 +9,8 @@ import { selectComposition, renderStill } from "@remotion/renderer";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const id = process.argv[2] ?? "AutoKontorTikTok";
 const browserExecutable = process.env.REMOTION_BROWSER ?? null;
-const timeline = JSON.parse(fs.readFileSync(path.join(root, "src/data/timeline.json"), "utf8"));
+const fassung = process.argv[3] ?? "";
+const timeline = JSON.parse(fs.readFileSync(path.join(root, "src/data", fassung ? `timeline-${fassung}.json` : "timeline.json"), "utf8"));
 const outDir = path.join(root, "out", "check");
 fs.mkdirSync(outDir, { recursive: true });
 

@@ -40,3 +40,5 @@ brauchst              = /bʁaʊxst/
 gesperrt              = /ɡəʃpɛʁt/
 protokolliert         = /pʁotokɔliːɐt/
 Schluss               = /ʃlʊs/
+Automatische          = /aʊtoːmaːtɪʃə/
+Sicherung             = /zɪçəʁʊŋ/

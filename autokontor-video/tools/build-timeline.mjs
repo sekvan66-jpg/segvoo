@@ -5,7 +5,8 @@
 //   2. public/voice-segments.json – Zeilen-Zeiten aus tools/voice.py (Wörter werden darin verteilt)
 //   3. Schätzung (kein Audio)     – nur für die Vorschau
 //
-// Aufruf:  node tools/build-timeline.mjs
+// Aufruf:  node tools/build-timeline.mjs            (Erklärvideo: skript.txt → src/data/timeline.json)
+//          node tools/build-timeline.mjs tiktok30   (Fassung: skript-tiktok30.txt + public/tiktok30/ → src/data/timeline-tiktok30.json)
 
 import fs from "node:fs";
 import path from "node:path";
@@ -13,17 +14,32 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const p = (...x) => path.join(root, ...x);
-const EFFECTS = ["slam", "glitch", "stretch", "flash", "morph", "type", "laptop", "lock", "os", "doc", "preis", "end"];
+const fassung = process.argv[2] ?? "";
+const skriptFile = fassung ? `skript-${fassung}.txt` : "skript.txt";
+// Einstellungen im Skript-Kopf, z. B.:  # stil: premium   # musik: musik-hell.mp3   # stimme: tiktok30
+const settings = Object.fromEntries(
+  fs
+    .readFileSync(path.join(root, skriptFile), "utf8")
+    .split(/\r?\n/)
+    .map((l) => l.match(/^#\s*(stil|musik|stimme)\s*:\s*(\S+)/))
+    .filter(Boolean)
+    .map((m) => [m[1], m[2]]),
+);
+const stimme = settings.stimme ?? fassung;
+const audioDir = stimme ? `${stimme}/` : "";
+const EFFECTS = ["slam", "glitch", "stretch", "flash", "morph", "type", "laptop", "lock", "os", "doc", "preis", "end",
+  // Premium-Stil (src/premium/scenes.tsx)
+  "chaos", "schluss", "logo", "kugel", "karten", "klick", "badges", "lokal", "wolke", "backup", "plattform", "kuendbar"];
 
 // ---------- Skript lesen ----------
 const beats = fs
-  .readFileSync(p("skript.txt"), "utf8")
+  .readFileSync(p(skriptFile), "utf8")
   .split(/\r?\n/)
   .map((l) => l.trim())
   .filter((l) => l && !l.startsWith("#"))
   .map((l, i) => {
     const m = l.match(/^(\w+)\s*\|\s*(.+)$/);
-    if (!m) throw new Error(`skript.txt Zeile "${l}" hat nicht das Format "effekt | Text"`);
+    if (!m) throw new Error(`${skriptFile} Zeile "${l}" hat nicht das Format "effekt | Text"`);
     const effect = m[1].toLowerCase();
     if (!EFFECTS.includes(effect)) throw new Error(`Unbekannter Effekt "${effect}". Erlaubt: ${EFFECTS.join(", ")}`);
     return { index: i, effect, text: m[2].trim(), words: m[2].trim().split(/\s+/).filter((w) => w !== "–" && w !== "-") };
@@ -47,8 +63,8 @@ function spread(words, start, end) {
 let source = "schaetzung";
 let timed; // pro Beat: [{w,start,end}]
 
-const wordsFile = p("public", "voice-words.json");
-const segFile = p("public", "voice-segments.json");
+const wordsFile = p("public", audioDir, "voice-words.json");
+const segFile = p("public", audioDir, "voice-segments.json");
 
 if (fs.existsSync(wordsFile)) {
   // ---------- Whisper-Wörter an Skript-Wörter anpassen ----------
@@ -112,15 +128,12 @@ for (let i = 0; i < timeline.length; i++) {
 }
 
 const has = (f) => fs.existsSync(p("public", f));
-const sfx = {
-  impact: has("sfx/impact.wav") ? "sfx/impact.wav" : null,
-  whoosh: has("sfx/whoosh.wav") ? "sfx/whoosh.wav" : null,
-  glitch: has("sfx/glitch.wav") ? "sfx/glitch.wav" : null,
-};
-const voice = has("voice.wav") ? "voice.wav" : has("sprecher.mp3") ? "sprecher.mp3" : null;
-const music = has("musik.mp3") ? "musik.mp3" : null;
+const sfx = Object.fromEntries(["impact", "whoosh", "glitch", "pop", "swish", "click", "ding"].map((n) => [n, has(`sfx/${n}.wav`) ? `sfx/${n}.wav` : null]));
+const voice = has(`${audioDir}voice.wav`) ? `${audioDir}voice.wav` : has(`${audioDir}sprecher.mp3`) ? `${audioDir}sprecher.mp3` : null;
+const music = settings.musik ? (has(settings.musik) ? settings.musik : null) : has("musik.mp3") ? "musik.mp3" : null;
 
 const out = {
+  stil: settings.stil ?? "tiktok",
   source,
   duration: timeline.at(-1).end,
   audio: { voice, music, sfx },
@@ -128,5 +141,6 @@ const out = {
   beats: timeline,
 };
 fs.mkdirSync(p("src", "data"), { recursive: true });
-fs.writeFileSync(p("src", "data", "timeline.json"), JSON.stringify(out, null, 2));
-console.log(`timeline.json gebaut: ${timeline.length} Bilder, ${out.duration.toFixed(1)} s, Timing: ${source}, Stimme: ${voice ?? "keine"}, Musik: ${music ?? "keine"}`);
+const outFile = fassung ? `timeline-${fassung}.json` : "timeline.json";
+fs.writeFileSync(p("src", "data", outFile), JSON.stringify(out, null, 2));
+console.log(`${outFile} gebaut: ${timeline.length} Bilder, ${out.duration.toFixed(1)} s, Timing: ${source}, Stimme: ${voice ?? "keine"}, Musik: ${music ?? "keine"}`);

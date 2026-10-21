@@ -4,7 +4,14 @@ import { FONT, FPS } from "./theme";
 
 export type Word = { w: string; start: number; end: number };
 export type Beat = { effect: string; text: string; words: Word[]; start: number; end: number };
-export type WordF = Word & { f: number; fe: number; i: number };
+export type Timeline = {
+  stil?: string;
+  duration: number;
+  audio: { voice: string | null; music: string | null; sfx: Record<string, string | null> };
+  screenshot: string | null;
+  beats: Beat[];
+};
+export type WordF = Word & { f: number; fe: number; i: number; hy?: boolean };
 export type BeatProps = { beat: Beat; index: number; words: WordF[]; frame: number; dur: number; width: number; height: number; vertical: boolean; screenshot: string | null };
 
 export const EASE = Easing.bezier(0.16, 1, 0.3, 1);
@@ -18,18 +25,27 @@ export const toFrames = (beat: Beat): WordF[] =>
     fe: Math.max(1, Math.round((w.end - beat.start) * FPS)),
   }));
 
-export const clean = (w: string) => w.replace(/\*/g, "").replace(/[–-]$/, "").trim();
+export const clean = (w: string) => w.replace(/[*~]/g, "").replace(/[–-]$/, "").trim();
 
 /** Hervorgehobenes Wort: in skript.txt mit Sternchen markiert, z. B. *gesperrt* */
 export const isEmph = (w: string) => w.includes("*");
+
+/** Zu lange Wörter an „~“ (Trennstelle im Skript) oder am Bindestrich teilen, damit die Schrift groß bleibt. */
+function splitLong(words: WordF[], maxChars: number): WordF[] {
+  return words.flatMap((w) => {
+    if (clean(w.w).length <= maxChars) return [w];
+    const m = w.w.match(/^(.+?)[~-](.+)$/);
+    return m ? [{ ...w, w: m[1], hy: true }, { ...w, w: m[2] }] : [w];
+  });
+}
 
 /** Wörter in Zeilen aufteilen, damit sie riesig und trotzdem lesbar sind. */
 export function layoutLines(words: WordF[], maxChars: number): WordF[][] {
   const lines: WordF[][] = [];
   let cur: WordF[] = [];
   let len = 0;
-  for (const w of words) {
-    const l = clean(w.w).length;
+  for (const w of splitLong(words, maxChars)) {
+    const l = clean(w.w).length + (w.hy ? 1 : 0);
     if (cur.length && len + 1 + l > maxChars) {
       lines.push(cur);
       cur = [];
@@ -44,7 +60,7 @@ export function layoutLines(words: WordF[], maxChars: number): WordF[][] {
 
 /** Schriftgröße so wählen, dass die längste Zeile in die Breite passt (Anton ≈ 0.5em pro Zeichen). */
 export function fitSize(lines: WordF[][], width: number, max: number, charW = 0.5) {
-  const longest = Math.max(...lines.map((l) => l.map((w) => clean(w.w)).join(" ").length));
+  const longest = Math.max(...lines.map((l) => l.map((w) => clean(w.w) + (w.hy ? "-" : "")).join(" ").length));
   return Math.min(max, width / (longest * charW));
 }
 
@@ -94,7 +110,7 @@ export const BigWords: React.FC<{
             const visible = local >= 0;
             return (
               <span
-                key={w.i}
+                key={`${w.i}-${wi}`}
                 style={{
                   display: "inline-block",
                   marginRight: wi < line.length - 1 ? "0.18em" : 0,
@@ -104,7 +120,7 @@ export const BigWords: React.FC<{
                   ...(visible ? styleFor(w, local) : {}),
                 }}
               >
-                {upper ? clean(w.w).toUpperCase() : clean(w.w)}
+                {(upper ? clean(w.w).toUpperCase() : clean(w.w)) + (w.hy ? "-" : "")}
               </span>
             );
           })}

@@ -189,7 +189,7 @@
     },
     {
       "effect": "slam",
-      "text": "für kleine Gebrauchtwagenhändler.",
+      "text": "für kleine Gebrauchtwagen~händler.",
       "words": [
         {
           "w": "für",
@@ -202,7 +202,7 @@
           "end": 8.11
         },
         {
-          "w": "Gebrauchtwagenhändler.",
+          "w": "Gebrauchtwagen~händler.",
           "start": 8.145,
           "end": 9.12
         }

@@ -1,0 +1,34 @@
+# AutoKontor – 30-Sekunden-Fassung für TikTok / Reels (Hochformat)
+# Gleiches Format und gleiche Effekte wie skript.txt (dort sind alle Effekte erklärt).
+# Stimme:   .venv/bin/python tools/voice_offline.py --fassung tiktok30
+# Timeline: node tools/build-timeline.mjs tiktok30      Video: npm run render:30
+
+# Hook
+glitch  | Zettel,
+flash   | Excel,
+stretch | Ordner überall?
+slam    | Damit ist jetzt Schluss.
+
+# Was ist es
+laptop  | Das ist AutoKontor,
+slam    | die Software für kleine Gebrauchtwagen~händler.
+
+# Was man damit macht
+morph   | Fahrzeuge,
+morph   | Kunden,
+doc     | Kaufverträge und Rechnungen als PDF,
+stretch | mit wenigen Klicks.
+type    | Auch als *E-Rechnung,*
+glitch  | ZUGFeRD und XRechnung.
+
+# Sicherheit + Offline
+lock    | Deine Daten bleiben auf deinem Rechner,
+glitch  | nicht in der Cloud.
+stretch | Automatische Sicherung
+flash   | jeden Tag.
+os      | Für Windows, Mac und Linux.
+
+# Preis + Aufruf
+preis   | Ab 19 € im Monat,
+slam    | monatlich kündbar.
+end     | Jetzt 7 Tage kostenlos testen!

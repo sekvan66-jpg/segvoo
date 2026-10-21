@@ -30,6 +30,23 @@ export const FONT = {
   display: "Anton, Impact, sans-serif",
   ui: "Inter, Arial, sans-serif",
   mono: "JetBrains Mono, Consolas, monospace",
+  serif: "Instrument Serif, Georgia, serif",
+};
+
+// Premium-Stil (hell, glänzende orange Kugeln, kursive Akzentwörter)
+export const P = {
+  bg: "#EEF0F5",
+  bg2: "#DFE3EC",
+  ink: "#16181D",
+  sub: "#5B6170",
+  orange: "#FF6A1A",
+  orangeHi: "#FFB27A",
+  orangeLo: "#C9440A",
+  night: "#0B0E17",
+  card: "#FFFFFF",
+  line: "#E3E6ED",
+  green: "#1DB954",
+  blue: "#3B7BFF",
 };
 
 export const FPS = 30;
