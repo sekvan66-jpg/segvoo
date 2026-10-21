@@ -15,13 +15,14 @@ const outDir = path.join(root, "out", "check");
 fs.mkdirSync(outDir, { recursive: true });
 
 const serveUrl = await bundle({ entryPoint: path.join(root, "src/index.ts") });
-const composition = await selectComposition({ serveUrl, id, browserExecutable });
+const chromiumOptions = { gl: "angle" }; // WebGL für @remotion/effects
+const composition = await selectComposition({ serveUrl, id, browserExecutable, chromiumOptions });
 for (const [i, b] of timeline.beats.entries()) {
   const lastWord = b.words.at(-1);
   const t = Math.min(b.end - 0.05, Math.max(lastWord.end, b.start + 0.35) + 0.05);
   const frame = Math.min(composition.durationInFrames - 1, Math.round(t * 30));
   const file = path.join(outDir, `${id}-${String(i + 1).padStart(2, "0")}-${b.effect}.jpg`);
-  await renderStill({ serveUrl, composition, frame, output: file, imageFormat: "jpeg", jpegQuality: 85, browserExecutable });
+  await renderStill({ serveUrl, composition, frame, output: file, imageFormat: "jpeg", jpegQuality: 85, browserExecutable, chromiumOptions });
   console.log("✓", path.relative(root, file), `(Frame ${frame})`);
 }
 console.log("Fertig. Bilder in out/check/ ansehen und prüfen.");

@@ -128,7 +128,7 @@ for (let i = 0; i < timeline.length; i++) {
 }
 
 const has = (f) => fs.existsSync(p("public", f));
-const sfx = Object.fromEntries(["impact", "whoosh", "glitch", "pop", "swish", "click", "ding"].map((n) => [n, has(`sfx/${n}.wav`) ? `sfx/${n}.wav` : null]));
+const sfx = Object.fromEntries(["impact", "whoosh", "glitch", "pop", "swish", "click", "ding", "ui-pop", "ui-click", "ui-ding", "ui-tick", "ui-swish", "ui-toggle"].map((n) => [n, has(`sfx/${n}.wav`) ? `sfx/${n}.wav` : null]));
 const voice = has(`${audioDir}voice.wav`) ? `${audioDir}voice.wav` : has(`${audioDir}sprecher.mp3`) ? `${audioDir}sprecher.mp3` : null;
 const music = settings.musik ? (has(settings.musik) ? settings.musik : null) : has("musik.mp3") ? "musik.mp3" : null;
 

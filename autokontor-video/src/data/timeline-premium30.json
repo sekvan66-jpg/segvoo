@@ -12,7 +12,13 @@
       "pop": "sfx/pop.wav",
       "swish": "sfx/swish.wav",
       "click": "sfx/click.wav",
-      "ding": "sfx/ding.wav"
+      "ding": "sfx/ding.wav",
+      "ui-pop": "sfx/ui-pop.wav",
+      "ui-click": "sfx/ui-click.wav",
+      "ui-ding": "sfx/ui-ding.wav",
+      "ui-tick": "sfx/ui-tick.wav",
+      "ui-swish": "sfx/ui-swish.wav",
+      "ui-toggle": "sfx/ui-toggle.wav"
     }
   },
   "screenshot": null,

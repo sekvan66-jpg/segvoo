@@ -29,6 +29,14 @@ STIMME OHNE INTERNET (Alternative zu 2-STIMME.bat):
   -> Sprecher "Thorsten", Wort-Timing kommt direkt mit, Whisper nicht nötig.
   Spricht ein Wort falsch? In aussprache.txt eintragen (z. B. "Mac = Mäck").
 
+ECHTE STIMME EINBAUEN (z. B. ElevenLabs, Suno, Sprecherin, eigene Aufnahme):
+  Die Aufnahme muss genau den Text aus dem Skript sprechen (z. B. skript-premium30.txt).
+  .venv\Scripts\python tools\synchron.py premium30 C:\Pfad\aufnahme.mp3
+  node tools\build-timeline.mjs premium30
+  .venv\Scripts\python tools\musik.py premium30      (Musik passt sich der neuen Stimme an)
+  npx remotion render AutoKontorPremium30 out\premium.mp4
+  -> jedes Wort erscheint automatisch, wenn es gesprochen wird.
+
 TEXT ÄNDERN:
   skript.txt öffnen – jede Zeile ist ein Bild:  effekt | Text
   Danach 2-STIMME.bat und 3-VIDEO.bat erneut.

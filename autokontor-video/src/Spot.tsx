@@ -1,5 +1,6 @@
 import React from "react";
-import { AbsoluteFill, Audio, Easing, Sequence, interpolate, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, Audio, Easing, Sequence, Solid, interpolate, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
+import { lightLeak } from "@remotion/effects/light-leak";
 import { Beat, BeatProps, EASE, Timeline, cardWords, clamp, toFrames } from "./lib";
 import { Flash, Glitch, Morph, Slam, Stretch, Type } from "./effects/text";
 import { Doc, End, Laptop, Lock, OS, Preis } from "./effects/scenes";
@@ -103,6 +104,29 @@ const OrbWipes: React.FC<{ beats: Beat[] }> = ({ beats }) => {
   return null;
 };
 
+/** Premium: warmer Licht-Effekt (Light Leak, @remotion/effects) über wichtigen Schnitten – wie bei Kinowerbung. */
+const LEAK_AT = ["logo", "kugel", "preis", "end"];
+const LeakOverlay: React.FC<{ seed: number }> = ({ seed }) => {
+  const frame = useCurrentFrame();
+  const { width, height, durationInFrames } = useVideoConfig();
+  return (
+    <AbsoluteFill style={{ mixBlendMode: "soft-light", pointerEvents: "none" }}>
+      <Solid width={width} height={height} effects={[lightLeak({ seed, hueShift: 0, progress: interpolate(frame, [0, durationInFrames - 1], [0, 1], clamp) })]} />
+    </AbsoluteFill>
+  );
+};
+const LightLeaks: React.FC<{ beats: Beat[] }> = ({ beats }) => (
+  <>
+    {beats.map((b, i) =>
+      LEAK_AT.includes(b.effect) && i > 0 ? (
+        <Sequence key={i} from={Math.max(0, Math.round(b.start * FPS) - 10)} durationInFrames={26} layout="none">
+          <LeakOverlay seed={i * 3} />
+        </Sequence>
+      ) : null,
+    )}
+  </>
+);
+
 /** Filmkorn, Vignette, Scanlines – macht den Look „teuer“. */
 const Overlays: React.FC = () => {
   const frame = useCurrentFrame();
@@ -142,7 +166,7 @@ const Corner: React.FC<{ endFrom: number }> = ({ endFrom }) => {
   );
 };
 
-type Sfx = { at: number; file: "impact" | "whoosh" | "glitch" | "pop" | "swish" | "click" | "ding"; vol: number };
+type Sfx = { at: number; file: "impact" | "whoosh" | "glitch" | "pop" | "swish" | "click" | "ding" | "ui-pop" | "ui-click" | "ui-ding" | "ui-tick" | "ui-swish" | "ui-toggle"; vol: number };
 const wordStart = (b: Beat, re: RegExp, fallback = b.start) => b.words.find((w) => re.test(w.w))?.start ?? fallback;
 
 /** Soundeffekte passend zu den Effekten. */
@@ -163,23 +187,24 @@ const SFX_FOR: Record<string, (b: Beat) => Sfx[]> = {
 
 /** Weiche Sounds für den Premium-Stil. */
 const SFX_PREMIUM: Record<string, (b: Beat) => Sfx[]> = {
-  chaos: (b) => b.words.map((w) => ({ at: w.start, file: "pop", vol: 0.5 })),
-  schluss: (b) => [{ at: b.start - 0.2, file: "swish", vol: 0.6 }],
-  logo: (b) => [{ at: b.start, file: "swish", vol: 0.6 }, { at: wordStart(b, /autokontor/i), file: "ding", vol: 0.45 }],
-  kugel: (b) => [{ at: b.start + 0.3, file: "pop", vol: 0.7 }],
-  karten: (b) => b.words.filter((w) => /fahrzeuge|kunden|kaufvertr|rechnungen|pdf/i.test(w.w)).map((w) => ({ at: w.start, file: "pop", vol: 0.55 })),
-  klick: (b) => [{ at: wordStart(b, /klicks/i), file: "click", vol: 0.9 }, { at: wordStart(b, /klicks/i) + 0.15, file: "swish", vol: 0.4 }],
-  badges: (b) => b.words.filter((w) => /rechnung|zugferd/i.test(w.w)).map((w) => ({ at: w.start, file: "pop", vol: 0.55 })),
-  lokal: (b) => [{ at: b.start, file: "swish", vol: 0.5 }, { at: b.start + 0.35, file: "pop", vol: 0.6 }],
-  wolke: (b) => [{ at: wordStart(b, /cloud/i), file: "pop", vol: 0.7 }],
+  // echte Interface-Sounds (Kenney, CC0) – leise und edel
+  chaos: (b) => b.words.map((w) => ({ at: w.start, file: "ui-pop", vol: 0.45 })),
+  schluss: (b) => [{ at: b.start - 0.25, file: "ui-swish", vol: 0.5 }],
+  logo: (b) => [{ at: wordStart(b, /autokontor/i), file: "ui-ding", vol: 0.5 }],
+  kugel: (b) => b.words.filter((w) => /große|kleine/i.test(w.w)).map((w) => ({ at: w.start + 0.12, file: "ui-pop", vol: 0.6 })),
+  karten: (b) => b.words.filter((w) => /fahrzeuge|kunden|kaufvertr|rechnungen|pdf/i.test(w.w)).map((w) => ({ at: w.start, file: "ui-pop", vol: 0.5 })),
+  klick: (b) => [{ at: wordStart(b, /klicks/i), file: "ui-click", vol: 0.9 }],
+  badges: (b) => b.words.filter((w) => /rechnung|zugferd/i.test(w.w)).map((w) => ({ at: w.start + 0.1, file: "ui-tick", vol: 0.6 })),
+  lokal: (b) => [{ at: b.start + 0.35, file: "ui-pop", vol: 0.55 }],
+  wolke: (b) => [{ at: wordStart(b, /cloud/i), file: "ui-toggle", vol: 0.6 }],
   backup: (b) => {
     const durF = (b.end - b.start) * FPS;
-    return Array.from({ length: 7 }, (_, i) => ({ at: b.start + (6 + i * Math.max(2, (durF - 14) / 7)) / FPS, file: "click" as const, vol: 0.35 }));
+    return Array.from({ length: 7 }, (_, i) => ({ at: b.start + (6 + i * Math.max(2, (durF - 14) / 7)) / FPS, file: "ui-tick" as const, vol: 0.4 }));
   },
-  plattform: (b) => b.words.filter((w) => /windows|mac|linux|büro|laptop/i.test(w.w)).map((w) => ({ at: w.start, file: "pop", vol: 0.6 })),
-  preis: (b) => [{ at: wordStart(b, /\d/), file: "ding", vol: 0.6 }],
-  kuendbar: (b) => [{ at: wordStart(b, /kündbar/i), file: "click", vol: 0.7 }],
-  end: (b) => [{ at: b.start, file: "swish", vol: 0.5 }, { at: wordStart(b, /\d/), file: "ding", vol: 0.5 }],
+  plattform: (b) => b.words.filter((w) => /windows|mac|linux|büro|laptop/i.test(w.w)).map((w) => ({ at: w.start, file: "ui-pop", vol: 0.5 })),
+  preis: (b) => [{ at: b.start - 0.25, file: "ui-swish", vol: 0.45 }, { at: wordStart(b, /\d/), file: "ui-ding", vol: 0.55 }],
+  kuendbar: (b) => [{ at: wordStart(b, /kündbar/i), file: "ui-toggle", vol: 0.7 }],
+  end: (b) => [{ at: b.start - 0.25, file: "ui-swish", vol: 0.45 }, { at: wordStart(b, /\d/), file: "ui-ding", vol: 0.5 }],
 };
 
 const Sound: React.FC<{ total: number; timeline: Timeline }> = ({ total, timeline }) => {
@@ -237,6 +262,7 @@ export const Spot: React.FC<{ timeline: Timeline }> = ({ timeline }) => {
       {!premium && <Corner endFrom={endBeat ? Math.round(endBeat.start * FPS) : durationInFrames} />}
       {!premium && <Overlays />}
       {premium && <OrbWipes beats={beats} />}
+      {premium && <LightLeaks beats={beats} />}
       <Sound total={durationInFrames} timeline={timeline} />
     </AbsoluteFill>
   );

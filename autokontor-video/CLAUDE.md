@@ -9,6 +9,7 @@ Dieses Projekt erzeugt einen Kinetic-Typography-Werbespot (Stil: virale TikTok-E
    **Realistischere Offline-Stimme (empfohlen):** `tools/voice_piper.py [--fassung name]` – Piper „Thorsten high“ (CC0, werbetauglich), Sätze am Stück mit natürlicher Betonung, exaktes Wort-Timing aus dem Modell, Studio-Bearbeitung (EQ, Kompressor). Aussprache: `aussprache-piper.txt`. Stimmen lädt das Skript von GitHub nach `models/piper/`. Einmalig: `pip install piper-tts onnx`.
    **Frauenstimme:** `tools/voice_offline.py --modell css10 --fassung <name>` – Coqui CSS10 (weiblich, am verständlichsten von allen getesteten Frauenstimmen), Klangkette `werbung-w`, Aussprache in `aussprache-css10.txt` (Ersatzschreibung, z. B. „Excel = Ecksel“). Klangketten für alle Stimmen: `tools/klang.py`.
    **Prüfen:** `tools/pruefe_stimme.py <fassung>` – Whisper (offline, sherpa-onnx) schreibt jede Zeile mit; falsch verstandene Wörter in die Aussprache-Liste eintragen. Modell: `models/asr/sherpa-onnx-whisper-small` von github.com/k2-fsa/sherpa-onnx/releases (asr-models).
+   **Echte Aufnahme einbauen (ElevenLabs, Suno, Sprecherin, eigene Stimme):** `tools/synchron.py <fassung> aufnahme.mp3` – überträgt die Wortzeiten der Computerstimme per DTW auf die Aufnahme (gemessen: im Mittel 57 ms Abweichung). Die Aufnahme muss genau den Skript-Text sprechen.
 3. `tools/timing.py` – Whisper ermittelt die Zeit jedes Worts → `public/voice-words.json`.
 4. `tools/build-timeline.mjs` (`npm run timeline`) – baut `src/data/timeline.json` aus Skript + Timing. Ohne Audio wird das Timing geschätzt (nur Vorschau).
 5. Remotion rendert: `npm run render` (1080x1920 TikTok) / `npm run render:yt` (1920x1080) / `npm run render:alle`.
@@ -41,6 +42,8 @@ Python immer aus der venv: Windows `.venv\Scripts\python`, Mac/Linux `.venv/bin/
 - In `skript.txt` markiert `*Wort*` ein Wort rot (Effekt `type`); die Sternchen werden nicht gesprochen.
 - Keine fremden Logos (Windows/Apple/Linux) und keine fremden Marken – eigene, schlichte Icons.
 - Neue Effekte: als Komponente in `src/effects/` anlegen, in `EFFECTS` (Spot.tsx), `SFX_FOR` und in `tools/build-timeline.mjs` (EFFECTS-Liste) eintragen und in `skript.txt` dokumentieren.
-- Remotion-Skills sind installiert (`npx skills add remotion-dev/skills`) – nutze sie bei Fragen zu Remotion.
+- Remotion-Skills liegen in `.claude/skills/` (von github.com/remotion-dev/skills, z. B. `remotion-best-practices`, `remotion-markup` mit transitions/light-leaks/effects/motion-blur/voiceover) – vor Änderungen an Animation, Übergängen oder Audio dort nachlesen. Aktualisieren: `git clone --depth 1 https://github.com/remotion-dev/skills` und `skills/*` nach `.claude/skills/` kopieren.
+- Effekte: `@remotion/effects` (Light Leaks über wichtigen Schnitten, Mischmodus soft-light) braucht WebGL → `Config.setChromiumOpenGlRenderer("angle")` (remotion.config.ts) bzw. `--gl=angle`.
+- Soundeffekte im Premium-Stil: echte Interface-Sounds von Kenney (CC0, über github.com/kapishdima/soundcn) als `public/sfx/ui-*.wav`.
 - Rendern auf schwachen PCs: `--concurrency 2` anhängen, wenn der Rechner hängt.
 - Lizenz-Hinweis: Remotion ist kostenlos für Einzelpersonen und Firmen bis 3 Mitarbeiter, darüber braucht es eine Firmenlizenz.
