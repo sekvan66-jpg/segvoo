@@ -7,6 +7,8 @@ Dieses Projekt erzeugt einen Kinetic-Typography-Werbespot (Stil: virale TikTok-E
 2. `tools/voice.py` – Chatterbox Multilingual (Deutsch) spricht jede Zeile → `public/voice.wav` + `public/voice-segments.json`. Klont `public/meine-stimme.wav`, falls vorhanden. Alternativ legt der Nutzer `public/sprecher.mp3` ab (z. B. ElevenLabs) – dann voice.py überspringen.
    **Offline-Alternative:** `tools/voice_offline.py` – Coqui-TTS „Thorsten“ (deutsche Männerstimme, läuft ohne Internet). Liefert Stimme **und** exaktes Wort-Timing direkt aus dem Modell → Schritt 3 entfällt. Aussprache schwieriger Wörter (PC, GoBD, ZUGFeRD …) steht in `aussprache.txt` (Text oder Lautschrift `/…/`). Einmalig: `pip install "coqui-tts[codec]" "gruut[de]"`; das Modell (~330 MB) lädt das Skript selbst nach `models/`.
    **Realistischere Offline-Stimme (empfohlen):** `tools/voice_piper.py [--fassung name]` – Piper „Thorsten high“ (CC0, werbetauglich), Sätze am Stück mit natürlicher Betonung, exaktes Wort-Timing aus dem Modell, Studio-Bearbeitung (EQ, Kompressor). Aussprache: `aussprache-piper.txt`. Stimmen lädt das Skript von GitHub nach `models/piper/`. Einmalig: `pip install piper-tts onnx`.
+   **Frauenstimme:** `tools/voice_offline.py --modell css10 --fassung <name>` – Coqui CSS10 (weiblich, am verständlichsten von allen getesteten Frauenstimmen), Klangkette `werbung-w`, Aussprache in `aussprache-css10.txt` (Ersatzschreibung, z. B. „Excel = Ecksel“). Klangketten für alle Stimmen: `tools/klang.py`.
+   **Prüfen:** `tools/pruefe_stimme.py <fassung>` – Whisper (offline, sherpa-onnx) schreibt jede Zeile mit; falsch verstandene Wörter in die Aussprache-Liste eintragen. Modell: `models/asr/sherpa-onnx-whisper-small` von github.com/k2-fsa/sherpa-onnx/releases (asr-models).
 3. `tools/timing.py` – Whisper ermittelt die Zeit jedes Worts → `public/voice-words.json`.
 4. `tools/build-timeline.mjs` (`npm run timeline`) – baut `src/data/timeline.json` aus Skript + Timing. Ohne Audio wird das Timing geschätzt (nur Vorschau).
 5. Remotion rendert: `npm run render` (1080x1920 TikTok) / `npm run render:yt` (1920x1080) / `npm run render:alle`.
@@ -28,7 +30,7 @@ Python immer aus der venv: Windows `.venv\Scripts\python`, Mac/Linux `.venv/bin/
 - `src/lib.tsx` – Wort-Timing, Zeilenumbruch, automatische Schriftgröße, Kamerawackler.
 - `public/fonts` – Schriften lokal (Anton, Inter, JetBrains Mono). `public/sfx` – impact/whoosh/glitch.
 - Optional in `public/`: `screenshot.png` (echte Software im Laptop), `musik.mp3`, `meine-stimme.wav`, `sprecher.mp3`.
-- `tools/musik.py <fassung>` – komponiert Werbemusik passend zum Schnitt (Spannung → Schlag bei „Schluss.“ → Drop beim Logo → Lift beim Preis → Schlussakkord) als `public/musik-<fassung>.mp3`. Erst Stimme + Timeline bauen, dann Musik, dann Timeline nochmal.
+- `tools/musik.py <fassung> [--stil sanft|kraftvoll]` – „sanft“ (Standard): ruhiges Bett aus Flächen, Filz-Klavier, Bass; wird unter der Stimme automatisch −8 dB leiser (Ducking aus voice-words.json). „kraftvoll“: komponiert treibende Werbemusik passend zum Schnitt (Spannung → Schlag bei „Schluss.“ → Drop beim Logo → Lift beim Preis → Schlussakkord) als `public/musik-<fassung>.mp3`. Erst Stimme + Timeline bauen, dann Musik, dann Timeline nochmal.
 - `tools/beat.py` – erzeugt einen lizenzfreien Trap-Beat (150 BPM) als `public/musik.mp3`; eigene Musik einfach darüber ablegen.
 - Dynamik (Spot.tsx `BeatView`): Wisch-Übergang + Blitz bei jedem Schnitt, Kamera-Kick auf jedem Wort. Kurze Skript-Zeilen (1–4 Wörter) = mehr Schnitte = mehr Tempo.
 

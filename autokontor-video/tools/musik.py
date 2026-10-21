@@ -10,7 +10,10 @@ Liest src/data/timeline-<fassung>.json und baut:
   • Endbild:     Crash + Schlussakkord, klingt aus
 Ergebnis: public/musik-<fassung>.mp3   (im Skript-Kopf:  # musik: musik-<fassung>.mp3)
 
-Aufruf:   .venv/bin/python tools/musik.py premium30   [--bpm 120]
+Stile:    --stil sanft      (Standard) ruhiges Musikbett: warme Flächen, Filz-Klavier, tiefer Bass, kaum Schlagzeug,
+                            wird unter der Stimme automatisch leiser (Ducking), Akzente nur an Schlüsselstellen
+          --stil kraftvoll  treibender Groove mit Kick, Clap, Plucks (lauter, für Glitch-Fassungen)
+Aufruf:   .venv/bin/python tools/musik.py premium30   [--stil sanft] [--bpm 120]
 Vorher muss die Timeline existieren (node tools/build-timeline.mjs premium30).
 """
 import argparse
@@ -156,6 +159,123 @@ def bass(f, length):
     return np.tanh(1.4 * x) * adsr(len(t), 0.005, 0.08, 0.8, 0.04) * 0.6
 
 
+def felt_piano(f, length=1.6, vel=1.0):
+    """Weiches Filz-Klavier: Grundton + leise Obertöne, sanfter Anschlag, langes Ausklingen."""
+    t = secs(length)
+    x = sum(a * np.sin(2 * np.pi * f * h * (1 + 0.0004 * h * h) * t) * np.exp(-t / (1.1 / h)) for h, a in [(1, 1), (2, 0.42), (3, 0.16), (4, 0.07)])
+    x *= np.minimum(1, t / 0.006) * vel
+    return lp(x, 2200) * 0.5
+
+
+def bell(f, length=1.8):
+    t = secs(length)
+    x = sum(a * np.sin(2 * np.pi * f * r * t) * np.exp(-t / d) for r, a, d in [(1, 1, 0.9), (2.76, 0.35, 0.4), (5.4, 0.15, 0.2)])
+    return x * np.minimum(1, t / 0.002) * 0.35
+
+
+def soft_hit():
+    """Weicher Akzent: tiefer Puls + Luftzug, kein harter Schlag."""
+    t = secs(1.6)
+    f = 42 + 30 * np.exp(-t / 0.1)
+    x = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-t / 0.45) * 0.8
+    air = bp(rng.standard_normal(len(t)), 1500, 7000) * np.exp(-t / 0.35) * 0.12
+    return x + air
+
+
+def voice_duck(fassung, n, depth_db=-8.0):
+    """Hüllkurve: −8 dB während gesprochen wird, weiche Übergänge in den Pausen."""
+    path = ROOT / "public" / fassung / "voice-words.json"
+    g = np.ones(n)
+    if not path.exists():
+        return g
+    words = json.loads(path.read_text(encoding="utf-8"))
+    spans = []
+    for w in words:
+        if spans and w["start"] - spans[-1][1] < 0.3:
+            spans[-1][1] = w["end"]
+        else:
+            spans.append([w["start"], w["end"]])
+    low = 10 ** (depth_db / 20)
+    for a, b in spans:
+        g[int(max(0, a - 0.08) * SR) : int(b * SR)] = low
+    # Glätten: schnell runter (~80 ms), langsam wieder hoch (~400 ms)
+    out = np.empty(n)
+    v = 1.0
+    down, up = 1 - np.exp(-1 / (0.08 * SR)), 1 - np.exp(-1 / (0.4 * SR))
+    for i in range(0, n, 64):
+        target = g[i]
+        v += (target - v) * (1 - (1 - (down if target < v else up)) ** 64)
+        out[i : i + 64] = v
+    return out
+
+
+def build_sanft(beats, dur, t_hit, t_drop, t_lift, t_end, bpm, fassung):
+    step = 60 / bpm / 4
+    bar = 16 * step
+    music, accents, send = Track(dur), Track(dur), Track(dur)
+    # Intro: ruhige Moll-Fläche + leises Ticken, sanfter Anstieg zum Akzent
+    drone = pad([110.0, 164.8, 220.0], t_hit + 0.6, cutoff=650)
+    music.add(drone, 0, 0.45)
+    send.add(drone, 0, 0.2)
+    t = 0.0
+    while t < t_hit - 0.05:
+        music.add(hat() * 0.6, t, 0.18)
+        t += 4 * step
+    r_len = min(1.8, t_hit)
+    accents.add(riser(r_len) * 0.5, t_hit - r_len, 0.35)
+    accents.add(soft_hit(), t_hit, 0.35)
+    send.add(bell(523.3, 2.0), t_hit, 0.3)
+    # Hauptteil: C – G – Am – F mit Filz-Klavier, Flächen, tiefem Bass, leisem Shaker
+    prog = [
+        ([261.6, 329.6, 392.0], 65.4, [523.3, 392.0, 659.3, 392.0]),
+        ([246.9, 293.7, 392.0], 49.0, [493.9, 392.0, 587.3, 392.0]),
+        ([261.6, 329.6, 440.0], 55.0, [523.3, 440.0, 659.3, 440.0]),
+        ([261.6, 349.2, 440.0], 43.7, [523.3, 440.0, 698.5, 440.0]),
+    ]
+    tb, b = t_drop, 0
+    while tb < t_end - 0.01:
+        chord, root, mel = prog[b % 4]
+        lifted = tb >= t_lift
+        bl = min(bar, t_end - tb)
+        p_ = pad(chord, bl + 0.4, cutoff=1400 if not lifted else 2000)
+        music.add(p_, tb, 0.42)
+        send.add(p_, tb, 0.25)
+        music.add(bass(root, min(bar * 0.95, bl)) * 0.7, tb, 0.5)
+        for q in range(4):  # Klavier auf Vierteln, zart
+            tq = tb + q * 4 * step
+            if tq >= t_end - 0.01:
+                break
+            pn = felt_piano(mel[q], 1.6, vel=0.9 if q == 0 else 0.65)
+            music.add(pn, tq, 0.42, [-0.25, 0.2, -0.15, 0.25][q])
+            send.add(pn, tq, 0.3)
+            if lifted and q % 2 == 0:
+                music.add(bell(mel[q] * 2, 1.4), tq, 0.12, 0.3)
+        for s16 in range(0, 16, 2):  # Shaker sehr leise
+            ts = tb + s16 * step
+            if ts < t_end - 0.01:
+                music.add(hat() * 0.5, ts, 0.06 if s16 % 4 else 0.1)
+        tb += bar
+        b += 1
+    send.add(bell(784.0, 2.0), t_lift, 0.35)
+    accents.add(bell(784.0, 2.0), t_lift, 0.25)
+    # Ende: aufgelöster Akkord + Glöckchen
+    tail = max(1.5, dur - t_end + 0.5)
+    final = pad([261.6, 329.6, 392.0, 523.3], tail, cutoff=2200)
+    music.add(final, t_end, 0.5)
+    send.add(final, t_end, 0.35)
+    for k, f in enumerate([523.3, 659.3, 784.0, 1046.5]):
+        accents.add(felt_piano(f, 2.2, 0.8), t_end + k * 0.09, 0.35, [-0.3, 0.3, -0.15, 0.15][k])
+        send.add(bell(f, 2.0), t_end + k * 0.09, 0.12)
+    music.add(bass(65.4, tail) * 0.7, t_end, 0.5)
+
+    n = len(music.x)
+    ir = reverb_ir(2.2)
+    wet = np.stack([fftconvolve(send.x[:, c], ir[:, c])[:n] for c in range(2)], axis=1)
+    duck = voice_duck(fassung, n)[:, None]
+    mix = (music.x + wet * 0.45) * duck + accents.x
+    return mix
+
+
 def reverb_ir(length=1.6):
     t = secs(length)
     ir = np.stack([rng.standard_normal(len(t)), rng.standard_normal(len(t))], axis=1)
@@ -168,8 +288,10 @@ def reverb_ir(length=1.6):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("fassung")
-    ap.add_argument("--bpm", type=float, default=120)
+    ap.add_argument("--bpm", type=float, default=None)
+    ap.add_argument("--stil", default="sanft", choices=["sanft", "kraftvoll"])
     args = ap.parse_args()
+    args.bpm = args.bpm or (96 if args.stil == "sanft" else 120)
     tl_path = ROOT / "src" / "data" / f"timeline-{args.fassung}.json"
     if not tl_path.exists():
         sys.exit(f"{tl_path} fehlt – erst: node tools/build-timeline.mjs {args.fassung}")
@@ -184,6 +306,10 @@ def main():
     t_drop = b_logo["start"] if b_logo else beats[min(2, len(beats) - 1)]["start"]
     t_lift = b_preis["start"] if b_preis else dur * 0.7
     t_end = b_end["start"] if b_end else dur - 3
+
+    if args.stil == "sanft":
+        finish(build_sanft(beats, dur, t_hit, t_drop, t_lift, t_end, args.bpm, args.fassung), dur, args, t_hit, t_drop, t_lift, t_end)
+        return
 
     step = 60 / args.bpm / 4  # 16tel
     bar = 16 * step
@@ -290,6 +416,10 @@ def main():
     ir = reverb_ir()
     wet = np.stack([fftconvolve(send.x[:, c], ir[:, c])[:n] for c in range(2)], axis=1)
     mix = drums.x * 0.9 + music.x + wet * 0.35
+    finish(mix, dur, args, t_hit, t_drop, t_lift, t_end)
+
+
+def finish(mix, dur, args, t_hit, t_drop, t_lift, t_end):
     mix = hp(mix.T, 30).T
     mix = np.tanh(1.15 * mix)
     mix = mix[: int((dur + 0.2) * SR)]
@@ -305,7 +435,7 @@ def main():
     sf.write(wav, mix.astype(np.float32), SR)
     out = ROOT / "public" / f"musik-{args.fassung}.mp3"
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(wav), "-codec:a", "libmp3lame", "-b:a", "256k", str(out)], check=True)
-    print(f"Fertig: public/musik-{args.fassung}.mp3 ({dur:.1f} s, {args.bpm:.0f} BPM) – Schlag {t_hit:.2f} s, Drop {t_drop:.2f} s, Preis {t_lift:.2f} s, Ende {t_end:.2f} s")
+    print(f"Fertig: public/musik-{args.fassung}.mp3 ({dur:.1f} s, {args.bpm:.0f} BPM, Stil {args.stil}) – Akzent {t_hit:.2f} s, Drop {t_drop:.2f} s, Preis {t_lift:.2f} s, Ende {t_end:.2f} s")
 
 
 if __name__ == "__main__":

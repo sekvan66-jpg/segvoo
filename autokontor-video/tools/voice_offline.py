@@ -1,10 +1,13 @@
 """
-Erzeugt die Sprecherstimme aus skript.txt OFFLINE mit Coqui-TTS „Thorsten“ (VITS, Deutsch).
+Erzeugt die Sprecherstimme aus skript.txt OFFLINE mit Coqui-TTS (VITS, Deutsch):
+  --modell thorsten   männlich (Standard)
+  --modell css10      weiblich, sehr gut verständlich (BSD-3, Daten gemeinfrei) – mit --klang werbung-w
 Alternative zu tools/voice.py (Chatterbox), wenn kein Chatterbox/Whisper verfügbar ist.
 
 - Jeder Satz wird am Stück gesprochen (natürliche Betonung), danach kurze Pause.
 - Das Wort-Timing kommt direkt aus dem Sprachmodell – tools/timing.py (Whisper) ist NICHT nötig.
-- Schwierige Wörter (PC, GoBD, ZUGFeRD …) stehen in aussprache.txt.
+- Schwierige Wörter (PC, GoBD, ZUGFeRD …) stehen in aussprache.txt (thorsten, Lautschrift)
+  bzw. aussprache-css10.txt (css10, Ersatzschreibung).
 - Ergebnis: public/voice.wav, public/voice-segments.json, public/voice-words.json
 
 Einmalig installieren:   .venv/bin/pip install "coqui-tts[codec]" "gruut[de]"
@@ -25,8 +28,26 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PUBLIC = ROOT / "public"
-MODEL_DIR = ROOT / "models" / "thorsten-vits"
-MODEL_URL = "https://github.com/coqui-ai/TTS/releases/download/v0.7.0_models/tts_models--de--thorsten--vits.zip"
+MODELS = {
+    "thorsten": {
+        "dir": ROOT / "models" / "thorsten-vits",
+        "url": "https://github.com/coqui-ai/TTS/releases/download/v0.7.0_models/tts_models--de--thorsten--vits.zip",
+        "ckpt": "model_file.pth",
+        "lexikon": "aussprache.txt",
+        "klang": "roh",
+        "rauschen": (0.667, 0.8),
+    },
+    "css10": {
+        "dir": ROOT / "models" / "css10" / "tts_models--de--css10--vits",
+        "url": "https://github.com/coqui-ai/TTS/releases/download/v0.8.0_models/tts_models--de--css10--vits.zip",
+        "ckpt": "model_file.pth.tar",
+        "lexikon": "aussprache-css10.txt",
+        "klang": "werbung-w",
+        "rauschen": (0.5, 0.6),  # etwas lebendiger als das ruhige Hörbuch-Original (0.3/0.3)
+    },
+}
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from klang import VOICE_FX, apply as apply_klang  # noqa: E402
 PUNCT = ".,!?;:"
 
 
@@ -44,9 +65,9 @@ def read_script(fassung):
     return beats
 
 
-def read_lexicon():
+def read_lexicon(name):
     lex = {}
-    path = ROOT / "aussprache.txt"
+    path = ROOT / name
     if path.exists():
         for raw in path.read_text(encoding="utf-8").splitlines():
             raw = raw.strip()
@@ -56,18 +77,24 @@ def read_lexicon():
     return lex
 
 
-def ensure_model():
-    ckpt, cfg = MODEL_DIR / "model_file.pth", MODEL_DIR / "config.json"
+def ensure_model(m):
+    d = m["dir"]
+    ckpt, cfg = d / m["ckpt"], d / "config.json"
     if not ckpt.exists():
-        MODEL_DIR.mkdir(parents=True, exist_ok=True)
-        zpath = MODEL_DIR / "model.zip"
-        print("Lade Stimme „Thorsten“ herunter (~330 MB, nur beim ersten Mal) …")
-        urllib.request.urlretrieve(MODEL_URL, zpath)
+        d.mkdir(parents=True, exist_ok=True)
+        zpath = d / "model.zip"
+        print("Lade Stimme herunter (~330 MB, nur beim ersten Mal) …")
+        urllib.request.urlretrieve(m["url"], zpath)
         with zipfile.ZipFile(zpath) as z:
             for name in z.namelist():
-                if name.endswith((".pth", ".json")):
-                    (MODEL_DIR / Path(name).name).write_bytes(z.read(name))
+                if name.endswith((".pth", ".tar", ".json")) and "__MACOSX" not in name:
+                    (d / Path(name).name).write_bytes(z.read(name))
         zpath.unlink()
+    # Pfade in der Konfiguration auf die lokalen Dateien zeigen lassen
+    text = cfg.read_text(encoding="utf-8")
+    fixed = re.sub(r'"[^"]*(speaker_ids|language_ids)\.json"', lambda mm: json.dumps(str(d / f"{mm.group(1)}.json")), text)
+    if fixed != text:
+        cfg.write_text(fixed, encoding="utf-8")
     return ckpt, cfg
 
 
@@ -78,14 +105,24 @@ def main():
     ap.add_argument("--zeige", action="store_true")
     ap.add_argument("--seed", type=int, default=7)
     ap.add_argument("--fassung", default="", help="z. B. tiktok30 → skript-tiktok30.txt, public/tiktok30/")
+    ap.add_argument("--modell", default="thorsten", choices=list(MODELS))
+    ap.add_argument("--klang", default=None, choices=list(VOICE_FX), help="Standard: roh (thorsten) / werbung-w (css10)")
     args = ap.parse_args()
     out_dir = PUBLIC / args.fassung if args.fassung else PUBLIC
+    m = MODELS[args.modell]
+    klang = args.klang or m["klang"]
 
+    from TTS.tts.configs.vits_config import VitsConfig
     from TTS.tts.utils.text.cleaners import multilingual_cleaners
-    from TTS.tts.utils.text.phonemizers.gruut_wrapper import Gruut
 
-    g2p = Gruut(language="de-de", keep_puncs=False)
-    lex = read_lexicon()
+    ckpt, cfg = ensure_model(m)
+    config = VitsConfig()
+    config.load_json(str(cfg))
+    if config.use_phonemes:
+        from TTS.tts.utils.text.phonemizers.gruut_wrapper import Gruut
+
+        g2p = Gruut(language="de-de", keep_puncs=False)
+    lex = read_lexicon(m["lexikon"])
 
     def phonemes(word):
         """Lautschrift eines Skript-Worts (ohne Satzzeichen am Ende) + die Satzzeichen."""
@@ -95,6 +132,8 @@ def main():
         spoken = lex.get(core.lower(), core)
         if spoken.startswith("/") and spoken.endswith("/"):
             ph = spoken.strip("/")
+        elif not config.use_phonemes:
+            ph = multilingual_cleaners(spoken, lang="de")  # Buchstaben-Modell (css10)
         else:
             ph = g2p.phonemize(multilingual_cleaners(spoken, lang="de"), separator="", language="de-de")
         return ph.strip(), punct
@@ -111,15 +150,12 @@ def main():
     import numpy as np
     import soundfile as sf
     import torch
-    from TTS.tts.configs.vits_config import VitsConfig
     from TTS.tts.models.vits import Vits
 
-    ckpt, cfg = ensure_model()
-    config = VitsConfig()
-    config.load_json(str(cfg))
     model = Vits.init_from_config(config)
     model.load_checkpoint(config, str(ckpt), eval=True)
     model.length_scale = args.tempo
+    model.inference_noise_scale, model.inference_noise_scale_dp = m["rauschen"]
     tok = model.tokenizer
     sr = config.audio.sample_rate
     hop = config.audio.hop_length
@@ -138,7 +174,7 @@ def main():
     sentences, cur = [], []
     for i, (_, w) in enumerate(flat):
         cur.append(i)
-        if w[-1] in ".!?" or i == len(flat) - 1:
+        if w.replace("*", "")[-1] in ".!?" or i == len(flat) - 1:
             sentences.append(cur)
             cur = []
 
@@ -164,7 +200,9 @@ def main():
         text = " ".join(flat[i][1] for i in idxs)
         print(f"[{si}/{len(sentences)}] {text}")
         with torch.inference_mode():
-            res = model.inference(torch.LongTensor(ids).unsqueeze(0))
+            lid = torch.LongTensor([0]) if getattr(config.model_args, "use_language_embedding", False) else None
+            sid = torch.LongTensor([0]) if hasattr(model, "emb_g") else None  # css10: ein Sprecher mit Einbettung
+            res = model.inference(torch.LongTensor(ids).unsqueeze(0), aux_input={"x_lengths": None, "d_vectors": None, "speaker_ids": sid, "language_ids": lid, "durations": None})
         wav = res["model_outputs"][0, 0].cpu().numpy().astype(np.float32)
         dur = res["durations"][0, 0].cpu().numpy()
         edges = np.concatenate([[0], np.cumsum(dur)]) * hop / sr
@@ -181,9 +219,12 @@ def main():
         t += len(wav) / sr + args.pause
 
     full = np.concatenate(out)
-    full = full / max(1e-6, np.abs(full).max()) * 0.9
+    full = full / max(1e-6, np.abs(full).max()) * 0.85
     out_dir.mkdir(parents=True, exist_ok=True)
-    sf.write(out_dir / "voice.wav", full, sr)
+    raw = ROOT / "out" / "voice-raw.wav"
+    raw.parent.mkdir(exist_ok=True)
+    sf.write(raw, full, sr)
+    apply_klang(raw, out_dir / "voice.wav", klang, 44100 if klang != "roh" else sr)
 
     segs = []
     for bi, words in enumerate(beats):

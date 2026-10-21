@@ -73,7 +73,7 @@ const BeatView: React.FC<{ beat: Beat; index: number; occ: number; dur: number; 
 };
 
 /** Premium: orange Kugel füllt das Bild und gibt die nächste Szene frei (vor wichtigen Szenen). */
-const WIPE_INTO = ["schluss", "logo", "karten", "lokal", "preis", "end"];
+const WIPE_INTO = ["schluss", "logo", "preis", "end"];
 const OrbWipes: React.FC<{ beats: Beat[] }> = ({ beats }) => {
   const frame = useCurrentFrame();
   const { width, height } = useVideoConfig();
@@ -186,7 +186,8 @@ const Sound: React.FC<{ total: number; timeline: Timeline }> = ({ total, timelin
   const a = timeline.audio;
   const premium = timeline.stil === "premium";
   const sfxMap = premium ? SFX_PREMIUM : SFX_FOR;
-  const musicVol = a.voice ? (premium ? 0.2 : 0.14) : 0.6;
+  // Premium: Musik ist schon unter der Stimme abgesenkt (tools/musik.py --stil sanft) und bleibt dezent im Hintergrund
+  const musicVol = a.voice ? (premium ? 0.3 : 0.14) : 0.6;
   const sfxVol = a.voice ? 0.55 : 1;
   return (
     <>

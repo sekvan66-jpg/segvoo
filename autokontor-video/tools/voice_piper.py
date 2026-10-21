@@ -18,7 +18,6 @@ Aussprache schwieriger Wörter: aussprache-piper.txt
 import argparse
 import json
 import re
-import subprocess
 import sys
 import tarfile
 import urllib.request
@@ -33,19 +32,8 @@ VOICES = {
 }
 URL = "https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/{}.tar.bz2"
 PUNCT = ".,!?;:"
-# Klangketten für die Stimme (Länge bleibt gleich → Wort-Timing bleibt exakt)
-VOICE_FX = {
-    # neutral: Brummen weg, etwas Wärme, Präsenz, Kompressor
-    "studio": "highpass=f=75,equalizer=f=170:t=q:w=1:g=2,equalizer=f=3200:t=q:w=1.2:g=3,equalizer=f=9000:t=q:w=1:g=1.5,"
-    "acompressor=threshold=-20dB:ratio=3:attack=4:release=90:makeup=5,alimiter=limit=0.89",
-    # Werbesprecher: tiefer (Tonhöhe −1,5 Halbtöne, Klangfarbe erhalten), Nahbesprechungs-Bass, weniger Mulm,
-    # Präsenz + Glanz, De-Esser, kräftiger Kompressor, ganz kleiner Raum
-    "werbung": "rubberband=pitch=0.917:formant=preserved:transients=crisp,highpass=f=65,"
-    "equalizer=f=115:t=q:w=0.8:g=4,equalizer=f=320:t=q:w=1:g=-2.5,equalizer=f=3500:t=q:w=1.1:g=3.5,"
-    "equalizer=f=11000:t=q:w=0.8:g=2.5,deesser=i=0.4,"
-    "acompressor=threshold=-24dB:ratio=4:attack=3:release=70:makeup=7:knee=4,"
-    "aecho=0.92:0.9:19|31:0.07|0.05,alimiter=limit=0.89",
-}
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from klang import VOICE_FX, apply as apply_klang  # noqa: E402
 
 
 def read_script(fassung):
@@ -216,7 +204,7 @@ def main():
     raw.parent.mkdir(exist_ok=True)
     sf.write(raw, full, sr)
     # Studio-Bearbeitung, gleiche Länge (Timing bleibt exakt)
-    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(raw), "-af", VOICE_FX[args.klang], "-ar", "44100", str(out_dir / "voice.wav")], check=True)
+    apply_klang(raw, out_dir / "voice.wav", args.klang)
 
     segs = []
     for bi, words in enumerate(beats):

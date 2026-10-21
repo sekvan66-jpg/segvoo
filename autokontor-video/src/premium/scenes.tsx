@@ -3,7 +3,7 @@ import React from "react";
 import { AbsoluteFill, interpolate, random, useVideoConfig } from "remotion";
 import { BeatProps, EASE, clamp, clean, isEmph } from "../lib";
 import { BRAND, C, FONT, P } from "../theme";
-import { Burst, CarIcon, Card, Check, Eyes, Headline, Orb, Pill, Stage, at, useAppear } from "./kit";
+import { AppWindow, Burst, CarIcon, Card, Check, Eyes, Headline, Orb, Pill, Stage, at, useAppear } from "./kit";
 
 /** Inhalt mittig; im Hochformat etwas größer gezoomt, damit das Bild gefüllt ist. */
 const Center: React.FC<{ children: React.ReactNode; gap?: number; style?: React.CSSProperties }> = ({ children, gap = 0, style }) => {
@@ -101,7 +101,7 @@ export const Schluss: React.FC<BeatProps> = (p) => {
   const word = clean(last.w).toUpperCase();
   const size = Math.min(260, (p.width * 0.86) / (word.length * 0.66));
   return (
-    <Stage tone="orange" frame={p.frame} seed="schluss" dots={8}>
+    <Stage tone="orange" frame={p.frame} seed="schluss" dots={4}>
       <Burst frame={p.frame} at={last.f} x={p.width / 2} y={p.height / 2 + 40} size={1.6} count={30} seed="schluss" colors={["#FFFFFF", "#FFE2CF", "#FFD2B5"]} />
       <Center gap={20}>
         <Headline words={p.words.slice(0, -1)} frame={p.frame} size={p.vertical ? 70 : 64} color="#fff" weight={700} />
@@ -200,9 +200,9 @@ export const Kugel: React.FC<BeatProps> = (p) => {
   const size = p.vertical ? 440 : 300;
   const look = interpolate(p.frame, [fSmall, fSmall + 8], [0, 0.8], clamp);
   return (
-    <Stage frame={p.frame} seed="kugel" dots={9}>
+    <Stage frame={p.frame} seed="kugel" dots={4}>
       <Center gap={p.vertical ? 70 : 40}>
-        <Headline words={p.words} only={(w) => !isEmph(w.w)} frame={p.frame} size={p.vertical ? 66 : 58} width={p.width * 0.8} />
+        <Headline words={p.words} only={(w) => !isEmph(w.w)} frame={p.frame} size={p.vertical ? 74 : 60} width={p.width * 0.8} />
         <div style={{ display: "flex", alignItems: "flex-end", gap: size * 0.12 }}>
           <DropOrb size={size} frame={p.frame} f={fBig} seed={1} look={look}>
             <div style={{ position: "absolute", bottom: size * 0.12 }}>
@@ -300,10 +300,17 @@ export const Karten: React.FC<BeatProps> = (p) => {
     [f.pdf, "Alles als PDF."],
   ];
   const cur = [...labels].reverse().find(([lf]) => p.frame >= lf) ?? labels[0];
+  const win = ap(p.frame, 0, 120, 16);
   const pillPop = ap(p.frame, cur[0], 260, 14);
   return (
-    <Stage frame={p.frame} seed="karten" dots={8}>
+    <Stage frame={p.frame} seed="karten" dots={4}>
       <AbsoluteFill style={{ perspective: 1800 }}>
+        {/* App-Fenster schräg im Raum, die Karten fliegen daraus hervor */}
+        <AbsoluteFill style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ transform: `translateY(${(1 - win) * 300}px) rotateX(16deg) rotateY(${-18 + p.frame * 0.05}deg) scale(${(p.vertical ? 0.92 : 0.82) * (1 + p.frame * 0.0008)})`, opacity: Math.min(1, win * 1.5) }}>
+            <AppWindow w={p.vertical ? 980 : 1100} frame={p.frame} at={2} />
+          </div>
+        </AbsoluteFill>
         <AbsoluteFill style={{ transform: `rotateX(12deg) rotateY(${-10 + p.frame * 0.06}deg) scale(${1 + p.frame * 0.0012})`, transformStyle: "preserve-3d" }}>
           {cards.map((c, i) => {
             const a = ap(p.frame, c.f, 170, 14);
@@ -315,7 +322,7 @@ export const Karten: React.FC<BeatProps> = (p) => {
                   position: "absolute",
                   left: p.width / 2 + pos[i][0],
                   top: p.height / 2 + pos[i][1] + bob,
-                  transform: `translate(-50%,-50%) translateY(${(1 - a) * 160}px) scale(${0.85 + 0.15 * a}) rotate(${[-4, 3, -3, 4][i]}deg)`,
+                  transform: `translate(-50%,-50%) translate(${(1 - a) * -pos[i][0] * 0.8}px, ${(1 - a) * -pos[i][1] * 0.8}px) scale(${0.55 + 0.45 * a}) rotate(${[-4, 3, -3, 4][i] * a}deg)`,
                   opacity: p.frame < c.f ? 0 : Math.min(1, a * 1.5),
                   filter: `blur(${(1 - Math.min(1, a)) * 10}px)`,
                 }}
@@ -351,7 +358,7 @@ export const Klick: React.FC<BeatProps> = (p) => {
   const fly = ap(p.frame, fk + 4, 120, 16);
   const bw = p.vertical ? 600 : 520;
   return (
-    <Stage frame={p.frame} seed="klick" dots={8}>
+    <Stage frame={p.frame} seed="klick" dots={4}>
       <Center gap={p.vertical ? 120 : 60}>
         <Headline words={p.words} frame={p.frame} size={p.vertical ? 80 : 72} />
         <div style={{ position: "relative", zIndex: 0 }}>
@@ -379,9 +386,9 @@ export const Badges: React.FC<BeatProps> = (p) => {
   const first = badgeWords[0]?.f ?? 0;
   const lead = p.words.filter((w) => w.f < first || badgeWords.length === 0);
   return (
-    <Stage frame={p.frame} seed="badges" dots={8}>
+    <Stage frame={p.frame} seed="badges" dots={4}>
       <Center gap={p.vertical ? 70 : 40}>
-        <Headline words={lead} frame={p.frame} size={p.vertical ? 72 : 64} />
+        <Headline words={lead} frame={p.frame} size={p.vertical ? 84 : 66} />
         <div style={{ display: "flex", flexDirection: p.vertical ? "column" : "row", alignItems: "center", gap: p.vertical ? 60 : 80 }}>
           <div style={{ transform: `rotate(-4deg) translateY(${Math.sin(p.frame / 20) * 8}px)` }}>
             <DocCard s={p.vertical ? 0.95 : 0.85} title="Rechnung" pdf={-100} frame={p.frame} />
@@ -409,7 +416,13 @@ export const Badges: React.FC<BeatProps> = (p) => {
 const LaptopFlat: React.FC<{ w: number; children?: React.ReactNode }> = ({ w, children }) => (
   <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
     <div style={{ width: w, height: w * 0.63, borderRadius: w * 0.04, background: "#14171F", padding: w * 0.025, boxShadow: "0 40px 80px rgba(30,40,70,.25)" }}>
-      <div style={{ width: "100%", height: "100%", borderRadius: w * 0.02, background: `linear-gradient(180deg,#FFFFFF,${P.bg})`, position: "relative", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>{children}</div>
+      <div style={{ width: "100%", height: "100%", borderRadius: w * 0.02, background: `linear-gradient(180deg,#FFFFFF,${P.bg})`, position: "relative", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div style={{ position: "absolute", left: 0, top: 0 }}>
+          <AppWindow w={w * 0.95} frame={60} />
+        </div>
+        <div style={{ position: "absolute", inset: 0, background: "rgba(238,240,245,.55)", backdropFilter: "blur(2px)" }} />
+        {children}
+      </div>
     </div>
     <div style={{ width: w * 1.16, height: w * 0.035, borderRadius: `0 0 ${w * 0.03}px ${w * 0.03}px`, background: "linear-gradient(180deg,#C9CED9,#9EA5B4)" }} />
   </div>
@@ -443,7 +456,7 @@ export const Lokal: React.FC<BeatProps> = (p) => {
   const drop = ap(p.frame, 3, 150, 10);
   const lw = p.vertical ? 700 : 640;
   return (
-    <Stage frame={p.frame} seed="lokal" dots={8}>
+    <Stage frame={p.frame} seed="lokal" dots={4}>
       <Center gap={p.vertical ? 90 : 50}>
         <Headline words={p.words} frame={p.frame} size={p.vertical ? 66 : 62} width={p.width * 0.78} />
         <LaptopFlat w={lw}>
@@ -469,7 +482,7 @@ export const Wolke: React.FC<BeatProps> = (p) => {
   const gone = interpolate(p.frame - fc, [4, 16], [0, 1], clamp);
   const lw = p.vertical ? 700 : 640;
   return (
-    <Stage frame={p.frame} seed="lokal" dots={8}>
+    <Stage frame={p.frame} seed="lokal" dots={4}>
       <Center gap={p.vertical ? 170 : 90}>
         <Headline words={p.words} frame={p.frame} size={p.vertical ? 72 : 66} />
         <div style={{ position: "relative" }}>
@@ -509,7 +522,7 @@ export const Backup: React.FC<BeatProps> = (p) => {
   const cw = p.vertical ? 108 : 120;
   const o = ap(p.frame, 0, 160, 12);
   return (
-    <Stage frame={p.frame} seed="backup" dots={8}>
+    <Stage frame={p.frame} seed="backup" dots={4}>
       <Center gap={p.vertical ? 90 : 50}>
         <div style={{ transform: `scale(${o})` }}>
           <Orb size={p.vertical ? 300 : 230}>
@@ -573,7 +586,7 @@ export const Plattform: React.FC<BeatProps> = (p) => {
   const lead = p.words.filter((w) => w.f < (cards[0]?.f ?? 1e9));
   const cw = p.vertical ? 300 : 340;
   return (
-    <Stage frame={p.frame} seed="plattform" dots={8}>
+    <Stage frame={p.frame} seed="plattform" dots={4}>
       <Center gap={p.vertical ? 80 : 60}>
         <Headline words={lead} frame={p.frame} size={p.vertical ? 76 : 66} />
         <div style={{ display: "flex", flexDirection: p.vertical ? "column" : "row", gap: p.vertical ? 40 : 50 }}>
@@ -605,7 +618,7 @@ export const PreisP: React.FC<BeatProps> = (p) => {
   const before = p.words.filter((w) => w.f < fNum);
   const after = p.words.filter((w) => w.f > fNum && !/^€/.test(clean(w.w)));
   return (
-    <Stage frame={p.frame} seed="preis" dots={10}>
+    <Stage frame={p.frame} seed="preis" dots={5}>
       <Center gap={p.vertical ? 40 : 20}>
         <Headline words={before} frame={p.frame} size={p.vertical ? 80 : 64} />
         <div style={{ opacity: p.frame < fNum ? 0 : 1, transform: `scale(${pop})` }}>
@@ -631,9 +644,9 @@ export const Kuendbar: React.FC<BeatProps> = (p) => {
   const toggle = interpolate(p.frame - fk, [0, 6], [0, 1], { ...clamp, easing: EASE });
   const w = p.vertical ? 760 : 620;
   return (
-    <Stage frame={p.frame} seed="kuendbar" dots={8}>
+    <Stage frame={p.frame} seed="kuendbar" dots={4}>
       <Center gap={p.vertical ? 90 : 50}>
-        <Headline words={p.words} frame={p.frame} size={p.vertical ? 80 : 70} />
+        <Headline words={p.words} frame={p.frame} size={p.vertical ? 86 : 70} />
         <div style={{ transform: `translateY(${(1 - a) * 120}px)`, opacity: Math.min(1, a * 1.5) }}>
           <Card w={w}>
             <div style={{ display: "flex", alignItems: "center", gap: 22, marginBottom: 30 }}>
@@ -681,7 +694,7 @@ export const EndP: React.FC<BeatProps> = (p) => {
   const u = p.vertical ? 0.86 : 0.8;
   const [s1, s2] = BRAND.slogan.split(". ");
   return (
-    <Stage frame={p.frame} seed="end" dots={10}>
+    <Stage frame={p.frame} seed="end" dots={5}>
       <Center gap={0}>
         <Logo size={220 * u} frame={p.frame} f={0} />
         <div style={{ marginTop: 44 * u, fontFamily: FONT.ui, fontWeight: 700, fontSize: 140 * u, letterSpacing: "-0.05em", color: P.ink, ...fadeUp(p.frame, 3, 50) }}>{BRAND.name}</div>
