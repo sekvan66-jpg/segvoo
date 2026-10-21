@@ -1,9 +1,9 @@
 # AutoKontor – 30 Sekunden im Premium-Stil (hell, glänzende Kugeln, kursive Akzentwörter)
 # stil: premium
 # musik: musik-hell.mp3
-# stimme: tiktok30
+# stimme: premium30   (Piper-Stimme: python tools/voice_piper.py --fassung premium30)
 #
-# Gleicher Sprechertext wie skript-tiktok30.txt (die Stimme wird von dort übernommen).
+# Gleicher Sprechertext wie skript-tiktok30.txt, aber mit der realistischeren Piper-Stimme.
 # *Wort* = kursiv + orange. Effekte (Szenen) stehen in src/premium/scenes.tsx:
 #   chaos, schluss, logo, kugel, karten, klick, badges, lokal, wolke, backup, plattform, preis, kuendbar, end
 
