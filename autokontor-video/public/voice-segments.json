@@ -1,152 +1,212 @@
 [
   {
-    "text": "Du verkaufst Gebrauchtwagen",
+    "text": "Du verkaufst",
     "start": 0.04,
-    "end": 1.549
+    "end": 0.737
+  },
+  {
+    "text": "Gebrauchtwagen",
+    "start": 0.795,
+    "end": 1.456
   },
   {
     "text": "und hast Zettel,",
-    "start": 1.654,
-    "end": 2.432
+    "start": 1.549,
+    "end": 2.304
   },
   {
     "text": "Excel",
-    "start": 2.629,
-    "end": 3.059
+    "start": 2.49,
+    "end": 2.873
   },
   {
-    "text": "und Ordner überall?",
-    "start": 3.198,
-    "end": 4.231
+    "text": "und Ordner",
+    "start": 2.989,
+    "end": 3.523
   },
   {
-    "text": "Damit ist jetzt Schluss.",
-    "start": 4.711,
-    "end": 5.849
+    "text": "überall?",
+    "start": 3.593,
+    "end": 3.987
+  },
+  {
+    "text": "Damit ist jetzt",
+    "start": 4.307,
+    "end": 5.248
+  },
+  {
+    "text": "Schluss.",
+    "start": 5.329,
+    "end": 5.596
   },
   {
     "text": "Das ist AutoKontor,",
-    "start": 6.329,
-    "end": 7.641
+    "start": 5.916,
+    "end": 6.915
   },
   {
-    "text": "die Software für kleine Gebrauchtwagenhändler.",
-    "start": 7.78,
-    "end": 10.067
+    "text": "die Software",
+    "start": 7.135,
+    "end": 7.646
   },
   {
-    "text": "Sie läuft direkt auf deinem PC,",
-    "start": 10.547,
-    "end": 12.614
+    "text": "für kleine Gebrauchtwagenhändler.",
+    "start": 7.692,
+    "end": 9.12
+  },
+  {
+    "text": "Sie läuft direkt auf deinem *PC,*",
+    "start": 9.44,
+    "end": 11.252
   },
   {
     "text": "unter Windows, Mac und Linux.",
-    "start": 12.893,
-    "end": 14.901
+    "start": 11.461,
+    "end": 13.248
   },
   {
     "text": "Du legst deine Fahrzeuge",
-    "start": 15.296,
-    "end": 16.817
+    "start": 13.483,
+    "end": 14.935
   },
   {
     "text": "und Kunden an.",
-    "start": 16.875,
-    "end": 17.688
+    "start": 15.004,
+    "end": 15.736
   },
   {
     "text": "Mit wenigen Klicks",
-    "start": 18.168,
-    "end": 19.004
+    "start": 16.056,
+    "end": 16.961
   },
   {
     "text": "erstellst du Kaufverträge und Rechnungen als PDF,",
-    "start": 19.05,
-    "end": 21.535
+    "start": 16.996,
+    "end": 19.492
   },
   {
-    "text": "auch als *E-Rechnung* im Format *ZUGFeRD* oder *XRechnung.*",
-    "start": 21.952,
-    "end": 24.692
+    "text": "auch als *E-Rechnung*",
+    "start": 19.701,
+    "end": 20.456
+  },
+  {
+    "text": "im Format ZUGFeRD",
+    "start": 20.502,
+    "end": 21.327
+  },
+  {
+    "text": "oder XRechnung.",
+    "start": 21.396,
+    "end": 22.244
   },
   {
     "text": "Wenn mal was schiefgeht,",
-    "start": 24.959,
-    "end": 26.039
+    "start": 22.564,
+    "end": 23.818
   },
   {
     "text": "schreibst du eine Stornorechnung.",
-    "start": 26.248,
-    "end": 27.572
+    "start": 24.038,
+    "end": 25.292
   },
   {
     "text": "Deine Daten bleiben auf deinem Rechner,",
-    "start": 28.052,
-    "end": 29.932
+    "start": 25.612,
+    "end": 27.4
   },
   {
     "text": "nicht in einer fremden Cloud.",
-    "start": 30.165,
-    "end": 31.535
+    "start": 27.679,
+    "end": 29.037
   },
   {
-    "text": "AutoKontor sichert alles automatisch",
-    "start": 32.015,
-    "end": 34.371
+    "text": "AutoKontor sichert alles",
+    "start": 29.357,
+    "end": 30.681
+  },
+  {
+    "text": "automatisch",
+    "start": 30.762,
+    "end": 31.424
   },
   {
     "text": "jeden Tag.",
-    "start": 34.441,
-    "end": 34.94
+    "start": 31.482,
+    "end": 32.016
   },
   {
-    "text": "Und weil Rechnungen *gesperrt* und *protokolliert* werden,",
-    "start": 35.42,
-    "end": 37.928
+    "text": "Und weil Rechnungen *gesperrt*",
+    "start": 32.336,
+    "end": 33.833
   },
   {
-    "text": "unterstützt AutoKontor die GoBD-Anforderungen.",
-    "start": 38.102,
-    "end": 40.715
+    "text": "und *protokolliert* werden,",
+    "start": 33.891,
+    "end": 35.006
   },
   {
-    "text": "Du brauchst kein Internet.",
-    "start": 41.195,
-    "end": 42.623
+    "text": "unterstützt AutoKontor",
+    "start": 35.203,
+    "end": 36.283
   },
   {
-    "text": "Nur *einmal* *im* *Monat* prüft AutoKontor kurz deine Lizenz.",
-    "start": 43.103,
-    "end": 46.62
+    "text": "die GoBD-Anforderungen.",
+    "start": 36.341,
+    "end": 37.525
+  },
+  {
+    "text": "Du brauchst",
+    "start": 37.845,
+    "end": 38.414
+  },
+  {
+    "text": "kein Internet.",
+    "start": 38.496,
+    "end": 39.088
+  },
+  {
+    "text": "Nur *einmal* *im* *Monat*",
+    "start": 39.408,
+    "end": 40.557
+  },
+  {
+    "text": "prüft AutoKontor kurz deine Lizenz.",
+    "start": 40.661,
+    "end": 42.786
   },
   {
     "text": "Ab 19 € im Monat,",
-    "start": 47.05,
-    "end": 48.722
+    "start": 43.067,
+    "end": 44.716
   },
   {
     "text": "monatlich kündbar,",
-    "start": 48.873,
-    "end": 50.011
+    "start": 44.948,
+    "end": 45.796
   },
   {
-    "text": "die ersten 7 Tage kostenlos.",
-    "start": 50.278,
-    "end": 52.007
+    "text": "die ersten 7 Tage",
+    "start": 46.028,
+    "end": 47.061
+  },
+  {
+    "text": "kostenlos.",
+    "start": 47.108,
+    "end": 47.665
   },
   {
     "text": "Für zwei Geräte,",
-    "start": 52.487,
-    "end": 53.579
+    "start": 47.985,
+    "end": 48.983
   },
   {
     "text": "zum Beispiel Büro und Laptop.",
-    "start": 53.799,
-    "end": 55.727
+    "start": 49.216,
+    "end": 50.818
   },
   {
     "text": "Jetzt AutoKontor herunterladen und testen!",
-    "start": 56.207,
-    "end": 58.668
+    "start": 51.138,
+    "end": 53.634
   }
 ]

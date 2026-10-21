@@ -19,43 +19,55 @@
 # Nach jeder Änderung:  /stimme  (oder npm run timeline ohne Stimme)
 
 # Szene 1 – Problem
-slam    | Du verkaufst Gebrauchtwagen
-stretch | und hast Zettel,
-glitch  | Excel
-morph   | und Ordner überall?
-flash   | Damit ist jetzt Schluss.
+slam    | Du verkaufst
+stretch | Gebrauchtwagen
+glitch  | und hast Zettel,
+flash   | Excel
+morph   | und Ordner
+slam    | überall?
+flash   | Damit ist jetzt
+slam    | Schluss.
 
 # Szene 2 – Was ist es
 laptop  | Das ist AutoKontor,
-slam    | die Software für kleine Gebrauchtwagenhändler.
-type    | Sie läuft direkt auf deinem PC,
+stretch | die Software
+slam    | für kleine Gebrauchtwagenhändler.
+type    | Sie läuft direkt auf deinem *PC,*
 os      | unter Windows, Mac und Linux.
 
 # Szene 3 – Was man damit macht
 morph   | Du legst deine Fahrzeuge
 morph   | und Kunden an.
-stretch | Mit wenigen Klicks
+glitch  | Mit wenigen Klicks
 doc     | erstellst du Kaufverträge und Rechnungen als PDF,
-type    | auch als *E-Rechnung* im Format *ZUGFeRD* oder *XRechnung.*
-glitch  | Wenn mal was schiefgeht,
-slam    | schreibst du eine Stornorechnung.
+type    | auch als *E-Rechnung*
+stretch | im Format ZUGFeRD
+glitch  | oder XRechnung.
+slam    | Wenn mal was schiefgeht,
+flash   | schreibst du eine Stornorechnung.
 
 # Szene 4 – Sicherheit
 lock    | Deine Daten bleiben auf deinem Rechner,
 glitch  | nicht in einer fremden Cloud.
-stretch | AutoKontor sichert alles automatisch
+stretch | AutoKontor sichert alles
+slam    | automatisch
 flash   | jeden Tag.
-type    | Und weil Rechnungen *gesperrt* und *protokolliert* werden,
-slam    | unterstützt AutoKontor die GoBD-Anforderungen.
+type    | Und weil Rechnungen *gesperrt*
+type    | und *protokolliert* werden,
+morph   | unterstützt AutoKontor
+slam    | die GoBD-Anforderungen.
 
 # Szene 5 – Offline
-glitch  | Du brauchst kein Internet.
-type    | Nur *einmal* *im* *Monat* prüft AutoKontor kurz deine Lizenz.
+glitch  | Du brauchst
+slam    | kein Internet.
+type    | Nur *einmal* *im* *Monat*
+stretch | prüft AutoKontor kurz deine Lizenz.
 
 # Szene 6 – Preis und Aufruf
 preis   | Ab 19 € im Monat,
 stretch | monatlich kündbar,
-flash   | die ersten 7 Tage kostenlos.
-slam    | Für zwei Geräte,
+flash   | die ersten 7 Tage
+slam    | kostenlos.
+glitch  | Für zwei Geräte,
 os      | zum Beispiel Büro und Laptop.
 end     | Jetzt AutoKontor herunterladen und testen!

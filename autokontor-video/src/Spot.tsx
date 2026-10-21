@@ -10,20 +10,30 @@ const beats = timeline.beats as Beat[];
 
 const EFFECTS: Record<string, React.FC<any>> = { slam: Slam, glitch: Glitch, stretch: Stretch, flash: Flash, morph: Morph, type: Type, laptop: Laptop, lock: Lock, os: OS, doc: Doc, preis: Preis, end: End };
 
-/** Ein Bild: Kamera-Punch beim Schnitt + langsamer Drift. */
+/** Ein Bild: Wisch-Übergang + Kamera-Punch beim Schnitt, Kamera-Kick auf jedem Wort, Drift. */
 const BeatView: React.FC<{ beat: Beat; index: number; occ: number; dur: number }> = ({ beat, index, occ, dur }) => {
   const frame = useCurrentFrame();
   const { width, height } = useVideoConfig();
   const Comp = EFFECTS[beat.effect] ?? Slam;
   const isEnd = beat.effect === "end";
-  const punch = isEnd ? 1 : interpolate(frame, [0, 7], [1.08, 1], { ...clamp, easing: EASE });
-  const drift = 1 + (frame / Math.max(1, dur)) * (isEnd ? 0.03 : 0.035);
-  const rot = isEnd ? 0 : Math.sin((frame + index * 17) / 40) * 0.35;
+  const words = toFrames(beat);
+  const dir = index % 2 ? 1 : -1;
+  const punch = isEnd ? 1 : interpolate(frame, [0, 6], [1.18, 1], { ...clamp, easing: EASE });
+  const whip = isEnd ? 0 : interpolate(frame, [0, 5], [1, 0], { ...clamp, easing: EASE });
+  let kick = 0;
+  if (!isEnd) {
+    for (const w of words) {
+      const l = frame - w.f;
+      if (l >= 0 && l < 14) kick += 0.045 * Math.exp(-l / 3.5);
+    }
+  }
+  const drift = 1 + (frame / Math.max(1, dur)) * (isEnd ? 0.03 : 0.06);
+  const rot = isEnd ? 0 : Math.sin((frame + index * 17) / 40) * 0.35 + dir * whip * 3;
   const props: BeatProps & { occ: number } = {
     beat,
     index,
     occ,
-    words: toFrames(beat),
+    words,
     frame,
     dur,
     width,
@@ -32,8 +42,14 @@ const BeatView: React.FC<{ beat: Beat; index: number; occ: number; dur: number }
     screenshot: timeline.screenshot,
   };
   return (
-    <AbsoluteFill style={{ transform: `scale(${punch * drift}) rotate(${rot}deg)` }}>
+    <AbsoluteFill
+      style={{
+        transform: `translateX(${dir * whip * width * 0.14}px) scale(${punch * drift * (1 + kick)}) rotate(${rot}deg)`,
+        filter: whip > 0.05 ? `blur(${whip * 16}px)` : undefined,
+      }}
+    >
       <Comp {...props} />
+      {!isEnd && <AbsoluteFill style={{ background: C.white, opacity: interpolate(frame, [0, 3], [0.3, 0], clamp), pointerEvents: "none" }} />}
     </AbsoluteFill>
   );
 };
@@ -102,7 +118,7 @@ const Sound: React.FC<{ total: number }> = ({ total }) => {
       {a.music && (
         <Audio
           src={staticFile(a.music)}
-          volume={(f) => interpolate(f, [0, 20, total - 60, total], [0, a.voice ? 0.22 : 0.6, a.voice ? 0.22 : 0.6, 0], clamp)}
+          volume={(f) => interpolate(f, [0, 6, total - 60, total], [0, a.voice ? 0.14 : 0.6, a.voice ? 0.14 : 0.6, 0], clamp)}
         />
       )}
       {beats.flatMap((b, i) =>

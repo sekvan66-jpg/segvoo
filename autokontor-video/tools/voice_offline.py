@@ -9,8 +9,8 @@ Alternative zu tools/voice.py (Chatterbox), wenn kein Chatterbox/Whisper verfüg
 
 Einmalig installieren:   .venv/bin/pip install "coqui-tts[codec]" "gruut[de]"
 Aufruf:                  .venv/bin/python tools/voice_offline.py
-Optionen: --tempo 1.0   (Sprechdauer: kleiner = schneller, z. B. 0.92)
-          --pause 0.32  (Sekunden Pause nach jedem Satz)
+Optionen: --tempo 0.88  (Sprechdauer: kleiner = schneller, 1.0 = ruhig)
+          --pause 0.16  (Sekunden Pause nach jedem Satz)
           --zeige       (nur Lautschrift jedes Worts anzeigen, nichts erzeugen)
 """
 import argparse
@@ -71,8 +71,8 @@ def ensure_model():
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--tempo", type=float, default=1.0)
-    ap.add_argument("--pause", type=float, default=0.32)
+    ap.add_argument("--tempo", type=float, default=0.88)
+    ap.add_argument("--pause", type=float, default=0.16)
     ap.add_argument("--zeige", action="store_true")
     ap.add_argument("--seed", type=int, default=7)
     args = ap.parse_args()

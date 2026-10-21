@@ -20,6 +20,7 @@ OPTIONAL IN DEN ORDNER "public" LEGEN:
   sprecher.mp3       fertige Sprachaufnahme (z. B. ElevenLabs) statt KI-Stimme
   screenshot.png     Bild deiner Software -> erscheint im Laptop
   musik.mp3          Hintergrundmusik (z. B. aus Suno: "dark trap beat, hard hits")
+                     -> ohne eigene Musik: .venv\Scripts\python tools\beat.py erzeugt einen Beat
 
 STIMME OHNE INTERNET (Alternative zu 2-STIMME.bat):
   .venv\Scripts\pip install "coqui-tts[codec]" "gruut[de]"     (einmalig)

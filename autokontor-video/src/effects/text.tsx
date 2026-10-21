@@ -7,7 +7,8 @@ const Center: React.FC<{ children: React.ReactNode; style?: React.CSSProperties 
   <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", ...style }}>{children}</AbsoluteFill>
 );
 
-const gutter = (p: BeatProps) => (p.vertical ? 95 : 150);
+// großzügiger Rand: Kamera-Punch und Wort-Kicks zoomen bis ca. 15 % hinein
+const gutter = (p: BeatProps) => (p.vertical ? 135 : 215);
 const maxChars = (p: BeatProps) => (p.vertical ? 9 : 16);
 const maxSize = (p: BeatProps) => (p.vertical ? 330 : 300);
 
@@ -205,9 +206,11 @@ export const Type: React.FC<BeatProps> = (p) => {
   const lastI = words.length - 1;
   // rot markiert: Wörter mit *Sternchen* im Skript, sonst das letzte Wort
   const marked = words.some((w) => isEmph(w.w)) ? words.filter((w) => isEmph(w.w)) : [words[lastI]];
+  // schnell tippen: jedes Wort ist nach höchstens 7 Frames komplett lesbar
+  const typeEnd = (w: WordF) => w.f + Math.min(7, Math.max(2, Math.round((w.fe - w.f) * 0.6)));
   const typed = (w: WordF) => {
     const txt = clean(w.w);
-    const n = Math.round(interpolate(p.frame, [w.f, Math.max(w.f + 1, w.fe - 1)], [0, txt.length], clamp));
+    const n = Math.round(interpolate(p.frame, [w.f, typeEnd(w)], [0, txt.length], clamp));
     return txt.slice(0, n);
   };
   const full = words.map((w) => clean(w.w)).join(" ");
@@ -225,9 +228,9 @@ export const Type: React.FC<BeatProps> = (p) => {
     len += (len ? 1 : 0) + l;
   }
   lines.push(cur);
-  const activeLine = lines.findIndex((l) => l.some((w) => p.frame < w.fe));
+  const activeLine = lines.findIndex((l) => l.some((w) => p.frame < typeEnd(w)));
   const cursorOn = Math.floor(p.frame / 8) % 2 === 0;
-  const boxIn = (w: WordF) => interpolate(p.frame, [w.fe - 2, w.fe + 4], [0, 1], { ...clamp, easing: EASE });
+  const boxIn = (w: WordF) => interpolate(p.frame, [typeEnd(w), typeEnd(w) + 5], [0, 1], { ...clamp, easing: EASE });
   return (
     <Center
       style={{

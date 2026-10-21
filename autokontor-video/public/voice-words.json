@@ -2,661 +2,661 @@
   {
     "word": "Du",
     "start": 0.04,
-    "end": 0.272
+    "end": 0.261
   },
   {
     "word": "verkaufst",
-    "start": 0.342,
-    "end": 0.748
+    "start": 0.33,
+    "end": 0.737
   },
   {
     "word": "Gebrauchtwagen",
-    "start": 0.806,
-    "end": 1.549
+    "start": 0.795,
+    "end": 1.456
   },
   {
     "word": "und",
-    "start": 1.654,
-    "end": 1.747
+    "start": 1.549,
+    "end": 1.642
   },
   {
     "word": "hast",
-    "start": 1.781,
-    "end": 1.956
+    "start": 1.677,
+    "end": 1.84
   },
   {
     "word": "Zettel,",
-    "start": 2.014,
-    "end": 2.432
+    "start": 1.898,
+    "end": 2.304
   },
   {
     "word": "Excel",
-    "start": 2.629,
-    "end": 3.059
+    "start": 2.49,
+    "end": 2.873
   },
   {
     "word": "und",
-    "start": 3.198,
-    "end": 3.372
+    "start": 2.989,
+    "end": 3.151
   },
   {
     "word": "Ordner",
-    "start": 3.43,
-    "end": 3.755
+    "start": 3.21,
+    "end": 3.523
   },
   {
     "word": "überall?",
-    "start": 3.836,
-    "end": 4.231
+    "start": 3.593,
+    "end": 3.987
   },
   {
     "word": "Damit",
-    "start": 4.711,
-    "end": 5.001
+    "start": 4.307,
+    "end": 4.667
   },
   {
     "word": "ist",
-    "start": 5.083,
-    "end": 5.222
+    "start": 4.783,
+    "end": 4.9
   },
   {
     "word": "jetzt",
-    "start": 5.292,
-    "end": 5.536
+    "start": 5.004,
+    "end": 5.248
   },
   {
     "word": "Schluss.",
-    "start": 5.617,
-    "end": 5.849
+    "start": 5.329,
+    "end": 5.596
   },
   {
     "word": "Das",
-    "start": 6.329,
-    "end": 6.619
+    "start": 5.916,
+    "end": 6.055
   },
   {
     "word": "ist",
-    "start": 6.712,
-    "end": 6.817
+    "start": 6.113,
+    "end": 6.218
   },
   {
     "word": "AutoKontor,",
-    "start": 6.909,
-    "end": 7.641
+    "start": 6.322,
+    "end": 6.915
   },
   {
     "word": "die",
-    "start": 7.78,
-    "end": 7.85
+    "start": 7.135,
+    "end": 7.228
   },
   {
     "word": "Software",
-    "start": 7.92,
-    "end": 8.303
+    "start": 7.309,
+    "end": 7.646
   },
   {
     "word": "für",
-    "start": 8.372,
-    "end": 8.5
+    "start": 7.692,
+    "end": 7.797
   },
   {
     "word": "kleine",
-    "start": 8.535,
-    "end": 8.825
+    "start": 7.855,
+    "end": 8.11
   },
   {
     "word": "Gebrauchtwagenhändler.",
-    "start": 8.883,
-    "end": 10.067
+    "start": 8.145,
+    "end": 9.12
   },
   {
     "word": "Sie",
-    "start": 10.547,
-    "end": 10.733
+    "start": 9.44,
+    "end": 9.568
   },
   {
     "word": "läuft",
-    "start": 10.826,
-    "end": 11.116
+    "start": 9.661,
+    "end": 9.87
   },
   {
     "word": "direkt",
-    "start": 11.174,
-    "end": 11.488
+    "start": 9.94,
+    "end": 10.218
   },
   {
     "word": "auf",
-    "start": 11.546,
-    "end": 11.743
+    "start": 10.276,
+    "end": 10.427
   },
   {
     "word": "deinem",
-    "start": 11.836,
-    "end": 12.08
+    "start": 10.509,
+    "end": 10.787
   },
   {
     "word": "PC,",
-    "start": 12.138,
-    "end": 12.614
+    "start": 10.822,
+    "end": 11.252
   },
   {
     "word": "unter",
-    "start": 12.893,
-    "end": 13.102
+    "start": 11.461,
+    "end": 11.635
   },
   {
     "word": "Windows,",
-    "start": 13.136,
-    "end": 13.682
+    "start": 11.681,
+    "end": 12.087
   },
   {
     "word": "Mac",
-    "start": 13.821,
-    "end": 14.112
+    "start": 12.238,
+    "end": 12.482
   },
   {
     "word": "und",
-    "start": 14.297,
-    "end": 14.414
+    "start": 12.656,
+    "end": 12.796
   },
   {
     "word": "Linux.",
-    "start": 14.506,
-    "end": 14.901
+    "start": 12.877,
+    "end": 13.248
   },
   {
     "word": "Du",
-    "start": 15.296,
-    "end": 15.528
+    "start": 13.483,
+    "end": 13.692
   },
   {
     "word": "legst",
-    "start": 15.609,
-    "end": 15.842
+    "start": 13.774,
+    "end": 13.994
   },
   {
     "word": "deine",
-    "start": 15.876,
-    "end": 16.097
+    "start": 14.029,
+    "end": 14.273
   },
   {
     "word": "Fahrzeuge",
-    "start": 16.202,
-    "end": 16.817
+    "start": 14.331,
+    "end": 14.935
   },
   {
     "word": "und",
-    "start": 16.875,
-    "end": 17.014
+    "start": 15.004,
+    "end": 15.12
   },
   {
     "word": "Kunden",
-    "start": 17.13,
-    "end": 17.455
+    "start": 15.213,
+    "end": 15.527
   },
   {
     "word": "an.",
-    "start": 17.525,
-    "end": 17.688
+    "start": 15.62,
+    "end": 15.736
   },
   {
     "word": "Mit",
-    "start": 18.168,
-    "end": 18.272
+    "start": 16.056,
+    "end": 16.23
   },
   {
     "word": "wenigen",
-    "start": 18.4,
-    "end": 18.76
+    "start": 16.323,
+    "end": 16.625
   },
   {
     "word": "Klicks",
-    "start": 18.806,
-    "end": 19.004
+    "start": 16.694,
+    "end": 16.961
   },
   {
     "word": "erstellst",
-    "start": 19.05,
-    "end": 19.375
+    "start": 16.996,
+    "end": 17.356
   },
   {
     "word": "du",
-    "start": 19.41,
-    "end": 19.48
+    "start": 17.391,
+    "end": 17.472
   },
   {
     "word": "Kaufverträge",
-    "start": 19.538,
-    "end": 20.176
+    "start": 17.553,
+    "end": 18.169
   },
   {
     "word": "und",
-    "start": 20.234,
-    "end": 20.35
+    "start": 18.262,
+    "end": 18.343
   },
   {
     "word": "Rechnungen",
-    "start": 20.408,
-    "end": 20.896
+    "start": 18.389,
+    "end": 18.842
   },
   {
     "word": "als",
-    "start": 20.931,
-    "end": 21.035
+    "start": 18.9,
+    "end": 18.981
   },
   {
     "word": "PDF,",
-    "start": 21.128,
-    "end": 21.535
+    "start": 19.051,
+    "end": 19.492
   },
   {
     "word": "auch",
-    "start": 21.952,
-    "end": 22.092
+    "start": 19.701,
+    "end": 19.84
   },
   {
     "word": "als",
-    "start": 22.173,
-    "end": 22.278
+    "start": 19.887,
+    "end": 19.98
   },
   {
     "word": "E-Rechnung",
-    "start": 22.336,
-    "end": 22.777
+    "start": 20.026,
+    "end": 20.456
   },
   {
     "word": "im",
-    "start": 22.846,
-    "end": 22.916
+    "start": 20.502,
+    "end": 20.549
   },
   {
     "word": "Format",
-    "start": 22.963,
-    "end": 23.241
+    "start": 20.607,
+    "end": 20.816
   },
   {
     "word": "ZUGFeRD",
-    "start": 23.276,
-    "end": 23.775
+    "start": 20.862,
+    "end": 21.327
   },
   {
     "word": "oder",
-    "start": 23.868,
-    "end": 24.077
+    "start": 21.396,
+    "end": 21.617
   },
   {
     "word": "XRechnung.",
-    "start": 24.112,
-    "end": 24.692
+    "start": 21.71,
+    "end": 22.244
   },
   {
     "word": "Wenn",
-    "start": 24.959,
-    "end": 25.099
+    "start": 22.564,
+    "end": 22.75
   },
   {
     "word": "mal",
-    "start": 25.145,
-    "end": 25.273
+    "start": 22.831,
+    "end": 22.97
   },
   {
     "word": "was",
-    "start": 25.319,
-    "end": 25.401
+    "start": 23.04,
+    "end": 23.167
   },
   {
     "word": "schiefgeht,",
-    "start": 25.482,
-    "end": 26.039
+    "start": 23.295,
+    "end": 23.818
   },
   {
     "word": "schreibst",
-    "start": 26.248,
-    "end": 26.562
+    "start": 24.038,
+    "end": 24.317
   },
   {
     "word": "du",
-    "start": 26.596,
-    "end": 26.678
+    "start": 24.352,
+    "end": 24.421
   },
   {
     "word": "eine",
-    "start": 26.713,
-    "end": 26.875
+    "start": 24.491,
+    "end": 24.665
   },
   {
     "word": "Stornorechnung.",
-    "start": 26.91,
-    "end": 27.572
+    "start": 24.723,
+    "end": 25.292
   },
   {
     "word": "Deine",
-    "start": 28.052,
-    "end": 28.342
+    "start": 25.612,
+    "end": 25.902
   },
   {
     "word": "Daten",
-    "start": 28.435,
-    "end": 28.748
+    "start": 25.972,
+    "end": 26.285
   },
   {
     "word": "bleiben",
-    "start": 28.83,
-    "end": 29.131
+    "start": 26.39,
+    "end": 26.645
   },
   {
     "word": "auf",
-    "start": 29.178,
-    "end": 29.259
+    "start": 26.68,
+    "end": 26.761
   },
   {
     "word": "deinem",
-    "start": 29.329,
-    "end": 29.573
+    "start": 26.831,
+    "end": 27.029
   },
   {
     "word": "Rechner,",
-    "start": 29.631,
-    "end": 29.932
+    "start": 27.098,
+    "end": 27.4
   },
   {
     "word": "nicht",
-    "start": 30.165,
-    "end": 30.327
+    "start": 27.679,
+    "end": 27.841
   },
   {
     "word": "in",
-    "start": 30.374,
-    "end": 30.467
+    "start": 27.899,
+    "end": 27.992
   },
   {
     "word": "einer",
-    "start": 30.525,
-    "end": 30.745
+    "start": 28.062,
+    "end": 28.317
   },
   {
     "word": "fremden",
-    "start": 30.826,
-    "end": 31.152
+    "start": 28.387,
+    "end": 28.712
   },
   {
     "word": "Cloud.",
-    "start": 31.21,
-    "end": 31.535
+    "start": 28.758,
+    "end": 29.037
   },
   {
     "word": "AutoKontor",
-    "start": 32.015,
-    "end": 32.827
+    "start": 29.357,
+    "end": 30.112
   },
   {
     "word": "sichert",
-    "start": 32.943,
-    "end": 33.176
+    "start": 30.17,
+    "end": 30.402
   },
   {
     "word": "alles",
-    "start": 33.315,
-    "end": 33.594
+    "start": 30.46,
+    "end": 30.681
   },
   {
     "word": "automatisch",
-    "start": 33.663,
-    "end": 34.371
+    "start": 30.762,
+    "end": 31.424
   },
   {
     "word": "jeden",
-    "start": 34.441,
-    "end": 34.627
+    "start": 31.482,
+    "end": 31.679
   },
   {
     "word": "Tag.",
-    "start": 34.673,
-    "end": 34.94
+    "start": 31.749,
+    "end": 32.016
   },
   {
     "word": "Und",
-    "start": 35.42,
-    "end": 35.548
+    "start": 32.336,
+    "end": 32.463
   },
   {
     "word": "weil",
-    "start": 35.629,
-    "end": 35.78
+    "start": 32.556,
+    "end": 32.789
   },
   {
     "word": "Rechnungen",
-    "start": 35.873,
-    "end": 36.291
+    "start": 32.916,
+    "end": 33.404
   },
   {
     "word": "gesperrt",
-    "start": 36.361,
-    "end": 36.767
+    "start": 33.485,
+    "end": 33.833
   },
   {
     "word": "und",
-    "start": 36.837,
-    "end": 36.988
+    "start": 33.891,
+    "end": 34.066
   },
   {
     "word": "protokolliert",
-    "start": 37.057,
-    "end": 37.591
+    "start": 34.124,
+    "end": 34.693
   },
   {
     "word": "werden,",
-    "start": 37.649,
-    "end": 37.928
+    "start": 34.739,
+    "end": 35.006
   },
   {
     "word": "unterstützt",
-    "start": 38.102,
-    "end": 38.555
+    "start": 35.203,
+    "end": 35.621
   },
   {
     "word": "AutoKontor",
-    "start": 38.613,
-    "end": 39.252
+    "start": 35.691,
+    "end": 36.283
   },
   {
     "word": "die",
-    "start": 39.286,
-    "end": 39.356
+    "start": 36.341,
+    "end": 36.411
   },
   {
     "word": "GoBD-Anforderungen.",
-    "start": 39.426,
-    "end": 40.715
+    "start": 36.457,
+    "end": 37.525
   },
   {
     "word": "Du",
-    "start": 41.195,
-    "end": 41.38
+    "start": 37.845,
+    "end": 38.031
   },
   {
     "word": "brauchst",
-    "start": 41.485,
-    "end": 41.81
+    "start": 38.089,
+    "end": 38.414
   },
   {
     "word": "kein",
-    "start": 41.903,
-    "end": 42.088
+    "start": 38.496,
+    "end": 38.646
   },
   {
     "word": "Internet.",
-    "start": 42.17,
-    "end": 42.623
+    "start": 38.705,
+    "end": 39.088
   },
   {
     "word": "Nur",
-    "start": 43.103,
-    "end": 43.323
+    "start": 39.408,
+    "end": 39.651
   },
   {
     "word": "einmal",
-    "start": 43.416,
-    "end": 43.729
+    "start": 39.744,
+    "end": 40.116
   },
   {
     "word": "im",
-    "start": 43.776,
-    "end": 43.869
+    "start": 40.174,
+    "end": 40.232
   },
   {
     "word": "Monat",
-    "start": 43.938,
-    "end": 44.136
+    "start": 40.302,
+    "end": 40.557
   },
   {
     "word": "prüft",
-    "start": 44.275,
-    "end": 44.531
+    "start": 40.661,
+    "end": 40.859
   },
   {
     "word": "AutoKontor",
-    "start": 44.635,
-    "end": 45.285
+    "start": 40.94,
+    "end": 41.614
   },
   {
     "word": "kurz",
-    "start": 45.39,
-    "end": 45.68
+    "start": 41.672,
+    "end": 41.927
   },
   {
     "word": "deine",
-    "start": 45.808,
-    "end": 46.075
+    "start": 42.008,
+    "end": 42.264
   },
   {
     "word": "Lizenz.",
-    "start": 46.156,
-    "end": 46.62
+    "start": 42.31,
+    "end": 42.786
   },
   {
     "word": "Ab",
-    "start": 47.05,
-    "end": 47.213
+    "start": 43.067,
+    "end": 43.265
   },
   {
     "word": "19",
-    "start": 47.34,
-    "end": 47.735
+    "start": 43.369,
+    "end": 43.857
   },
   {
     "word": "€",
-    "start": 47.816,
-    "end": 48.072
+    "start": 43.961,
+    "end": 44.217
   },
   {
     "word": "im",
-    "start": 48.165,
-    "end": 48.223
+    "start": 44.275,
+    "end": 44.333
   },
   {
     "word": "Monat,",
-    "start": 48.304,
-    "end": 48.722
+    "start": 44.414,
+    "end": 44.716
   },
   {
     "word": "monatlich",
-    "start": 48.873,
-    "end": 49.36
+    "start": 44.948,
+    "end": 45.331
   },
   {
     "word": "kündbar,",
-    "start": 49.418,
-    "end": 50.011
+    "start": 45.389,
+    "end": 45.796
   },
   {
     "word": "die",
-    "start": 50.278,
-    "end": 50.347
+    "start": 46.028,
+    "end": 46.086
   },
   {
     "word": "ersten",
-    "start": 50.417,
-    "end": 50.672
+    "start": 46.144,
+    "end": 46.376
   },
   {
     "word": "7",
-    "start": 50.788,
-    "end": 50.963
+    "start": 46.458,
+    "end": 46.736
   },
   {
     "word": "Tage",
-    "start": 51.009,
-    "end": 51.322
+    "start": 46.794,
+    "end": 47.061
   },
   {
     "word": "kostenlos.",
-    "start": 51.369,
-    "end": 52.007
+    "start": 47.108,
+    "end": 47.665
   },
   {
     "word": "Für",
-    "start": 52.487,
-    "end": 52.696
+    "start": 47.985,
+    "end": 48.194
   },
   {
     "word": "zwei",
-    "start": 52.743,
-    "end": 53.01
+    "start": 48.229,
+    "end": 48.473
   },
   {
     "word": "Geräte,",
-    "start": 53.126,
-    "end": 53.579
+    "start": 48.554,
+    "end": 48.983
   },
   {
     "word": "zum",
-    "start": 53.799,
-    "end": 53.927
+    "start": 49.216,
+    "end": 49.332
   },
   {
     "word": "Beispiel",
-    "start": 53.985,
-    "end": 54.322
+    "start": 49.378,
+    "end": 49.715
   },
   {
     "word": "Büro",
-    "start": 54.38,
-    "end": 54.809
+    "start": 49.773,
+    "end": 50.075
   },
   {
     "word": "und",
-    "start": 54.972,
-    "end": 55.1
+    "start": 50.202,
+    "end": 50.307
   },
   {
     "word": "Laptop.",
-    "start": 55.216,
-    "end": 55.727
+    "start": 50.388,
+    "end": 50.818
   },
   {
     "word": "Jetzt",
-    "start": 56.207,
-    "end": 56.567
+    "start": 51.138,
+    "end": 51.416
   },
   {
     "word": "AutoKontor",
-    "start": 56.648,
-    "end": 57.228
+    "start": 51.474,
+    "end": 52.055
   },
   {
     "word": "herunterladen",
-    "start": 57.286,
-    "end": 57.995
+    "start": 52.113,
+    "end": 52.902
   },
   {
     "word": "und",
-    "start": 58.087,
-    "end": 58.204
+    "start": 52.949,
+    "end": 53.065
   },
   {
     "word": "testen!",
-    "start": 58.25,
-    "end": 58.668
+    "start": 53.193,
+    "end": 53.634
   }
 ]

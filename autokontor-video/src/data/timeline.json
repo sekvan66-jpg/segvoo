@@ -1,9 +1,9 @@
 {
   "source": "whisper",
-  "duration": 61.467999999999996,
+  "duration": 56.434,
   "audio": {
     "voice": "voice.wav",
-    "music": null,
+    "music": "musik.mp3",
     "sfx": {
       "impact": "sfx/impact.wav",
       "whoosh": "sfx/whoosh.wav",
@@ -14,113 +14,137 @@
   "beats": [
     {
       "effect": "slam",
-      "text": "Du verkaufst Gebrauchtwagen",
+      "text": "Du verkaufst",
       "words": [
         {
           "w": "Du",
           "start": 0.04,
-          "end": 0.272
+          "end": 0.261
         },
         {
           "w": "verkaufst",
-          "start": 0.342,
-          "end": 0.748
-        },
-        {
-          "w": "Gebrauchtwagen",
-          "start": 0.806,
-          "end": 1.549
+          "start": 0.33,
+          "end": 0.737
         }
       ],
       "start": 0,
-      "end": 1.5939999999999999
+      "end": 0.7350000000000001
     },
     {
       "effect": "stretch",
+      "text": "Gebrauchtwagen",
+      "words": [
+        {
+          "w": "Gebrauchtwagen",
+          "start": 0.795,
+          "end": 1.456
+        }
+      ],
+      "start": 0.7350000000000001,
+      "end": 1.4889999999999999
+    },
+    {
+      "effect": "glitch",
       "text": "und hast Zettel,",
       "words": [
         {
           "w": "und",
-          "start": 1.654,
-          "end": 1.747
+          "start": 1.549,
+          "end": 1.642
         },
         {
           "w": "hast",
-          "start": 1.781,
-          "end": 1.956
+          "start": 1.677,
+          "end": 1.84
         },
         {
           "w": "Zettel,",
-          "start": 2.014,
-          "end": 2.432
+          "start": 1.898,
+          "end": 2.304
         }
       ],
-      "start": 1.5939999999999999,
-      "end": 2.569
+      "start": 1.4889999999999999,
+      "end": 2.43
     },
     {
-      "effect": "glitch",
+      "effect": "flash",
       "text": "Excel",
       "words": [
         {
           "w": "Excel",
-          "start": 2.629,
-          "end": 3.059
+          "start": 2.49,
+          "end": 2.873
         }
       ],
-      "start": 2.569,
-      "end": 3.138
+      "start": 2.43,
+      "end": 2.929
     },
     {
       "effect": "morph",
-      "text": "und Ordner überall?",
+      "text": "und Ordner",
       "words": [
         {
           "w": "und",
-          "start": 3.198,
-          "end": 3.372
+          "start": 2.989,
+          "end": 3.151
         },
         {
           "w": "Ordner",
-          "start": 3.43,
-          "end": 3.755
-        },
-        {
-          "w": "überall?",
-          "start": 3.836,
-          "end": 4.231
+          "start": 3.21,
+          "end": 3.523
         }
       ],
-      "start": 3.138,
-      "end": 4.651000000000001
+      "start": 2.929,
+      "end": 3.533
+    },
+    {
+      "effect": "slam",
+      "text": "überall?",
+      "words": [
+        {
+          "w": "überall?",
+          "start": 3.593,
+          "end": 3.987
+        }
+      ],
+      "start": 3.533,
+      "end": 4.247000000000001
     },
     {
       "effect": "flash",
-      "text": "Damit ist jetzt Schluss.",
+      "text": "Damit ist jetzt",
       "words": [
         {
           "w": "Damit",
-          "start": 4.711,
-          "end": 5.001
+          "start": 4.307,
+          "end": 4.667
         },
         {
           "w": "ist",
-          "start": 5.083,
-          "end": 5.222
+          "start": 4.783,
+          "end": 4.9
         },
         {
           "w": "jetzt",
-          "start": 5.292,
-          "end": 5.536
-        },
-        {
-          "w": "Schluss.",
-          "start": 5.617,
-          "end": 5.849
+          "start": 5.004,
+          "end": 5.248
         }
       ],
-      "start": 4.651000000000001,
-      "end": 6.269
+      "start": 4.247000000000001,
+      "end": 5.269
+    },
+    {
+      "effect": "slam",
+      "text": "Schluss.",
+      "words": [
+        {
+          "w": "Schluss.",
+          "start": 5.329,
+          "end": 5.596
+        }
+      ],
+      "start": 5.269,
+      "end": 5.856000000000001
     },
     {
       "effect": "laptop",
@@ -128,93 +152,101 @@
       "words": [
         {
           "w": "Das",
-          "start": 6.329,
-          "end": 6.619
+          "start": 5.916,
+          "end": 6.055
         },
         {
           "w": "ist",
-          "start": 6.712,
-          "end": 6.817
+          "start": 6.113,
+          "end": 6.218
         },
         {
           "w": "AutoKontor,",
-          "start": 6.909,
-          "end": 7.641
+          "start": 6.322,
+          "end": 6.915
         }
       ],
-      "start": 6.269,
-      "end": 7.720000000000001
+      "start": 5.856000000000001,
+      "end": 7.075
     },
     {
-      "effect": "slam",
-      "text": "die Software für kleine Gebrauchtwagenhändler.",
+      "effect": "stretch",
+      "text": "die Software",
       "words": [
         {
           "w": "die",
-          "start": 7.78,
-          "end": 7.85
+          "start": 7.135,
+          "end": 7.228
         },
         {
           "w": "Software",
-          "start": 7.92,
-          "end": 8.303
-        },
+          "start": 7.309,
+          "end": 7.646
+        }
+      ],
+      "start": 7.075,
+      "end": 7.632000000000001
+    },
+    {
+      "effect": "slam",
+      "text": "für kleine Gebrauchtwagenhändler.",
+      "words": [
         {
           "w": "für",
-          "start": 8.372,
-          "end": 8.5
+          "start": 7.692,
+          "end": 7.797
         },
         {
           "w": "kleine",
-          "start": 8.535,
-          "end": 8.825
+          "start": 7.855,
+          "end": 8.11
         },
         {
           "w": "Gebrauchtwagenhändler.",
-          "start": 8.883,
-          "end": 10.067
+          "start": 8.145,
+          "end": 9.12
         }
       ],
-      "start": 7.720000000000001,
-      "end": 10.487
+      "start": 7.632000000000001,
+      "end": 9.379999999999999
     },
     {
       "effect": "type",
-      "text": "Sie läuft direkt auf deinem PC,",
+      "text": "Sie läuft direkt auf deinem *PC,*",
       "words": [
         {
           "w": "Sie",
-          "start": 10.547,
-          "end": 10.733
+          "start": 9.44,
+          "end": 9.568
         },
         {
           "w": "läuft",
-          "start": 10.826,
-          "end": 11.116
+          "start": 9.661,
+          "end": 9.87
         },
         {
           "w": "direkt",
-          "start": 11.174,
-          "end": 11.488
+          "start": 9.94,
+          "end": 10.218
         },
         {
           "w": "auf",
-          "start": 11.546,
-          "end": 11.743
+          "start": 10.276,
+          "end": 10.427
         },
         {
           "w": "deinem",
-          "start": 11.836,
-          "end": 12.08
+          "start": 10.509,
+          "end": 10.787
         },
         {
-          "w": "PC,",
-          "start": 12.138,
-          "end": 12.614
+          "w": "*PC,*",
+          "start": 10.822,
+          "end": 11.252
         }
       ],
-      "start": 10.487,
-      "end": 12.833
+      "start": 9.379999999999999,
+      "end": 11.401
     },
     {
       "effect": "os",
@@ -222,32 +254,32 @@
       "words": [
         {
           "w": "unter",
-          "start": 12.893,
-          "end": 13.102
+          "start": 11.461,
+          "end": 11.635
         },
         {
           "w": "Windows,",
-          "start": 13.136,
-          "end": 13.682
+          "start": 11.681,
+          "end": 12.087
         },
         {
           "w": "Mac",
-          "start": 13.821,
-          "end": 14.112
+          "start": 12.238,
+          "end": 12.482
         },
         {
           "w": "und",
-          "start": 14.297,
-          "end": 14.414
+          "start": 12.656,
+          "end": 12.796
         },
         {
           "w": "Linux.",
-          "start": 14.506,
-          "end": 14.901
+          "start": 12.877,
+          "end": 13.248
         }
       ],
-      "start": 12.833,
-      "end": 15.235999999999999
+      "start": 11.401,
+      "end": 13.423
     },
     {
       "effect": "morph",
@@ -255,27 +287,27 @@
       "words": [
         {
           "w": "Du",
-          "start": 15.296,
-          "end": 15.528
+          "start": 13.483,
+          "end": 13.692
         },
         {
           "w": "legst",
-          "start": 15.609,
-          "end": 15.842
+          "start": 13.774,
+          "end": 13.994
         },
         {
           "w": "deine",
-          "start": 15.876,
-          "end": 16.097
+          "start": 14.029,
+          "end": 14.273
         },
         {
           "w": "Fahrzeuge",
-          "start": 16.202,
-          "end": 16.817
+          "start": 14.331,
+          "end": 14.935
         }
       ],
-      "start": 15.235999999999999,
-      "end": 16.815
+      "start": 13.423,
+      "end": 14.943999999999999
     },
     {
       "effect": "morph",
@@ -283,45 +315,45 @@
       "words": [
         {
           "w": "und",
-          "start": 16.875,
-          "end": 17.014
+          "start": 15.004,
+          "end": 15.12
         },
         {
           "w": "Kunden",
-          "start": 17.13,
-          "end": 17.455
+          "start": 15.213,
+          "end": 15.527
         },
         {
           "w": "an.",
-          "start": 17.525,
-          "end": 17.688
+          "start": 15.62,
+          "end": 15.736
         }
       ],
-      "start": 16.815,
-      "end": 18.108
+      "start": 14.943999999999999,
+      "end": 15.996
     },
     {
-      "effect": "stretch",
+      "effect": "glitch",
       "text": "Mit wenigen Klicks",
       "words": [
         {
           "w": "Mit",
-          "start": 18.168,
-          "end": 18.272
+          "start": 16.056,
+          "end": 16.23
         },
         {
           "w": "wenigen",
-          "start": 18.4,
-          "end": 18.76
+          "start": 16.323,
+          "end": 16.625
         },
         {
           "w": "Klicks",
-          "start": 18.806,
-          "end": 19.004
+          "start": 16.694,
+          "end": 16.961
         }
       ],
-      "start": 18.108,
-      "end": 18.990000000000002
+      "start": 15.996,
+      "end": 16.936
     },
     {
       "effect": "doc",
@@ -329,146 +361,162 @@
       "words": [
         {
           "w": "erstellst",
-          "start": 19.05,
-          "end": 19.375
+          "start": 16.996,
+          "end": 17.356
         },
         {
           "w": "du",
-          "start": 19.41,
-          "end": 19.48
+          "start": 17.391,
+          "end": 17.472
         },
         {
           "w": "Kaufverträge",
-          "start": 19.538,
-          "end": 20.176
+          "start": 17.553,
+          "end": 18.169
         },
         {
           "w": "und",
-          "start": 20.234,
-          "end": 20.35
+          "start": 18.262,
+          "end": 18.343
         },
         {
           "w": "Rechnungen",
-          "start": 20.408,
-          "end": 20.896
+          "start": 18.389,
+          "end": 18.842
         },
         {
           "w": "als",
-          "start": 20.931,
-          "end": 21.035
+          "start": 18.9,
+          "end": 18.981
         },
         {
           "w": "PDF,",
-          "start": 21.128,
-          "end": 21.535
+          "start": 19.051,
+          "end": 19.492
         }
       ],
-      "start": 18.990000000000002,
-      "end": 21.892000000000003
+      "start": 16.936,
+      "end": 19.641000000000002
     },
     {
       "effect": "type",
-      "text": "auch als *E-Rechnung* im Format *ZUGFeRD* oder *XRechnung.*",
+      "text": "auch als *E-Rechnung*",
       "words": [
         {
           "w": "auch",
-          "start": 21.952,
-          "end": 22.092
+          "start": 19.701,
+          "end": 19.84
         },
         {
           "w": "als",
-          "start": 22.173,
-          "end": 22.278
+          "start": 19.887,
+          "end": 19.98
         },
         {
           "w": "*E-Rechnung*",
-          "start": 22.336,
-          "end": 22.777
-        },
+          "start": 20.026,
+          "end": 20.456
+        }
+      ],
+      "start": 19.641000000000002,
+      "end": 20.442
+    },
+    {
+      "effect": "stretch",
+      "text": "im Format ZUGFeRD",
+      "words": [
         {
           "w": "im",
-          "start": 22.846,
-          "end": 22.916
+          "start": 20.502,
+          "end": 20.549
         },
         {
           "w": "Format",
-          "start": 22.963,
-          "end": 23.241
+          "start": 20.607,
+          "end": 20.816
         },
         {
-          "w": "*ZUGFeRD*",
-          "start": 23.276,
-          "end": 23.775
-        },
-        {
-          "w": "oder",
-          "start": 23.868,
-          "end": 24.077
-        },
-        {
-          "w": "*XRechnung.*",
-          "start": 24.112,
-          "end": 24.692
+          "w": "ZUGFeRD",
+          "start": 20.862,
+          "end": 21.327
         }
       ],
-      "start": 21.892000000000003,
-      "end": 24.899
+      "start": 20.442,
+      "end": 21.336000000000002
     },
     {
       "effect": "glitch",
+      "text": "oder XRechnung.",
+      "words": [
+        {
+          "w": "oder",
+          "start": 21.396,
+          "end": 21.617
+        },
+        {
+          "w": "XRechnung.",
+          "start": 21.71,
+          "end": 22.244
+        }
+      ],
+      "start": 21.336000000000002,
+      "end": 22.504
+    },
+    {
+      "effect": "slam",
       "text": "Wenn mal was schiefgeht,",
       "words": [
         {
           "w": "Wenn",
-          "start": 24.959,
-          "end": 25.099
+          "start": 22.564,
+          "end": 22.75
         },
         {
           "w": "mal",
-          "start": 25.145,
-          "end": 25.273
+          "start": 22.831,
+          "end": 22.97
         },
         {
           "w": "was",
-          "start": 25.319,
-          "end": 25.401
+          "start": 23.04,
+          "end": 23.167
         },
         {
           "w": "schiefgeht,",
-          "start": 25.482,
-          "end": 26.039
+          "start": 23.295,
+          "end": 23.818
         }
       ],
-      "start": 24.899,
-      "end": 26.188000000000002
+      "start": 22.504,
+      "end": 23.978
     },
     {
-      "effect": "slam",
+      "effect": "flash",
       "text": "schreibst du eine Stornorechnung.",
       "words": [
         {
           "w": "schreibst",
-          "start": 26.248,
-          "end": 26.562
+          "start": 24.038,
+          "end": 24.317
         },
         {
           "w": "du",
-          "start": 26.596,
-          "end": 26.678
+          "start": 24.352,
+          "end": 24.421
         },
         {
           "w": "eine",
-          "start": 26.713,
-          "end": 26.875
+          "start": 24.491,
+          "end": 24.665
         },
         {
           "w": "Stornorechnung.",
-          "start": 26.91,
-          "end": 27.572
+          "start": 24.723,
+          "end": 25.292
         }
       ],
-      "start": 26.188000000000002,
-      "end": 27.992
+      "start": 23.978,
+      "end": 25.552
     },
     {
       "effect": "lock",
@@ -476,37 +524,37 @@
       "words": [
         {
           "w": "Deine",
-          "start": 28.052,
-          "end": 28.342
+          "start": 25.612,
+          "end": 25.902
         },
         {
           "w": "Daten",
-          "start": 28.435,
-          "end": 28.748
+          "start": 25.972,
+          "end": 26.285
         },
         {
           "w": "bleiben",
-          "start": 28.83,
-          "end": 29.131
+          "start": 26.39,
+          "end": 26.645
         },
         {
           "w": "auf",
-          "start": 29.178,
-          "end": 29.259
+          "start": 26.68,
+          "end": 26.761
         },
         {
           "w": "deinem",
-          "start": 29.329,
-          "end": 29.573
+          "start": 26.831,
+          "end": 27.029
         },
         {
           "w": "Rechner,",
-          "start": 29.631,
-          "end": 29.932
+          "start": 27.098,
+          "end": 27.4
         }
       ],
-      "start": 27.992,
-      "end": 30.105
+      "start": 25.552,
+      "end": 27.619
     },
     {
       "effect": "glitch",
@@ -514,60 +562,68 @@
       "words": [
         {
           "w": "nicht",
-          "start": 30.165,
-          "end": 30.327
+          "start": 27.679,
+          "end": 27.841
         },
         {
           "w": "in",
-          "start": 30.374,
-          "end": 30.467
+          "start": 27.899,
+          "end": 27.992
         },
         {
           "w": "einer",
-          "start": 30.525,
-          "end": 30.745
+          "start": 28.062,
+          "end": 28.317
         },
         {
           "w": "fremden",
-          "start": 30.826,
-          "end": 31.152
+          "start": 28.387,
+          "end": 28.712
         },
         {
           "w": "Cloud.",
-          "start": 31.21,
-          "end": 31.535
+          "start": 28.758,
+          "end": 29.037
         }
       ],
-      "start": 30.105,
-      "end": 31.955000000000002
+      "start": 27.619,
+      "end": 29.297
     },
     {
       "effect": "stretch",
-      "text": "AutoKontor sichert alles automatisch",
+      "text": "AutoKontor sichert alles",
       "words": [
         {
           "w": "AutoKontor",
-          "start": 32.015,
-          "end": 32.827
+          "start": 29.357,
+          "end": 30.112
         },
         {
           "w": "sichert",
-          "start": 32.943,
-          "end": 33.176
+          "start": 30.17,
+          "end": 30.402
         },
         {
           "w": "alles",
-          "start": 33.315,
-          "end": 33.594
-        },
-        {
-          "w": "automatisch",
-          "start": 33.663,
-          "end": 34.371
+          "start": 30.46,
+          "end": 30.681
         }
       ],
-      "start": 31.955000000000002,
-      "end": 34.381
+      "start": 29.297,
+      "end": 30.702
+    },
+    {
+      "effect": "slam",
+      "text": "automatisch",
+      "words": [
+        {
+          "w": "automatisch",
+          "start": 30.762,
+          "end": 31.424
+        }
+      ],
+      "start": 30.702,
+      "end": 31.422
     },
     {
       "effect": "flash",
@@ -575,169 +631,201 @@
       "words": [
         {
           "w": "jeden",
-          "start": 34.441,
-          "end": 34.627
+          "start": 31.482,
+          "end": 31.679
         },
         {
           "w": "Tag.",
-          "start": 34.673,
-          "end": 34.94
+          "start": 31.749,
+          "end": 32.016
         }
       ],
-      "start": 34.381,
-      "end": 35.36
+      "start": 31.422,
+      "end": 32.275999999999996
     },
     {
       "effect": "type",
-      "text": "Und weil Rechnungen *gesperrt* und *protokolliert* werden,",
+      "text": "Und weil Rechnungen *gesperrt*",
       "words": [
         {
           "w": "Und",
-          "start": 35.42,
-          "end": 35.548
+          "start": 32.336,
+          "end": 32.463
         },
         {
           "w": "weil",
-          "start": 35.629,
-          "end": 35.78
+          "start": 32.556,
+          "end": 32.789
         },
         {
           "w": "Rechnungen",
-          "start": 35.873,
-          "end": 36.291
+          "start": 32.916,
+          "end": 33.404
         },
         {
           "w": "*gesperrt*",
-          "start": 36.361,
-          "end": 36.767
-        },
-        {
-          "w": "und",
-          "start": 36.837,
-          "end": 36.988
-        },
-        {
-          "w": "*protokolliert*",
-          "start": 37.057,
-          "end": 37.591
-        },
-        {
-          "w": "werden,",
-          "start": 37.649,
-          "end": 37.928
+          "start": 33.485,
+          "end": 33.833
         }
       ],
-      "start": 35.36,
-      "end": 38.041999999999994
-    },
-    {
-      "effect": "slam",
-      "text": "unterstützt AutoKontor die GoBD-Anforderungen.",
-      "words": [
-        {
-          "w": "unterstützt",
-          "start": 38.102,
-          "end": 38.555
-        },
-        {
-          "w": "AutoKontor",
-          "start": 38.613,
-          "end": 39.252
-        },
-        {
-          "w": "die",
-          "start": 39.286,
-          "end": 39.356
-        },
-        {
-          "w": "GoBD-Anforderungen.",
-          "start": 39.426,
-          "end": 40.715
-        }
-      ],
-      "start": 38.041999999999994,
-      "end": 41.135
-    },
-    {
-      "effect": "glitch",
-      "text": "Du brauchst kein Internet.",
-      "words": [
-        {
-          "w": "Du",
-          "start": 41.195,
-          "end": 41.38
-        },
-        {
-          "w": "brauchst",
-          "start": 41.485,
-          "end": 41.81
-        },
-        {
-          "w": "kein",
-          "start": 41.903,
-          "end": 42.088
-        },
-        {
-          "w": "Internet.",
-          "start": 42.17,
-          "end": 42.623
-        }
-      ],
-      "start": 41.135,
-      "end": 43.043
+      "start": 32.275999999999996,
+      "end": 33.830999999999996
     },
     {
       "effect": "type",
-      "text": "Nur *einmal* *im* *Monat* prüft AutoKontor kurz deine Lizenz.",
+      "text": "und *protokolliert* werden,",
       "words": [
         {
-          "w": "Nur",
-          "start": 43.103,
-          "end": 43.323
+          "w": "und",
+          "start": 33.891,
+          "end": 34.066
         },
         {
-          "w": "*einmal*",
-          "start": 43.416,
-          "end": 43.729
+          "w": "*protokolliert*",
+          "start": 34.124,
+          "end": 34.693
         },
         {
-          "w": "*im*",
-          "start": 43.776,
-          "end": 43.869
-        },
+          "w": "werden,",
+          "start": 34.739,
+          "end": 35.006
+        }
+      ],
+      "start": 33.830999999999996,
+      "end": 35.143
+    },
+    {
+      "effect": "morph",
+      "text": "unterstützt AutoKontor",
+      "words": [
         {
-          "w": "*Monat*",
-          "start": 43.938,
-          "end": 44.136
-        },
-        {
-          "w": "prüft",
-          "start": 44.275,
-          "end": 44.531
+          "w": "unterstützt",
+          "start": 35.203,
+          "end": 35.621
         },
         {
           "w": "AutoKontor",
-          "start": 44.635,
-          "end": 45.285
+          "start": 35.691,
+          "end": 36.283
+        }
+      ],
+      "start": 35.143,
+      "end": 36.281
+    },
+    {
+      "effect": "slam",
+      "text": "die GoBD-Anforderungen.",
+      "words": [
+        {
+          "w": "die",
+          "start": 36.341,
+          "end": 36.411
+        },
+        {
+          "w": "GoBD-Anforderungen.",
+          "start": 36.457,
+          "end": 37.525
+        }
+      ],
+      "start": 36.281,
+      "end": 37.785
+    },
+    {
+      "effect": "glitch",
+      "text": "Du brauchst",
+      "words": [
+        {
+          "w": "Du",
+          "start": 37.845,
+          "end": 38.031
+        },
+        {
+          "w": "brauchst",
+          "start": 38.089,
+          "end": 38.414
+        }
+      ],
+      "start": 37.785,
+      "end": 38.436
+    },
+    {
+      "effect": "slam",
+      "text": "kein Internet.",
+      "words": [
+        {
+          "w": "kein",
+          "start": 38.496,
+          "end": 38.646
+        },
+        {
+          "w": "Internet.",
+          "start": 38.705,
+          "end": 39.088
+        }
+      ],
+      "start": 38.436,
+      "end": 39.348
+    },
+    {
+      "effect": "type",
+      "text": "Nur *einmal* *im* *Monat*",
+      "words": [
+        {
+          "w": "Nur",
+          "start": 39.408,
+          "end": 39.651
+        },
+        {
+          "w": "*einmal*",
+          "start": 39.744,
+          "end": 40.116
+        },
+        {
+          "w": "*im*",
+          "start": 40.174,
+          "end": 40.232
+        },
+        {
+          "w": "*Monat*",
+          "start": 40.302,
+          "end": 40.557
+        }
+      ],
+      "start": 39.348,
+      "end": 40.601
+    },
+    {
+      "effect": "stretch",
+      "text": "prüft AutoKontor kurz deine Lizenz.",
+      "words": [
+        {
+          "w": "prüft",
+          "start": 40.661,
+          "end": 40.859
+        },
+        {
+          "w": "AutoKontor",
+          "start": 40.94,
+          "end": 41.614
         },
         {
           "w": "kurz",
-          "start": 45.39,
-          "end": 45.68
+          "start": 41.672,
+          "end": 41.927
         },
         {
           "w": "deine",
-          "start": 45.808,
-          "end": 46.075
+          "start": 42.008,
+          "end": 42.264
         },
         {
           "w": "Lizenz.",
-          "start": 46.156,
-          "end": 46.62
+          "start": 42.31,
+          "end": 42.786
         }
       ],
-      "start": 43.043,
-      "end": 46.989999999999995
+      "start": 40.601,
+      "end": 43.007
     },
     {
       "effect": "preis",
@@ -745,32 +833,32 @@
       "words": [
         {
           "w": "Ab",
-          "start": 47.05,
-          "end": 47.213
+          "start": 43.067,
+          "end": 43.265
         },
         {
           "w": "19",
-          "start": 47.34,
-          "end": 47.735
+          "start": 43.369,
+          "end": 43.857
         },
         {
           "w": "€",
-          "start": 47.735,
-          "end": 48.165
+          "start": 43.857,
+          "end": 44.275
         },
         {
           "w": "im",
-          "start": 48.165,
-          "end": 48.223
+          "start": 44.275,
+          "end": 44.333
         },
         {
           "w": "Monat,",
-          "start": 48.304,
-          "end": 48.722
+          "start": 44.414,
+          "end": 44.716
         }
       ],
-      "start": 46.989999999999995,
-      "end": 48.812999999999995
+      "start": 43.007,
+      "end": 44.888
     },
     {
       "effect": "stretch",
@@ -778,73 +866,81 @@
       "words": [
         {
           "w": "monatlich",
-          "start": 48.873,
-          "end": 49.36
+          "start": 44.948,
+          "end": 45.331
         },
         {
           "w": "kündbar,",
-          "start": 49.418,
-          "end": 50.011
+          "start": 45.389,
+          "end": 45.796
         }
       ],
-      "start": 48.812999999999995,
-      "end": 50.217999999999996
+      "start": 44.888,
+      "end": 45.967999999999996
     },
     {
       "effect": "flash",
-      "text": "die ersten 7 Tage kostenlos.",
+      "text": "die ersten 7 Tage",
       "words": [
         {
           "w": "die",
-          "start": 50.278,
-          "end": 50.347
+          "start": 46.028,
+          "end": 46.086
         },
         {
           "w": "ersten",
-          "start": 50.417,
-          "end": 50.672
+          "start": 46.144,
+          "end": 46.376
         },
         {
           "w": "7",
-          "start": 50.788,
-          "end": 50.963
+          "start": 46.458,
+          "end": 46.736
         },
         {
           "w": "Tage",
-          "start": 51.009,
-          "end": 51.322
-        },
-        {
-          "w": "kostenlos.",
-          "start": 51.369,
-          "end": 52.007
+          "start": 46.794,
+          "end": 47.061
         }
       ],
-      "start": 50.217999999999996,
-      "end": 52.427
+      "start": 45.967999999999996,
+      "end": 47.047999999999995
     },
     {
       "effect": "slam",
+      "text": "kostenlos.",
+      "words": [
+        {
+          "w": "kostenlos.",
+          "start": 47.108,
+          "end": 47.665
+        }
+      ],
+      "start": 47.047999999999995,
+      "end": 47.925
+    },
+    {
+      "effect": "glitch",
       "text": "Für zwei Geräte,",
       "words": [
         {
           "w": "Für",
-          "start": 52.487,
-          "end": 52.696
+          "start": 47.985,
+          "end": 48.194
         },
         {
           "w": "zwei",
-          "start": 52.743,
-          "end": 53.01
+          "start": 48.229,
+          "end": 48.473
         },
         {
           "w": "Geräte,",
-          "start": 53.126,
-          "end": 53.579
+          "start": 48.554,
+          "end": 48.983
         }
       ],
-      "start": 52.427,
-      "end": 53.739
+      "start": 47.925,
+      "end": 49.156
     },
     {
       "effect": "os",
@@ -852,32 +948,32 @@
       "words": [
         {
           "w": "zum",
-          "start": 53.799,
-          "end": 53.927
+          "start": 49.216,
+          "end": 49.332
         },
         {
           "w": "Beispiel",
-          "start": 53.985,
-          "end": 54.322
+          "start": 49.378,
+          "end": 49.715
         },
         {
           "w": "Büro",
-          "start": 54.38,
-          "end": 54.809
+          "start": 49.773,
+          "end": 50.075
         },
         {
           "w": "und",
-          "start": 54.972,
-          "end": 55.1
+          "start": 50.202,
+          "end": 50.307
         },
         {
           "w": "Laptop.",
-          "start": 55.216,
-          "end": 55.727
+          "start": 50.388,
+          "end": 50.818
         }
       ],
-      "start": 53.739,
-      "end": 56.147
+      "start": 49.156,
+      "end": 51.077999999999996
     },
     {
       "effect": "end",
@@ -885,32 +981,32 @@
       "words": [
         {
           "w": "Jetzt",
-          "start": 56.207,
-          "end": 56.567
+          "start": 51.138,
+          "end": 51.416
         },
         {
           "w": "AutoKontor",
-          "start": 56.648,
-          "end": 57.228
+          "start": 51.474,
+          "end": 52.055
         },
         {
           "w": "herunterladen",
-          "start": 57.286,
-          "end": 57.995
+          "start": 52.113,
+          "end": 52.902
         },
         {
           "w": "und",
-          "start": 58.087,
-          "end": 58.204
+          "start": 52.949,
+          "end": 53.065
         },
         {
           "w": "testen!",
-          "start": 58.25,
-          "end": 58.668
+          "start": 53.193,
+          "end": 53.634
         }
       ],
-      "start": 56.147,
-      "end": 61.467999999999996
+      "start": 51.077999999999996,
+      "end": 56.434
     }
   ]
 }
