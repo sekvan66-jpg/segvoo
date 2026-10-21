@@ -1,8 +1,8 @@
 {
-  "source": "schaetzung",
-  "duration": 31.044999999999995,
+  "source": "whisper",
+  "duration": 61.467999999999996,
   "audio": {
-    "voice": null,
+    "voice": "voice.wav",
     "music": null,
     "sfx": {
       "impact": "sfx/impact.wav",
@@ -14,381 +14,903 @@
   "beats": [
     {
       "effect": "slam",
-      "text": "Nein.",
+      "text": "Du verkaufst Gebrauchtwagen",
       "words": [
         {
-          "w": "Nein.",
-          "start": 0.25,
-          "end": 0.63
+          "w": "Du",
+          "start": 0.04,
+          "end": 0.272
+        },
+        {
+          "w": "verkaufst",
+          "start": 0.342,
+          "end": 0.748
+        },
+        {
+          "w": "Gebrauchtwagen",
+          "start": 0.806,
+          "end": 1.549
         }
       ],
       "start": 0,
-      "end": 0.8699999999999999
-    },
-    {
-      "effect": "glitch",
-      "text": "Keine Cloud.",
-      "words": [
-        {
-          "w": "Keine",
-          "start": 0.9299999999999999,
-          "end": 1.365
-        },
-        {
-          "w": "Cloud.",
-          "start": 1.385,
-          "end": 1.82
-        }
-      ],
-      "start": 0.8699999999999999,
-      "end": 2.06
+      "end": 1.5939999999999999
     },
     {
       "effect": "stretch",
-      "text": "Keine Abos,",
+      "text": "und hast Zettel,",
       "words": [
         {
-          "w": "Keine",
-          "start": 2.12,
-          "end": 2.555
+          "w": "und",
+          "start": 1.654,
+          "end": 1.747
         },
         {
-          "w": "Abos,",
-          "start": 2.575,
-          "end": 2.955
+          "w": "hast",
+          "start": 1.781,
+          "end": 1.956
+        },
+        {
+          "w": "Zettel,",
+          "start": 2.014,
+          "end": 2.432
         }
       ],
-      "start": 2.06,
-      "end": 3.075
+      "start": 1.5939999999999999,
+      "end": 2.569
+    },
+    {
+      "effect": "glitch",
+      "text": "Excel",
+      "words": [
+        {
+          "w": "Excel",
+          "start": 2.629,
+          "end": 3.059
+        }
+      ],
+      "start": 2.569,
+      "end": 3.138
+    },
+    {
+      "effect": "morph",
+      "text": "und Ordner überall?",
+      "words": [
+        {
+          "w": "und",
+          "start": 3.198,
+          "end": 3.372
+        },
+        {
+          "w": "Ordner",
+          "start": 3.43,
+          "end": 3.755
+        },
+        {
+          "w": "überall?",
+          "start": 3.836,
+          "end": 4.231
+        }
+      ],
+      "start": 3.138,
+      "end": 4.651000000000001
     },
     {
       "effect": "flash",
-      "text": "die dich festhalten.",
+      "text": "Damit ist jetzt Schluss.",
       "words": [
         {
-          "w": "die",
-          "start": 3.1350000000000002,
-          "end": 3.4600000000000004
+          "w": "Damit",
+          "start": 4.711,
+          "end": 5.001
         },
         {
-          "w": "dich",
-          "start": 3.4800000000000004,
-          "end": 3.8600000000000003
+          "w": "ist",
+          "start": 5.083,
+          "end": 5.222
         },
         {
-          "w": "festhalten.",
-          "start": 3.8800000000000003,
-          "end": 4.590000000000001
+          "w": "jetzt",
+          "start": 5.292,
+          "end": 5.536
+        },
+        {
+          "w": "Schluss.",
+          "start": 5.617,
+          "end": 5.849
         }
       ],
-      "start": 3.075,
-      "end": 4.830000000000001
-    },
-    {
-      "effect": "slam",
-      "text": "Kannst du das glauben?",
-      "words": [
-        {
-          "w": "Kannst",
-          "start": 4.890000000000001,
-          "end": 5.380000000000001
-        },
-        {
-          "w": "du",
-          "start": 5.4,
-          "end": 5.67
-        },
-        {
-          "w": "das",
-          "start": 5.69,
-          "end": 6.015000000000001
-        },
-        {
-          "w": "glauben?",
-          "start": 6.035,
-          "end": 6.58
-        }
-      ],
-      "start": 4.830000000000001,
-      "end": 6.82
+      "start": 4.651000000000001,
+      "end": 6.269
     },
     {
       "effect": "laptop",
-      "text": "Deine Händlersoftware –",
+      "text": "Das ist AutoKontor,",
       "words": [
         {
-          "w": "Deine",
-          "start": 6.88,
-          "end": 7.3149999999999995
+          "w": "Das",
+          "start": 6.329,
+          "end": 6.619
         },
         {
-          "w": "Händlersoftware",
-          "start": 7.335,
-          "end": 8.32
+          "w": "ist",
+          "start": 6.712,
+          "end": 6.817
+        },
+        {
+          "w": "AutoKontor,",
+          "start": 6.909,
+          "end": 7.641
         }
       ],
-      "start": 6.82,
-      "end": 8.36
+      "start": 6.269,
+      "end": 7.720000000000001
+    },
+    {
+      "effect": "slam",
+      "text": "die Software für kleine Gebrauchtwagenhändler.",
+      "words": [
+        {
+          "w": "die",
+          "start": 7.78,
+          "end": 7.85
+        },
+        {
+          "w": "Software",
+          "start": 7.92,
+          "end": 8.303
+        },
+        {
+          "w": "für",
+          "start": 8.372,
+          "end": 8.5
+        },
+        {
+          "w": "kleine",
+          "start": 8.535,
+          "end": 8.825
+        },
+        {
+          "w": "Gebrauchtwagenhändler.",
+          "start": 8.883,
+          "end": 10.067
+        }
+      ],
+      "start": 7.720000000000001,
+      "end": 10.487
     },
     {
       "effect": "type",
-      "text": "direkt auf deinem PC.",
+      "text": "Sie läuft direkt auf deinem PC,",
       "words": [
         {
+          "w": "Sie",
+          "start": 10.547,
+          "end": 10.733
+        },
+        {
+          "w": "läuft",
+          "start": 10.826,
+          "end": 11.116
+        },
+        {
           "w": "direkt",
-          "start": 8.42,
-          "end": 8.91
+          "start": 11.174,
+          "end": 11.488
         },
         {
           "w": "auf",
-          "start": 8.93,
-          "end": 9.254999999999999
+          "start": 11.546,
+          "end": 11.743
         },
         {
           "w": "deinem",
-          "start": 9.275,
-          "end": 9.765
+          "start": 11.836,
+          "end": 12.08
         },
         {
-          "w": "PC.",
-          "start": 9.785,
-          "end": 10.055
+          "w": "PC,",
+          "start": 12.138,
+          "end": 12.614
         }
       ],
-      "start": 8.36,
-      "end": 10.295
-    },
-    {
-      "effect": "morph",
-      "text": "Fahrzeuge.",
-      "words": [
-        {
-          "w": "Fahrzeuge.",
-          "start": 10.355,
-          "end": 11.01
-        }
-      ],
-      "start": 10.295,
-      "end": 11.25
-    },
-    {
-      "effect": "morph",
-      "text": "Kunden.",
-      "words": [
-        {
-          "w": "Kunden.",
-          "start": 11.31,
-          "end": 11.8
-        }
-      ],
-      "start": 11.25,
-      "end": 12.04
-    },
-    {
-      "effect": "morph",
-      "text": "Verträge.",
-      "words": [
-        {
-          "w": "Verträge.",
-          "start": 12.1,
-          "end": 12.7
-        }
-      ],
-      "start": 12.04,
-      "end": 12.94
-    },
-    {
-      "effect": "flash",
-      "text": "Alles an einem Ort.",
-      "words": [
-        {
-          "w": "Alles",
-          "start": 13,
-          "end": 13.435
-        },
-        {
-          "w": "an",
-          "start": 13.455,
-          "end": 13.725
-        },
-        {
-          "w": "einem",
-          "start": 13.745000000000001,
-          "end": 14.180000000000001
-        },
-        {
-          "w": "Ort.",
-          "start": 14.200000000000001,
-          "end": 14.525
-        }
-      ],
-      "start": 12.94,
-      "end": 14.765
-    },
-    {
-      "effect": "lock",
-      "text": "Deine Daten bleiben bei dir.",
-      "words": [
-        {
-          "w": "Deine",
-          "start": 14.825000000000001,
-          "end": 15.260000000000002
-        },
-        {
-          "w": "Daten",
-          "start": 15.280000000000001,
-          "end": 15.715000000000002
-        },
-        {
-          "w": "bleiben",
-          "start": 15.735000000000001,
-          "end": 16.28
-        },
-        {
-          "w": "bei",
-          "start": 16.3,
-          "end": 16.625
-        },
-        {
-          "w": "dir.",
-          "start": 16.645,
-          "end": 16.97
-        }
-      ],
-      "start": 14.765,
-      "end": 17.21
-    },
-    {
-      "effect": "stretch",
-      "text": "Klar im Aufbau.",
-      "words": [
-        {
-          "w": "Klar",
-          "start": 17.27,
-          "end": 17.65
-        },
-        {
-          "w": "im",
-          "start": 17.669999999999998,
-          "end": 17.939999999999998
-        },
-        {
-          "w": "Aufbau.",
-          "start": 17.959999999999997,
-          "end": 18.449999999999996
-        }
-      ],
-      "start": 17.21,
-      "end": 18.689999999999998
-    },
-    {
-      "effect": "glitch",
-      "text": "Klar im Alltag.",
-      "words": [
-        {
-          "w": "Klar",
-          "start": 18.749999999999996,
-          "end": 19.129999999999995
-        },
-        {
-          "w": "im",
-          "start": 19.149999999999995,
-          "end": 19.419999999999995
-        },
-        {
-          "w": "Alltag.",
-          "start": 19.439999999999994,
-          "end": 19.929999999999993
-        }
-      ],
-      "start": 18.689999999999998,
-      "end": 20.169999999999995
+      "start": 10.487,
+      "end": 12.833
     },
     {
       "effect": "os",
-      "text": "Windows. Mac. Linux.",
+      "text": "unter Windows, Mac und Linux.",
       "words": [
         {
-          "w": "Windows.",
-          "start": 20.229999999999993,
-          "end": 20.774999999999995
+          "w": "unter",
+          "start": 12.893,
+          "end": 13.102
         },
         {
-          "w": "Mac.",
-          "start": 20.994999999999994,
-          "end": 21.319999999999993
+          "w": "Windows,",
+          "start": 13.136,
+          "end": 13.682
+        },
+        {
+          "w": "Mac",
+          "start": 13.821,
+          "end": 14.112
+        },
+        {
+          "w": "und",
+          "start": 14.297,
+          "end": 14.414
         },
         {
           "w": "Linux.",
-          "start": 21.539999999999996,
-          "end": 21.974999999999994
+          "start": 14.506,
+          "end": 14.901
         }
       ],
-      "start": 20.169999999999995,
-      "end": 22.214999999999996
+      "start": 12.833,
+      "end": 15.235999999999999
     },
     {
-      "effect": "end",
-      "text": "AutoKontor. Dein Handel. In deiner Hand. Jetzt sieben Tage kostenlos testen.",
+      "effect": "morph",
+      "text": "Du legst deine Fahrzeuge",
       "words": [
         {
-          "w": "AutoKontor.",
-          "start": 22.274999999999995,
-          "end": 22.984999999999996
+          "w": "Du",
+          "start": 15.296,
+          "end": 15.528
         },
         {
-          "w": "Dein",
-          "start": 23.204999999999995,
-          "end": 23.584999999999994
+          "w": "legst",
+          "start": 15.609,
+          "end": 15.842
         },
         {
-          "w": "Handel.",
-          "start": 23.604999999999993,
-          "end": 24.09499999999999
+          "w": "deine",
+          "start": 15.876,
+          "end": 16.097
         },
         {
-          "w": "In",
-          "start": 24.314999999999994,
-          "end": 24.584999999999994
+          "w": "Fahrzeuge",
+          "start": 16.202,
+          "end": 16.817
+        }
+      ],
+      "start": 15.235999999999999,
+      "end": 16.815
+    },
+    {
+      "effect": "morph",
+      "text": "und Kunden an.",
+      "words": [
+        {
+          "w": "und",
+          "start": 16.875,
+          "end": 17.014
         },
         {
-          "w": "deiner",
-          "start": 24.604999999999993,
-          "end": 25.09499999999999
+          "w": "Kunden",
+          "start": 17.13,
+          "end": 17.455
         },
         {
-          "w": "Hand.",
-          "start": 25.114999999999995,
-          "end": 25.494999999999994
+          "w": "an.",
+          "start": 17.525,
+          "end": 17.688
+        }
+      ],
+      "start": 16.815,
+      "end": 18.108
+    },
+    {
+      "effect": "stretch",
+      "text": "Mit wenigen Klicks",
+      "words": [
+        {
+          "w": "Mit",
+          "start": 18.168,
+          "end": 18.272
         },
         {
-          "w": "Jetzt",
-          "start": 25.714999999999996,
-          "end": 26.149999999999995
+          "w": "wenigen",
+          "start": 18.4,
+          "end": 18.76
         },
         {
-          "w": "sieben",
-          "start": 26.169999999999995,
-          "end": 26.659999999999993
+          "w": "Klicks",
+          "start": 18.806,
+          "end": 19.004
+        }
+      ],
+      "start": 18.108,
+      "end": 18.990000000000002
+    },
+    {
+      "effect": "doc",
+      "text": "erstellst du Kaufverträge und Rechnungen als PDF,",
+      "words": [
+        {
+          "w": "erstellst",
+          "start": 19.05,
+          "end": 19.375
+        },
+        {
+          "w": "du",
+          "start": 19.41,
+          "end": 19.48
+        },
+        {
+          "w": "Kaufverträge",
+          "start": 19.538,
+          "end": 20.176
+        },
+        {
+          "w": "und",
+          "start": 20.234,
+          "end": 20.35
+        },
+        {
+          "w": "Rechnungen",
+          "start": 20.408,
+          "end": 20.896
+        },
+        {
+          "w": "als",
+          "start": 20.931,
+          "end": 21.035
+        },
+        {
+          "w": "PDF,",
+          "start": 21.128,
+          "end": 21.535
+        }
+      ],
+      "start": 18.990000000000002,
+      "end": 21.892000000000003
+    },
+    {
+      "effect": "type",
+      "text": "auch als *E-Rechnung* im Format *ZUGFeRD* oder *XRechnung.*",
+      "words": [
+        {
+          "w": "auch",
+          "start": 21.952,
+          "end": 22.092
+        },
+        {
+          "w": "als",
+          "start": 22.173,
+          "end": 22.278
+        },
+        {
+          "w": "*E-Rechnung*",
+          "start": 22.336,
+          "end": 22.777
+        },
+        {
+          "w": "im",
+          "start": 22.846,
+          "end": 22.916
+        },
+        {
+          "w": "Format",
+          "start": 22.963,
+          "end": 23.241
+        },
+        {
+          "w": "*ZUGFeRD*",
+          "start": 23.276,
+          "end": 23.775
+        },
+        {
+          "w": "oder",
+          "start": 23.868,
+          "end": 24.077
+        },
+        {
+          "w": "*XRechnung.*",
+          "start": 24.112,
+          "end": 24.692
+        }
+      ],
+      "start": 21.892000000000003,
+      "end": 24.899
+    },
+    {
+      "effect": "glitch",
+      "text": "Wenn mal was schiefgeht,",
+      "words": [
+        {
+          "w": "Wenn",
+          "start": 24.959,
+          "end": 25.099
+        },
+        {
+          "w": "mal",
+          "start": 25.145,
+          "end": 25.273
+        },
+        {
+          "w": "was",
+          "start": 25.319,
+          "end": 25.401
+        },
+        {
+          "w": "schiefgeht,",
+          "start": 25.482,
+          "end": 26.039
+        }
+      ],
+      "start": 24.899,
+      "end": 26.188000000000002
+    },
+    {
+      "effect": "slam",
+      "text": "schreibst du eine Stornorechnung.",
+      "words": [
+        {
+          "w": "schreibst",
+          "start": 26.248,
+          "end": 26.562
+        },
+        {
+          "w": "du",
+          "start": 26.596,
+          "end": 26.678
+        },
+        {
+          "w": "eine",
+          "start": 26.713,
+          "end": 26.875
+        },
+        {
+          "w": "Stornorechnung.",
+          "start": 26.91,
+          "end": 27.572
+        }
+      ],
+      "start": 26.188000000000002,
+      "end": 27.992
+    },
+    {
+      "effect": "lock",
+      "text": "Deine Daten bleiben auf deinem Rechner,",
+      "words": [
+        {
+          "w": "Deine",
+          "start": 28.052,
+          "end": 28.342
+        },
+        {
+          "w": "Daten",
+          "start": 28.435,
+          "end": 28.748
+        },
+        {
+          "w": "bleiben",
+          "start": 28.83,
+          "end": 29.131
+        },
+        {
+          "w": "auf",
+          "start": 29.178,
+          "end": 29.259
+        },
+        {
+          "w": "deinem",
+          "start": 29.329,
+          "end": 29.573
+        },
+        {
+          "w": "Rechner,",
+          "start": 29.631,
+          "end": 29.932
+        }
+      ],
+      "start": 27.992,
+      "end": 30.105
+    },
+    {
+      "effect": "glitch",
+      "text": "nicht in einer fremden Cloud.",
+      "words": [
+        {
+          "w": "nicht",
+          "start": 30.165,
+          "end": 30.327
+        },
+        {
+          "w": "in",
+          "start": 30.374,
+          "end": 30.467
+        },
+        {
+          "w": "einer",
+          "start": 30.525,
+          "end": 30.745
+        },
+        {
+          "w": "fremden",
+          "start": 30.826,
+          "end": 31.152
+        },
+        {
+          "w": "Cloud.",
+          "start": 31.21,
+          "end": 31.535
+        }
+      ],
+      "start": 30.105,
+      "end": 31.955000000000002
+    },
+    {
+      "effect": "stretch",
+      "text": "AutoKontor sichert alles automatisch",
+      "words": [
+        {
+          "w": "AutoKontor",
+          "start": 32.015,
+          "end": 32.827
+        },
+        {
+          "w": "sichert",
+          "start": 32.943,
+          "end": 33.176
+        },
+        {
+          "w": "alles",
+          "start": 33.315,
+          "end": 33.594
+        },
+        {
+          "w": "automatisch",
+          "start": 33.663,
+          "end": 34.371
+        }
+      ],
+      "start": 31.955000000000002,
+      "end": 34.381
+    },
+    {
+      "effect": "flash",
+      "text": "jeden Tag.",
+      "words": [
+        {
+          "w": "jeden",
+          "start": 34.441,
+          "end": 34.627
+        },
+        {
+          "w": "Tag.",
+          "start": 34.673,
+          "end": 34.94
+        }
+      ],
+      "start": 34.381,
+      "end": 35.36
+    },
+    {
+      "effect": "type",
+      "text": "Und weil Rechnungen *gesperrt* und *protokolliert* werden,",
+      "words": [
+        {
+          "w": "Und",
+          "start": 35.42,
+          "end": 35.548
+        },
+        {
+          "w": "weil",
+          "start": 35.629,
+          "end": 35.78
+        },
+        {
+          "w": "Rechnungen",
+          "start": 35.873,
+          "end": 36.291
+        },
+        {
+          "w": "*gesperrt*",
+          "start": 36.361,
+          "end": 36.767
+        },
+        {
+          "w": "und",
+          "start": 36.837,
+          "end": 36.988
+        },
+        {
+          "w": "*protokolliert*",
+          "start": 37.057,
+          "end": 37.591
+        },
+        {
+          "w": "werden,",
+          "start": 37.649,
+          "end": 37.928
+        }
+      ],
+      "start": 35.36,
+      "end": 38.041999999999994
+    },
+    {
+      "effect": "slam",
+      "text": "unterstützt AutoKontor die GoBD-Anforderungen.",
+      "words": [
+        {
+          "w": "unterstützt",
+          "start": 38.102,
+          "end": 38.555
+        },
+        {
+          "w": "AutoKontor",
+          "start": 38.613,
+          "end": 39.252
+        },
+        {
+          "w": "die",
+          "start": 39.286,
+          "end": 39.356
+        },
+        {
+          "w": "GoBD-Anforderungen.",
+          "start": 39.426,
+          "end": 40.715
+        }
+      ],
+      "start": 38.041999999999994,
+      "end": 41.135
+    },
+    {
+      "effect": "glitch",
+      "text": "Du brauchst kein Internet.",
+      "words": [
+        {
+          "w": "Du",
+          "start": 41.195,
+          "end": 41.38
+        },
+        {
+          "w": "brauchst",
+          "start": 41.485,
+          "end": 41.81
+        },
+        {
+          "w": "kein",
+          "start": 41.903,
+          "end": 42.088
+        },
+        {
+          "w": "Internet.",
+          "start": 42.17,
+          "end": 42.623
+        }
+      ],
+      "start": 41.135,
+      "end": 43.043
+    },
+    {
+      "effect": "type",
+      "text": "Nur *einmal* *im* *Monat* prüft AutoKontor kurz deine Lizenz.",
+      "words": [
+        {
+          "w": "Nur",
+          "start": 43.103,
+          "end": 43.323
+        },
+        {
+          "w": "*einmal*",
+          "start": 43.416,
+          "end": 43.729
+        },
+        {
+          "w": "*im*",
+          "start": 43.776,
+          "end": 43.869
+        },
+        {
+          "w": "*Monat*",
+          "start": 43.938,
+          "end": 44.136
+        },
+        {
+          "w": "prüft",
+          "start": 44.275,
+          "end": 44.531
+        },
+        {
+          "w": "AutoKontor",
+          "start": 44.635,
+          "end": 45.285
+        },
+        {
+          "w": "kurz",
+          "start": 45.39,
+          "end": 45.68
+        },
+        {
+          "w": "deine",
+          "start": 45.808,
+          "end": 46.075
+        },
+        {
+          "w": "Lizenz.",
+          "start": 46.156,
+          "end": 46.62
+        }
+      ],
+      "start": 43.043,
+      "end": 46.989999999999995
+    },
+    {
+      "effect": "preis",
+      "text": "Ab 19 € im Monat,",
+      "words": [
+        {
+          "w": "Ab",
+          "start": 47.05,
+          "end": 47.213
+        },
+        {
+          "w": "19",
+          "start": 47.34,
+          "end": 47.735
+        },
+        {
+          "w": "€",
+          "start": 47.735,
+          "end": 48.165
+        },
+        {
+          "w": "im",
+          "start": 48.165,
+          "end": 48.223
+        },
+        {
+          "w": "Monat,",
+          "start": 48.304,
+          "end": 48.722
+        }
+      ],
+      "start": 46.989999999999995,
+      "end": 48.812999999999995
+    },
+    {
+      "effect": "stretch",
+      "text": "monatlich kündbar,",
+      "words": [
+        {
+          "w": "monatlich",
+          "start": 48.873,
+          "end": 49.36
+        },
+        {
+          "w": "kündbar,",
+          "start": 49.418,
+          "end": 50.011
+        }
+      ],
+      "start": 48.812999999999995,
+      "end": 50.217999999999996
+    },
+    {
+      "effect": "flash",
+      "text": "die ersten 7 Tage kostenlos.",
+      "words": [
+        {
+          "w": "die",
+          "start": 50.278,
+          "end": 50.347
+        },
+        {
+          "w": "ersten",
+          "start": 50.417,
+          "end": 50.672
+        },
+        {
+          "w": "7",
+          "start": 50.788,
+          "end": 50.963
         },
         {
           "w": "Tage",
-          "start": 26.679999999999996,
-          "end": 27.059999999999995
+          "start": 51.009,
+          "end": 51.322
         },
         {
-          "w": "kostenlos",
-          "start": 27.079999999999995,
-          "end": 27.734999999999996
-        },
-        {
-          "w": "testen.",
-          "start": 27.754999999999995,
-          "end": 28.244999999999994
+          "w": "kostenlos.",
+          "start": 51.369,
+          "end": 52.007
         }
       ],
-      "start": 22.214999999999996,
-      "end": 31.044999999999995
+      "start": 50.217999999999996,
+      "end": 52.427
+    },
+    {
+      "effect": "slam",
+      "text": "Für zwei Geräte,",
+      "words": [
+        {
+          "w": "Für",
+          "start": 52.487,
+          "end": 52.696
+        },
+        {
+          "w": "zwei",
+          "start": 52.743,
+          "end": 53.01
+        },
+        {
+          "w": "Geräte,",
+          "start": 53.126,
+          "end": 53.579
+        }
+      ],
+      "start": 52.427,
+      "end": 53.739
+    },
+    {
+      "effect": "os",
+      "text": "zum Beispiel Büro und Laptop.",
+      "words": [
+        {
+          "w": "zum",
+          "start": 53.799,
+          "end": 53.927
+        },
+        {
+          "w": "Beispiel",
+          "start": 53.985,
+          "end": 54.322
+        },
+        {
+          "w": "Büro",
+          "start": 54.38,
+          "end": 54.809
+        },
+        {
+          "w": "und",
+          "start": 54.972,
+          "end": 55.1
+        },
+        {
+          "w": "Laptop.",
+          "start": 55.216,
+          "end": 55.727
+        }
+      ],
+      "start": 53.739,
+      "end": 56.147
+    },
+    {
+      "effect": "end",
+      "text": "Jetzt AutoKontor herunterladen und testen!",
+      "words": [
+        {
+          "w": "Jetzt",
+          "start": 56.207,
+          "end": 56.567
+        },
+        {
+          "w": "AutoKontor",
+          "start": 56.648,
+          "end": 57.228
+        },
+        {
+          "w": "herunterladen",
+          "start": 57.286,
+          "end": 57.995
+        },
+        {
+          "w": "und",
+          "start": 58.087,
+          "end": 58.204
+        },
+        {
+          "w": "testen!",
+          "start": 58.25,
+          "end": 58.668
+        }
+      ],
+      "start": 56.147,
+      "end": 61.467999999999996
     }
   ]
 }

@@ -1,12 +1,16 @@
 import React from "react";
 import { AbsoluteFill, Img, interpolate, random, spring, staticFile, useVideoConfig } from "remotion";
-import { BeatProps, BigWords, EASE, WordF, clamp, clean, pop } from "../lib";
+import { BeatProps, BigWords, CARD_ICONS, EASE, WordF, cardKey, cardWords, clamp, clean, pop } from "../lib";
 import { BRAND, C, FONT } from "../theme";
 
 const norm = (w: string) => w.toLowerCase().replace(/[^a-zäöüß0-9]/g, "");
-const wordIndex = (words: WordF[], target: string, fallback: number) => {
-  const i = words.findIndex((w) => norm(w.w) === target);
-  return i >= 0 ? i : Math.min(words.length - 1, fallback);
+const wordIndex = (words: WordF[], target: string | string[], fallback: number) => {
+  const targets = Array.isArray(target) ? target : [target];
+  for (const t of targets) {
+    const i = words.findIndex((w) => norm(w.w) === t);
+    if (i >= 0) return i;
+  }
+  return Math.min(words.length - 1, fallback);
 };
 
 /* ---------------- LAPTOP ---------------- */
@@ -75,7 +79,7 @@ const FakeUI: React.FC<{ frame: number }> = ({ frame }) => {
 
 export const Laptop: React.FC<BeatProps> = (p) => {
   const { fps } = useVideoConfig();
-  const lw = p.vertical ? p.width * 0.9 : p.width * 0.5;
+  const lw = p.vertical ? p.width * 0.8 : p.width * 0.44;
   const sh = lw * 0.62;
   const enter = spring({ frame: p.frame, fps, config: { damping: 16, stiffness: 120 } });
   const shine = interpolate(p.frame, [8, 26], [-60, 160], clamp);
@@ -107,7 +111,7 @@ export const Laptop: React.FC<BeatProps> = (p) => {
     <BigWords
       words={p.words}
       frame={p.frame}
-      width={p.vertical ? p.width - 220 : p.width * 0.4}
+      width={p.vertical ? p.width - 220 : p.width * 0.36}
       maxSize={p.vertical ? 200 : 180}
       maxChars={p.vertical ? 15 : 10}
       align={p.vertical ? "center" : "left"}
@@ -123,7 +127,7 @@ export const Laptop: React.FC<BeatProps> = (p) => {
           {laptop}
         </div>
       ) : (
-        <div style={{ display: "flex", alignItems: "center", gap: 90 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 80 }}>
           {text}
           {laptop}
         </div>
@@ -235,11 +239,23 @@ export const OS: React.FC<BeatProps> = (p) => {
   const { fps } = useVideoConfig();
   const cw = p.vertical ? 760 : 480;
   const ch = p.vertical ? 300 : 440;
-  const sweep = interpolate(p.frame, [p.words.at(-1)!.f + 4, p.words.at(-1)!.f + 22], [-30, 130], clamp);
+  const cards = cardWords(p.words);
+  const sweep = interpolate(p.frame, [cards.at(-1)!.f + 4, cards.at(-1)!.f + 22], [-30, 130], clamp);
+  // Wörter vor der ersten Karte (z. B. „zum Beispiel“) als Überschrift, damit das Bild nie leer ist
+  const lead = p.words.slice(0, p.words.indexOf(cards[0]));
   return (
-    <AbsoluteFill style={{ background: `radial-gradient(circle at 50% 50%, #200307 0%, ${C.black} 65%)`, justifyContent: "center", alignItems: "center" }}>
+    <AbsoluteFill style={{ background: `radial-gradient(circle at 50% 50%, #200307 0%, ${C.black} 65%)`, justifyContent: "center", alignItems: "center", flexDirection: "column", gap: p.vertical ? 70 : 60 }}>
+      {lead.length > 0 && (
+        <div style={{ fontFamily: FONT.display, fontSize: p.vertical ? 110 : 96, color: C.red, textTransform: "uppercase", display: "flex", gap: "0.25em" }}>
+          {lead.map((w) => (
+            <span key={w.i} style={{ opacity: p.frame < w.f ? 0 : 1, display: "inline-block", transform: `scale(${pop(p.frame - w.f, fps, 1.8)})` }}>
+              {clean(w.w)}
+            </span>
+          ))}
+        </div>
+      )}
       <div style={{ display: "flex", flexDirection: p.vertical ? "column" : "row", gap: p.vertical ? 50 : 60 }}>
-        {p.words.slice(0, 3).map((w, k) => {
+        {cards.map((w, k) => {
           const l = p.frame - w.f;
           const s = spring({ frame: l, fps, config: { damping: 12, stiffness: 220 } });
           return (
@@ -263,7 +279,7 @@ export const OS: React.FC<BeatProps> = (p) => {
                 overflow: "hidden",
               }}
             >
-              <Icon k={k} s={p.vertical ? 150 : 170} />
+              <Icon k={CARD_ICONS[cardKey(w.w)] ?? k} s={p.vertical ? 150 : 170} />
               <div style={{ fontFamily: FONT.display, fontSize: p.vertical ? 130 : 110, color: "#fff", textTransform: "uppercase" }}>{clean(w.w).replace(/[.!?,]$/, "")}</div>
               <div style={{ position: "absolute", inset: 0, background: `linear-gradient(110deg, transparent ${sweep - 15}%, rgba(255,30,30,.35) ${sweep}%, transparent ${sweep + 15}%)` }} />
             </div>
@@ -277,8 +293,8 @@ export const OS: React.FC<BeatProps> = (p) => {
 /* ---------------- ENDBILD ---------------- */
 export const End: React.FC<BeatProps> = (p) => {
   const { fps } = useVideoConfig();
-  const fSlogan = p.words[wordIndex(p.words, "dein", 1)].f;
-  const fCta = p.words[wordIndex(p.words, "jetzt", Math.floor(p.words.length * 0.6))].f;
+  const fSlogan = p.words[wordIndex(p.words, ["dein", "autokontor"], 1)].f;
+  const fCta = p.words[wordIndex(p.words, ["herunterladen", "jetzt"], Math.floor(p.words.length * 0.6))].f;
   const a = (f: number) => spring({ frame: p.frame - f, fps, config: { damping: 16, stiffness: 140 } });
   const logo = a(0);
   const sl = a(fSlogan);
@@ -318,12 +334,12 @@ export const End: React.FC<BeatProps> = (p) => {
         <div
           style={{
             marginTop: 90 * u,
-            padding: `${34 * u}px ${70 * u}px`,
+            padding: `${34 * u}px ${(p.vertical ? 54 : 70) * u}px`,
             borderRadius: 999,
             background: C.blue,
             color: "#fff",
             fontWeight: 700,
-            fontSize: 52 * u,
+            fontSize: (p.vertical ? 44 : 52) * u,
             position: "relative",
             overflow: "hidden",
             boxShadow: `0 20px 70px ${C.blue}88`,
@@ -334,7 +350,171 @@ export const End: React.FC<BeatProps> = (p) => {
           {BRAND.cta}
           <div style={{ position: "absolute", inset: 0, background: `linear-gradient(110deg, transparent ${shine - 12}%, rgba(255,255,255,.55) ${shine}%, transparent ${shine + 12}%)` }} />
         </div>
-        <div style={{ marginTop: 40 * u, fontSize: 34 * u, color: "#7F8CAD", letterSpacing: "0.12em", opacity: cta }}>{BRAND.platforms}</div>
+        <div style={{ marginTop: 44 * u, fontSize: 40 * u, color: "#fff", fontWeight: 700, opacity: cta }}>
+          {BRAND.pricePrefix} {BRAND.price} {BRAND.priceUnit}
+          <span style={{ marginLeft: 14 * u, fontSize: 26 * u, fontWeight: 400, color: "#9FB0D6" }}>{BRAND.priceNote}</span>
+        </div>
+        <div style={{ marginTop: 26 * u, fontSize: 30 * u, color: "#7F8CAD", letterSpacing: "0.12em", opacity: cta }}>{BRAND.platforms}</div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+/* ---------------- DOKUMENTE (Kaufvertrag, Rechnung, PDF) ---------------- */
+const Paper: React.FC<{ title: string; w: number; frame: number; at: number; rot: number; x: number; pdfAt: number }> = ({ title, w, frame, at, rot, x, pdfAt }) => {
+  const { fps } = useVideoConfig();
+  const s = spring({ frame: frame - at, fps, config: { damping: 15, stiffness: 150 } });
+  const stamp = spring({ frame: frame - pdfAt, fps, config: { damping: 10, stiffness: 260 } });
+  const h = w * 1.36;
+  const line = (width: string, k: number, dark = false) => (
+    <div key={k} style={{ height: w * 0.022, width, borderRadius: 4, background: dark ? "#2A2F3D" : "#D9DCE4", marginBottom: w * 0.035 }} />
+  );
+  return (
+    <div
+      style={{
+        position: "absolute",
+        width: w,
+        height: h,
+        left: -w / 2 + x,
+        top: -h / 2,
+        background: "#FAFAFC",
+        borderRadius: w * 0.03,
+        padding: w * 0.08,
+        boxShadow: "0 40px 90px rgba(0,0,0,.7)",
+        fontFamily: FONT.ui,
+        opacity: frame < at ? 0 : 1,
+        transform: `translate(${(1 - s) * 900}px, ${(1 - s) * 120}px) rotate(${rot * s + (1 - s) * 25}deg)`,
+        overflow: "hidden",
+      }}
+    >
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: w * 0.08 }}>
+        <div style={{ background: C.blue, color: "#fff", fontWeight: 700, fontSize: w * 0.045, borderRadius: 5, padding: `${w * 0.012}px ${w * 0.02}px` }}>{BRAND.logoText}</div>
+        <div style={{ fontSize: w * 0.03, color: "#8A90A0" }}>Nr. 2026-0147</div>
+      </div>
+      <div style={{ fontWeight: 700, fontSize: w * 0.085, color: "#11131A", letterSpacing: "0.02em", marginBottom: w * 0.06 }}>{title.toUpperCase()}</div>
+      {line("70%", 0, true)}
+      {line("55%", 1)}
+      {line("62%", 2)}
+      <div style={{ height: w * 0.05 }} />
+      {[0, 1, 2].map((k) => (
+        <div key={k} style={{ display: "flex", justifyContent: "space-between", marginBottom: w * 0.03 }}>
+          <div style={{ height: w * 0.022, width: "48%", borderRadius: 4, background: "#D9DCE4" }} />
+          <div style={{ height: w * 0.022, width: "18%", borderRadius: 4, background: "#BFC4D0" }} />
+        </div>
+      ))}
+      <div style={{ borderTop: "2px solid #11131A", marginTop: w * 0.05, paddingTop: w * 0.03, display: "flex", justifyContent: "space-between", fontWeight: 700, fontSize: w * 0.05, color: "#11131A" }}>
+        <span>Gesamt</span>
+        <span>24.990 €</span>
+      </div>
+      <div
+        style={{
+          position: "absolute",
+          right: w * 0.07,
+          bottom: w * 0.08,
+          background: C.red,
+          color: "#fff",
+          fontWeight: 700,
+          fontSize: w * 0.075,
+          borderRadius: w * 0.025,
+          padding: `${w * 0.015}px ${w * 0.04}px`,
+          opacity: frame < pdfAt ? 0 : 1,
+          transform: `scale(${interpolate(stamp, [0, 1], [2.6, 1])}) rotate(-8deg)`,
+          boxShadow: `0 10px 30px ${C.red}88`,
+        }}
+      >
+        PDF
+      </div>
+    </div>
+  );
+};
+
+export const Doc: React.FC<BeatProps> = (p) => {
+  const { fps } = useVideoConfig();
+  const fVertrag = p.words[wordIndex(p.words, ["kaufverträge", "kaufvertrag", "verträge"], 0)].f;
+  const fRechnung = p.words[wordIndex(p.words, ["rechnungen", "rechnung"], 1)].f;
+  const fPdf = p.words[wordIndex(p.words, ["pdf"], p.words.length - 1)].f;
+  const pw = p.vertical ? 400 : 360;
+  const docs = (
+    <div style={{ position: "relative", width: pw * 2, height: pw * 1.5 }}>
+      <div style={{ position: "absolute", left: "50%", top: "50%" }}>
+        <Paper title="Kaufvertrag" w={pw} frame={p.frame} at={fVertrag} rot={-7} x={-pw * 0.32} pdfAt={fPdf} />
+        <Paper title="Rechnung" w={pw} frame={p.frame} at={fRechnung} rot={6} x={pw * 0.32} pdfAt={fPdf} />
+      </div>
+    </div>
+  );
+  const text = (
+    <BigWords
+      words={p.words}
+      frame={p.frame}
+      width={p.vertical ? p.width - 190 : p.width * 0.44}
+      maxSize={p.vertical ? 150 : 150}
+      maxChars={p.vertical ? 13 : 13}
+      align={p.vertical ? "center" : "left"}
+      color={(w) => (norm(w.w) === "pdf" ? C.red : C.white)}
+      styleFor={(_, l) => ({ transform: `scale(${pop(l, fps, 1.8)})` })}
+    />
+  );
+  return (
+    <AbsoluteFill style={{ background: `radial-gradient(circle at 70% 50%, #24050a 0%, ${C.black} 60%)`, justifyContent: "center", alignItems: "center" }}>
+      <div style={{ display: "flex", flexDirection: p.vertical ? "column" : "row", alignItems: "center", gap: p.vertical ? 90 : 60 }}>
+        {text}
+        {docs}
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+/* ---------------- PREIS (mit MwSt.-Hinweis) ---------------- */
+export const Preis: React.FC<BeatProps> = (p) => {
+  const { fps } = useVideoConfig();
+  const iNum = wordIndex(p.words, [norm(BRAND.price.split(" ")[0])], 1);
+  const fPrefix = p.words[0].f;
+  const fNum = p.words[iNum].f;
+  const fUnit = p.words[Math.min(p.words.length - 1, iNum + 2)].f;
+  const a = (f: number, stiff = 220) => spring({ frame: p.frame - f, fps, config: { damping: 12, stiffness: stiff } });
+  const num = a(fNum, 300);
+  const unit = a(fUnit);
+  const pre = a(fPrefix);
+  const u = p.vertical ? 1 : 1.1;
+  const ring = interpolate(p.frame - fNum, [0, 18], [0, 1], clamp);
+  return (
+    <AbsoluteFill style={{ background: `radial-gradient(circle at 50% 50%, #3a0008 0%, ${C.black} 62%)`, justifyContent: "center", alignItems: "center" }}>
+      <div
+        style={{
+          position: "absolute",
+          width: 760 * u,
+          height: 760 * u,
+          borderRadius: "50%",
+          border: `6px solid ${C.red}`,
+          opacity: (1 - ring) * 0.8 * (p.frame >= fNum ? 1 : 0),
+          transform: `scale(${0.5 + ring * 0.9})`,
+        }}
+      />
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
+        <div style={{ fontFamily: FONT.display, fontSize: 110 * u, color: C.white, textTransform: "uppercase", opacity: p.frame < fPrefix ? 0 : 1, transform: `translateY(${(1 - pre) * -60}px)` }}>
+          {BRAND.pricePrefix}
+        </div>
+        <div
+          style={{
+            fontFamily: FONT.display,
+            fontSize: 380 * u,
+            lineHeight: 0.95,
+            color: C.white,
+            opacity: p.frame < fNum ? 0 : 1,
+            transform: `scale(${interpolate(num, [0, 1], [2.2, 1])})`,
+            filter: `blur(${interpolate(p.frame - fNum, [0, 3], [8, 0], clamp)}px)`,
+            textShadow: `0 0 80px ${C.red}AA`,
+            whiteSpace: "nowrap",
+          }}
+        >
+          {BRAND.price}
+        </div>
+        <div style={{ fontFamily: FONT.display, fontSize: 120 * u, color: C.red, textTransform: "uppercase", opacity: p.frame < fUnit ? 0 : 1, transform: `translateY(${(1 - unit) * 50}px)` }}>
+          {p.words.slice(iNum + 2).map((w) => clean(w.w).replace(/[.,!?]$/, "")).join(" ")}
+        </div>
+        <div style={{ marginTop: 26 * u, fontFamily: FONT.ui, fontSize: 36 * u, color: "rgba(255,255,255,.75)", letterSpacing: "0.04em", opacity: p.frame < fNum ? 0 : 1 }}>
+          {BRAND.priceNote}
+        </div>
       </div>
     </AbsoluteFill>
   );

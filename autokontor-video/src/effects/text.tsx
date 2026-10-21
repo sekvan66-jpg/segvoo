@@ -1,6 +1,6 @@
 import React from "react";
 import { AbsoluteFill, interpolate, random, spring, useVideoConfig } from "remotion";
-import { BeatProps, BigWords, EASE, WordF, clamp, clean, pop, shake } from "../lib";
+import { BeatProps, BigWords, EASE, WordF, clamp, clean, isEmph, pop, shake } from "../lib";
 import { C, FONT } from "../theme";
 
 const Center: React.FC<{ children: React.ReactNode; style?: React.CSSProperties }> = ({ children, style }) => (
@@ -203,6 +203,8 @@ export const Morph: React.FC<BeatProps & { occ: number }> = (p) => {
 export const Type: React.FC<BeatProps> = (p) => {
   const words = p.words;
   const lastI = words.length - 1;
+  // rot markiert: Wörter mit *Sternchen* im Skript, sonst das letzte Wort
+  const marked = words.some((w) => isEmph(w.w)) ? words.filter((w) => isEmph(w.w)) : [words[lastI]];
   const typed = (w: WordF) => {
     const txt = clean(w.w);
     const n = Math.round(interpolate(p.frame, [w.f, Math.max(w.f + 1, w.fe - 1)], [0, txt.length], clamp));
@@ -210,7 +212,8 @@ export const Type: React.FC<BeatProps> = (p) => {
   };
   const full = words.map((w) => clean(w.w)).join(" ");
   const inner = p.width - gutter(p) * 2 - 80;
-  const size = Math.min(p.vertical ? 120 : 110, inner / (Math.min(full.length, p.vertical ? 11 : 22) * 0.62));
+  const longestWord = Math.max(...words.map((w) => clean(w.w).length));
+  const size = Math.min(p.vertical ? 120 : 110, inner / (Math.max(longestWord + 1, Math.min(full.length, p.vertical ? 11 : 22)) * 0.62));
   const lines: WordF[][] = [];
   let cur: WordF[] = [];
   let len = 0;
@@ -224,7 +227,7 @@ export const Type: React.FC<BeatProps> = (p) => {
   lines.push(cur);
   const activeLine = lines.findIndex((l) => l.some((w) => p.frame < w.fe));
   const cursorOn = Math.floor(p.frame / 8) % 2 === 0;
-  const boxIn = interpolate(p.frame, [words[lastI].fe - 2, words[lastI].fe + 4], [0, 1], { ...clamp, easing: EASE });
+  const boxIn = (w: WordF) => interpolate(p.frame, [w.fe - 2, w.fe + 4], [0, 1], { ...clamp, easing: EASE });
   return (
     <Center
       style={{
@@ -250,10 +253,10 @@ export const Type: React.FC<BeatProps> = (p) => {
         {lines.map((line, li) => (
           <div key={li} style={{ fontFamily: FONT.mono, fontWeight: 700, fontSize: size, color: C.white, lineHeight: 1.25, whiteSpace: "nowrap" }}>
             {line.map((w, wi) => {
-              const isLast = w.i === lastI;
+              const isMarked = marked.includes(w);
               return (
                 <span key={w.i} style={{ position: "relative", marginRight: wi < line.length - 1 ? "0.6em" : 0 }}>
-                  {isLast && (
+                  {isMarked && (
                     <span
                       style={{
                         position: "absolute",
@@ -262,7 +265,7 @@ export const Type: React.FC<BeatProps> = (p) => {
                         top: "0.05em",
                         bottom: "0.02em",
                         background: C.red,
-                        transform: `scaleX(${boxIn})`,
+                        transform: `scaleX(${boxIn(w)})`,
                         transformOrigin: "left",
                         borderRadius: 6,
                       }}

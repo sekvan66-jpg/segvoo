@@ -1,5 +1,4 @@
 node_modules/
-.venv/
+.venv
 out/
-public/voice.wav
-public/voice-*.json
+models/

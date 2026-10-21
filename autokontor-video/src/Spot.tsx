@@ -1,14 +1,14 @@
 import React from "react";
 import { AbsoluteFill, Audio, Sequence, interpolate, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import timeline from "./data/timeline.json";
-import { Beat, BeatProps, EASE, clamp, toFrames } from "./lib";
+import { Beat, BeatProps, EASE, cardWords, clamp, toFrames } from "./lib";
 import { Flash, Glitch, Morph, Slam, Stretch, Type } from "./effects/text";
-import { End, Laptop, Lock, OS } from "./effects/scenes";
+import { Doc, End, Laptop, Lock, OS, Preis } from "./effects/scenes";
 import { BRAND, C, FONT, FPS } from "./theme";
 
 const beats = timeline.beats as Beat[];
 
-const EFFECTS: Record<string, React.FC<any>> = { slam: Slam, glitch: Glitch, stretch: Stretch, flash: Flash, morph: Morph, type: Type, laptop: Laptop, lock: Lock, os: OS, end: End };
+const EFFECTS: Record<string, React.FC<any>> = { slam: Slam, glitch: Glitch, stretch: Stretch, flash: Flash, morph: Morph, type: Type, laptop: Laptop, lock: Lock, os: OS, doc: Doc, preis: Preis, end: End };
 
 /** Ein Bild: Kamera-Punch beim Schnitt + langsamer Drift. */
 const BeatView: React.FC<{ beat: Beat; index: number; occ: number; dur: number }> = ({ beat, index, occ, dur }) => {
@@ -87,7 +87,9 @@ const SFX_FOR: Record<string, (b: Beat) => { at: number; file: "impact" | "whoos
   type: (b) => [{ at: b.start, file: "glitch", vol: 0.3 }],
   laptop: (b) => [{ at: b.start, file: "whoosh", vol: 0.8 }],
   lock: (b) => [{ at: b.start + 0.3, file: "impact", vol: 0.9 }],
-  os: (b) => b.words.slice(0, 3).map((w) => ({ at: w.start, file: "impact" as const, vol: 0.45 })),
+  os: (b) => cardWords(b.words).map((w) => ({ at: w.start, file: "impact" as const, vol: 0.45 })),
+  doc: (b) => [{ at: b.start, file: "whoosh", vol: 0.7 }, ...b.words.filter((w) => /pdf/i.test(w.w)).map((w) => ({ at: w.start, file: "impact" as const, vol: 0.6 }))],
+  preis: (b) => [{ at: b.start, file: "whoosh", vol: 0.6 }, ...b.words.filter((w) => /\d/.test(w.w)).map((w) => ({ at: w.start, file: "impact" as const, vol: 0.9 }))],
   end: (b) => [{ at: b.start, file: "whoosh", vol: 0.8 }, { at: b.start + 0.05, file: "impact", vol: 0.8 }],
 };
 

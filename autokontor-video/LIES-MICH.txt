@@ -21,6 +21,13 @@ OPTIONAL IN DEN ORDNER "public" LEGEN:
   screenshot.png     Bild deiner Software -> erscheint im Laptop
   musik.mp3          Hintergrundmusik (z. B. aus Suno: "dark trap beat, hard hits")
 
+STIMME OHNE INTERNET (Alternative zu 2-STIMME.bat):
+  .venv\Scripts\pip install "coqui-tts[codec]" "gruut[de]"     (einmalig)
+  .venv\Scripts\python tools\voice_offline.py
+  node tools\build-timeline.mjs
+  -> Sprecher "Thorsten", Wort-Timing kommt direkt mit, Whisper nicht nötig.
+  Spricht ein Wort falsch? In aussprache.txt eintragen (z. B. "Mac = Mäck").
+
 TEXT ÄNDERN:
   skript.txt öffnen – jede Zeile ist ein Bild:  effekt | Text
   Danach 2-STIMME.bat und 3-VIDEO.bat erneut.

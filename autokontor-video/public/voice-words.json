@@ -1,0 +1,662 @@
+[
+  {
+    "word": "Du",
+    "start": 0.04,
+    "end": 0.272
+  },
+  {
+    "word": "verkaufst",
+    "start": 0.342,
+    "end": 0.748
+  },
+  {
+    "word": "Gebrauchtwagen",
+    "start": 0.806,
+    "end": 1.549
+  },
+  {
+    "word": "und",
+    "start": 1.654,
+    "end": 1.747
+  },
+  {
+    "word": "hast",
+    "start": 1.781,
+    "end": 1.956
+  },
+  {
+    "word": "Zettel,",
+    "start": 2.014,
+    "end": 2.432
+  },
+  {
+    "word": "Excel",
+    "start": 2.629,
+    "end": 3.059
+  },
+  {
+    "word": "und",
+    "start": 3.198,
+    "end": 3.372
+  },
+  {
+    "word": "Ordner",
+    "start": 3.43,
+    "end": 3.755
+  },
+  {
+    "word": "überall?",
+    "start": 3.836,
+    "end": 4.231
+  },
+  {
+    "word": "Damit",
+    "start": 4.711,
+    "end": 5.001
+  },
+  {
+    "word": "ist",
+    "start": 5.083,
+    "end": 5.222
+  },
+  {
+    "word": "jetzt",
+    "start": 5.292,
+    "end": 5.536
+  },
+  {
+    "word": "Schluss.",
+    "start": 5.617,
+    "end": 5.849
+  },
+  {
+    "word": "Das",
+    "start": 6.329,
+    "end": 6.619
+  },
+  {
+    "word": "ist",
+    "start": 6.712,
+    "end": 6.817
+  },
+  {
+    "word": "AutoKontor,",
+    "start": 6.909,
+    "end": 7.641
+  },
+  {
+    "word": "die",
+    "start": 7.78,
+    "end": 7.85
+  },
+  {
+    "word": "Software",
+    "start": 7.92,
+    "end": 8.303
+  },
+  {
+    "word": "für",
+    "start": 8.372,
+    "end": 8.5
+  },
+  {
+    "word": "kleine",
+    "start": 8.535,
+    "end": 8.825
+  },
+  {
+    "word": "Gebrauchtwagenhändler.",
+    "start": 8.883,
+    "end": 10.067
+  },
+  {
+    "word": "Sie",
+    "start": 10.547,
+    "end": 10.733
+  },
+  {
+    "word": "läuft",
+    "start": 10.826,
+    "end": 11.116
+  },
+  {
+    "word": "direkt",
+    "start": 11.174,
+    "end": 11.488
+  },
+  {
+    "word": "auf",
+    "start": 11.546,
+    "end": 11.743
+  },
+  {
+    "word": "deinem",
+    "start": 11.836,
+    "end": 12.08
+  },
+  {
+    "word": "PC,",
+    "start": 12.138,
+    "end": 12.614
+  },
+  {
+    "word": "unter",
+    "start": 12.893,
+    "end": 13.102
+  },
+  {
+    "word": "Windows,",
+    "start": 13.136,
+    "end": 13.682
+  },
+  {
+    "word": "Mac",
+    "start": 13.821,
+    "end": 14.112
+  },
+  {
+    "word": "und",
+    "start": 14.297,
+    "end": 14.414
+  },
+  {
+    "word": "Linux.",
+    "start": 14.506,
+    "end": 14.901
+  },
+  {
+    "word": "Du",
+    "start": 15.296,
+    "end": 15.528
+  },
+  {
+    "word": "legst",
+    "start": 15.609,
+    "end": 15.842
+  },
+  {
+    "word": "deine",
+    "start": 15.876,
+    "end": 16.097
+  },
+  {
+    "word": "Fahrzeuge",
+    "start": 16.202,
+    "end": 16.817
+  },
+  {
+    "word": "und",
+    "start": 16.875,
+    "end": 17.014
+  },
+  {
+    "word": "Kunden",
+    "start": 17.13,
+    "end": 17.455
+  },
+  {
+    "word": "an.",
+    "start": 17.525,
+    "end": 17.688
+  },
+  {
+    "word": "Mit",
+    "start": 18.168,
+    "end": 18.272
+  },
+  {
+    "word": "wenigen",
+    "start": 18.4,
+    "end": 18.76
+  },
+  {
+    "word": "Klicks",
+    "start": 18.806,
+    "end": 19.004
+  },
+  {
+    "word": "erstellst",
+    "start": 19.05,
+    "end": 19.375
+  },
+  {
+    "word": "du",
+    "start": 19.41,
+    "end": 19.48
+  },
+  {
+    "word": "Kaufverträge",
+    "start": 19.538,
+    "end": 20.176
+  },
+  {
+    "word": "und",
+    "start": 20.234,
+    "end": 20.35
+  },
+  {
+    "word": "Rechnungen",
+    "start": 20.408,
+    "end": 20.896
+  },
+  {
+    "word": "als",
+    "start": 20.931,
+    "end": 21.035
+  },
+  {
+    "word": "PDF,",
+    "start": 21.128,
+    "end": 21.535
+  },
+  {
+    "word": "auch",
+    "start": 21.952,
+    "end": 22.092
+  },
+  {
+    "word": "als",
+    "start": 22.173,
+    "end": 22.278
+  },
+  {
+    "word": "E-Rechnung",
+    "start": 22.336,
+    "end": 22.777
+  },
+  {
+    "word": "im",
+    "start": 22.846,
+    "end": 22.916
+  },
+  {
+    "word": "Format",
+    "start": 22.963,
+    "end": 23.241
+  },
+  {
+    "word": "ZUGFeRD",
+    "start": 23.276,
+    "end": 23.775
+  },
+  {
+    "word": "oder",
+    "start": 23.868,
+    "end": 24.077
+  },
+  {
+    "word": "XRechnung.",
+    "start": 24.112,
+    "end": 24.692
+  },
+  {
+    "word": "Wenn",
+    "start": 24.959,
+    "end": 25.099
+  },
+  {
+    "word": "mal",
+    "start": 25.145,
+    "end": 25.273
+  },
+  {
+    "word": "was",
+    "start": 25.319,
+    "end": 25.401
+  },
+  {
+    "word": "schiefgeht,",
+    "start": 25.482,
+    "end": 26.039
+  },
+  {
+    "word": "schreibst",
+    "start": 26.248,
+    "end": 26.562
+  },
+  {
+    "word": "du",
+    "start": 26.596,
+    "end": 26.678
+  },
+  {
+    "word": "eine",
+    "start": 26.713,
+    "end": 26.875
+  },
+  {
+    "word": "Stornorechnung.",
+    "start": 26.91,
+    "end": 27.572
+  },
+  {
+    "word": "Deine",
+    "start": 28.052,
+    "end": 28.342
+  },
+  {
+    "word": "Daten",
+    "start": 28.435,
+    "end": 28.748
+  },
+  {
+    "word": "bleiben",
+    "start": 28.83,
+    "end": 29.131
+  },
+  {
+    "word": "auf",
+    "start": 29.178,
+    "end": 29.259
+  },
+  {
+    "word": "deinem",
+    "start": 29.329,
+    "end": 29.573
+  },
+  {
+    "word": "Rechner,",
+    "start": 29.631,
+    "end": 29.932
+  },
+  {
+    "word": "nicht",
+    "start": 30.165,
+    "end": 30.327
+  },
+  {
+    "word": "in",
+    "start": 30.374,
+    "end": 30.467
+  },
+  {
+    "word": "einer",
+    "start": 30.525,
+    "end": 30.745
+  },
+  {
+    "word": "fremden",
+    "start": 30.826,
+    "end": 31.152
+  },
+  {
+    "word": "Cloud.",
+    "start": 31.21,
+    "end": 31.535
+  },
+  {
+    "word": "AutoKontor",
+    "start": 32.015,
+    "end": 32.827
+  },
+  {
+    "word": "sichert",
+    "start": 32.943,
+    "end": 33.176
+  },
+  {
+    "word": "alles",
+    "start": 33.315,
+    "end": 33.594
+  },
+  {
+    "word": "automatisch",
+    "start": 33.663,
+    "end": 34.371
+  },
+  {
+    "word": "jeden",
+    "start": 34.441,
+    "end": 34.627
+  },
+  {
+    "word": "Tag.",
+    "start": 34.673,
+    "end": 34.94
+  },
+  {
+    "word": "Und",
+    "start": 35.42,
+    "end": 35.548
+  },
+  {
+    "word": "weil",
+    "start": 35.629,
+    "end": 35.78
+  },
+  {
+    "word": "Rechnungen",
+    "start": 35.873,
+    "end": 36.291
+  },
+  {
+    "word": "gesperrt",
+    "start": 36.361,
+    "end": 36.767
+  },
+  {
+    "word": "und",
+    "start": 36.837,
+    "end": 36.988
+  },
+  {
+    "word": "protokolliert",
+    "start": 37.057,
+    "end": 37.591
+  },
+  {
+    "word": "werden,",
+    "start": 37.649,
+    "end": 37.928
+  },
+  {
+    "word": "unterstützt",
+    "start": 38.102,
+    "end": 38.555
+  },
+  {
+    "word": "AutoKontor",
+    "start": 38.613,
+    "end": 39.252
+  },
+  {
+    "word": "die",
+    "start": 39.286,
+    "end": 39.356
+  },
+  {
+    "word": "GoBD-Anforderungen.",
+    "start": 39.426,
+    "end": 40.715
+  },
+  {
+    "word": "Du",
+    "start": 41.195,
+    "end": 41.38
+  },
+  {
+    "word": "brauchst",
+    "start": 41.485,
+    "end": 41.81
+  },
+  {
+    "word": "kein",
+    "start": 41.903,
+    "end": 42.088
+  },
+  {
+    "word": "Internet.",
+    "start": 42.17,
+    "end": 42.623
+  },
+  {
+    "word": "Nur",
+    "start": 43.103,
+    "end": 43.323
+  },
+  {
+    "word": "einmal",
+    "start": 43.416,
+    "end": 43.729
+  },
+  {
+    "word": "im",
+    "start": 43.776,
+    "end": 43.869
+  },
+  {
+    "word": "Monat",
+    "start": 43.938,
+    "end": 44.136
+  },
+  {
+    "word": "prüft",
+    "start": 44.275,
+    "end": 44.531
+  },
+  {
+    "word": "AutoKontor",
+    "start": 44.635,
+    "end": 45.285
+  },
+  {
+    "word": "kurz",
+    "start": 45.39,
+    "end": 45.68
+  },
+  {
+    "word": "deine",
+    "start": 45.808,
+    "end": 46.075
+  },
+  {
+    "word": "Lizenz.",
+    "start": 46.156,
+    "end": 46.62
+  },
+  {
+    "word": "Ab",
+    "start": 47.05,
+    "end": 47.213
+  },
+  {
+    "word": "19",
+    "start": 47.34,
+    "end": 47.735
+  },
+  {
+    "word": "€",
+    "start": 47.816,
+    "end": 48.072
+  },
+  {
+    "word": "im",
+    "start": 48.165,
+    "end": 48.223
+  },
+  {
+    "word": "Monat,",
+    "start": 48.304,
+    "end": 48.722
+  },
+  {
+    "word": "monatlich",
+    "start": 48.873,
+    "end": 49.36
+  },
+  {
+    "word": "kündbar,",
+    "start": 49.418,
+    "end": 50.011
+  },
+  {
+    "word": "die",
+    "start": 50.278,
+    "end": 50.347
+  },
+  {
+    "word": "ersten",
+    "start": 50.417,
+    "end": 50.672
+  },
+  {
+    "word": "7",
+    "start": 50.788,
+    "end": 50.963
+  },
+  {
+    "word": "Tage",
+    "start": 51.009,
+    "end": 51.322
+  },
+  {
+    "word": "kostenlos.",
+    "start": 51.369,
+    "end": 52.007
+  },
+  {
+    "word": "Für",
+    "start": 52.487,
+    "end": 52.696
+  },
+  {
+    "word": "zwei",
+    "start": 52.743,
+    "end": 53.01
+  },
+  {
+    "word": "Geräte,",
+    "start": 53.126,
+    "end": 53.579
+  },
+  {
+    "word": "zum",
+    "start": 53.799,
+    "end": 53.927
+  },
+  {
+    "word": "Beispiel",
+    "start": 53.985,
+    "end": 54.322
+  },
+  {
+    "word": "Büro",
+    "start": 54.38,
+    "end": 54.809
+  },
+  {
+    "word": "und",
+    "start": 54.972,
+    "end": 55.1
+  },
+  {
+    "word": "Laptop.",
+    "start": 55.216,
+    "end": 55.727
+  },
+  {
+    "word": "Jetzt",
+    "start": 56.207,
+    "end": 56.567
+  },
+  {
+    "word": "AutoKontor",
+    "start": 56.648,
+    "end": 57.228
+  },
+  {
+    "word": "herunterladen",
+    "start": 57.286,
+    "end": 57.995
+  },
+  {
+    "word": "und",
+    "start": 58.087,
+    "end": 58.204
+  },
+  {
+    "word": "testen!",
+    "start": 58.25,
+    "end": 58.668
+  }
+]

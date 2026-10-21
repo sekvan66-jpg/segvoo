@@ -1,4 +1,4 @@
-# AutoKontor – Sprechertext + Storyboard
+# AutoKontor – Sprechertext + Storyboard (Erklärvideo, ca. 60 Sekunden)
 # Eine Zeile = ein Bild im Video. Format:   effekt | Text, der gesprochen und gezeigt wird
 #
 # Effekte:
@@ -7,27 +7,55 @@
 #   stretch – Wort wird breit gezogen mit Bewegungsunschärfe
 #   flash   – roter Hintergrund, schwarze Schrift
 #   morph   – rote Form verwandelt sich hinter dem Wort (Kreis → Quadrat → Stern)
-#   type    – Schreibmaschine in Code-Schrift mit roter Markierung
+#   type    – Schreibmaschine in Code-Schrift mit roter Markierung (*Wort* = rot markiert, sonst das letzte Wort)
 #   laptop  – Laptop mit deiner Software (public/screenshot.png) + Text
 #   lock    – Schloss schließt sich + Text
-#   os      – drei Karten (eine pro Wort, z. B. Windows. Mac. Linux.)
-#   end     – Endbild: Logo, Slogan, Button (immer als letzte Zeile)
+#   os      – Karten mit Symbol für Windows / Mac / Linux / Büro / Laptop (erscheinen, wenn das Wort fällt)
+#   doc     – Dokumente (Kaufvertrag, Rechnung als PDF) fliegen ins Bild + Text
+#   preis   – großer Preis mit kleinem Hinweis „zzgl. MwSt.“ (Text in src/theme.ts)
+#   end     – Endbild: Logo, Slogan, Button, Preis (immer als letzte Zeile)
 #
-# Zeilen mit # werden ignoriert. Nach jeder Änderung:  /stimme  (oder npm run timeline ohne Stimme)
+# Zeilen mit # werden ignoriert. Aussprache schwieriger Wörter: aussprache.txt
+# Nach jeder Änderung:  /stimme  (oder npm run timeline ohne Stimme)
 
-slam    | Nein.
-glitch  | Keine Cloud.
-stretch | Keine Abos,
-flash   | die dich festhalten.
-slam    | Kannst du das glauben?
-laptop  | Deine Händlersoftware –
-type    | direkt auf deinem PC.
-morph   | Fahrzeuge.
-morph   | Kunden.
-morph   | Verträge.
-flash   | Alles an einem Ort.
-lock    | Deine Daten bleiben bei dir.
-stretch | Klar im Aufbau.
-glitch  | Klar im Alltag.
-os      | Windows. Mac. Linux.
-end     | AutoKontor. Dein Handel. In deiner Hand. Jetzt sieben Tage kostenlos testen.
+# Szene 1 – Problem
+slam    | Du verkaufst Gebrauchtwagen
+stretch | und hast Zettel,
+glitch  | Excel
+morph   | und Ordner überall?
+flash   | Damit ist jetzt Schluss.
+
+# Szene 2 – Was ist es
+laptop  | Das ist AutoKontor,
+slam    | die Software für kleine Gebrauchtwagenhändler.
+type    | Sie läuft direkt auf deinem PC,
+os      | unter Windows, Mac und Linux.
+
+# Szene 3 – Was man damit macht
+morph   | Du legst deine Fahrzeuge
+morph   | und Kunden an.
+stretch | Mit wenigen Klicks
+doc     | erstellst du Kaufverträge und Rechnungen als PDF,
+type    | auch als *E-Rechnung* im Format *ZUGFeRD* oder *XRechnung.*
+glitch  | Wenn mal was schiefgeht,
+slam    | schreibst du eine Stornorechnung.
+
+# Szene 4 – Sicherheit
+lock    | Deine Daten bleiben auf deinem Rechner,
+glitch  | nicht in einer fremden Cloud.
+stretch | AutoKontor sichert alles automatisch
+flash   | jeden Tag.
+type    | Und weil Rechnungen *gesperrt* und *protokolliert* werden,
+slam    | unterstützt AutoKontor die GoBD-Anforderungen.
+
+# Szene 5 – Offline
+glitch  | Du brauchst kein Internet.
+type    | Nur *einmal* *im* *Monat* prüft AutoKontor kurz deine Lizenz.
+
+# Szene 6 – Preis und Aufruf
+preis   | Ab 19 € im Monat,
+stretch | monatlich kündbar,
+flash   | die ersten 7 Tage kostenlos.
+slam    | Für zwei Geräte,
+os      | zum Beispiel Büro und Laptop.
+end     | Jetzt AutoKontor herunterladen und testen!

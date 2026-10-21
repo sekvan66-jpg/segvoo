@@ -5,6 +5,12 @@ export const BRAND = {
   slogan: "Dein Handel. In deiner Hand.",
   cta: "Jetzt 7 Tage kostenlos testen",
   platforms: "Windows  /  Mac  /  Linux",
+  // Preis: erscheint im Bild „preis“ und im Endbild – immer mit MwSt.-Hinweis
+  price: "19 €",
+  pricePrefix: "ab",
+  priceUnit: "/ Monat",
+  priceNote: "zzgl. MwSt.",
+  priceExtras: "monatlich kündbar  ·  7 Tage kostenlos  ·  2 Geräte",
   corner: "DEIN HANDEL. IN DEINER HAND.",
 };
 

@@ -13,7 +13,7 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const p = (...x) => path.join(root, ...x);
-const EFFECTS = ["slam", "glitch", "stretch", "flash", "morph", "type", "laptop", "lock", "os", "end"];
+const EFFECTS = ["slam", "glitch", "stretch", "flash", "morph", "type", "laptop", "lock", "os", "doc", "preis", "end"];
 
 // ---------- Skript lesen ----------
 const beats = fs

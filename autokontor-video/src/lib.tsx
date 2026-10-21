@@ -18,7 +18,10 @@ export const toFrames = (beat: Beat): WordF[] =>
     fe: Math.max(1, Math.round((w.end - beat.start) * FPS)),
   }));
 
-export const clean = (w: string) => w.replace(/[–-]$/, "").trim();
+export const clean = (w: string) => w.replace(/\*/g, "").replace(/[–-]$/, "").trim();
+
+/** Hervorgehobenes Wort: in skript.txt mit Sternchen markiert, z. B. *gesperrt* */
+export const isEmph = (w: string) => w.includes("*");
 
 /** Wörter in Zeilen aufteilen, damit sie riesig und trotzdem lesbar sind. */
 export function layoutLines(words: WordF[], maxChars: number): WordF[][] {
@@ -110,3 +113,11 @@ export const BigWords: React.FC<{
     </div>
   );
 };
+
+/** Karten im Bild „os“: bekannte Wörter bekommen eine Karte mit eigenem Symbol, die übrigen Wörter werden nur gesprochen. */
+export const CARD_ICONS: Record<string, number> = { windows: 0, büro: 0, mac: 1, laptop: 1, linux: 2 };
+export const cardKey = (w: string) => w.toLowerCase().replace(/[^a-zäöüß0-9]/g, "");
+export function cardWords<T extends { w: string }>(words: T[]): T[] {
+  const hits = words.filter((x) => cardKey(x.w) in CARD_ICONS);
+  return hits.length ? hits : words.slice(0, 3);
+}

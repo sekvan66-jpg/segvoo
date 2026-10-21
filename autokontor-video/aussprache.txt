@@ -1,0 +1,42 @@
+# Aussprache für die Offline-Stimme (tools/voice_offline.py)
+# Format:   Wort = so wird es gesprochen
+#   - normaler Text:  Mac = Mäck
+#   - Lautschrift (IPA) zwischen Schrägstrichen, wenn Text nicht reicht:  PC = /peːtseː/
+# Im Video wird immer das Wort aus skript.txt angezeigt, gesprochen wird die rechte Seite.
+# Groß-/Kleinschreibung links egal, Satzzeichen am Wortende werden automatisch beachtet.
+
+AutoKontor            = /aʊtoːkɔntoːʁ/
+Gebrauchtwagen        = /ɡəbʁaʊxtvaːɡən/
+Gebrauchtwagenhändler = /ɡəbʁaʊxtvaːɡənhɛndlɐ/
+Software              = /sɔftvɛːɐ/
+Excel                 = /ʔɛksəl/
+PC                    = /peːtseː/
+PDF                   = /peːdeːʔɛf/
+ZUGFeRD               = /tsuːkfɛʁt/
+XRechnung             = /ʔɪksʁɛçnʊŋ/
+E-Rechnung            = /ʔeːʁɛçnʊŋ/
+GoBD-Anforderungen    = /ɡeːʔoːbeːdeː ʔanfɔʁdəʁʊŋən/
+Kaufverträge          = /kaʊffɛɐtʁɛːɡə/
+Stornorechnung        = /ʃtɔʁnoːʁɛçnʊŋ/
+automatisch           = /aʊtoːmaːtɪʃ/
+unterstützt           = /ʊntɐʃtʏtst/
+sichert               = /zɪçɐt/
+einmal                = /ʔaɪnmaːl/
+Windows               = /vɪndoʊs/
+Mac                   = /mɛk/
+Linux                 = /liːnʊks/
+Cloud                 = /klaʊt/
+Laptop                = /lɛptɔp/
+Internet              = /ʔɪntɐnɛt/
+19                    = neunzehn
+€                     = Euro
+7                     = sieben
+verkaufst             = /fɛɐkaʊfst/
+wenigen               = /veːnɪɡən/
+erstellst             = /ʔɛɐʃtɛlst/
+schreibst             = /ʃʁaɪpst/
+einer                 = /ʔaɪnɐ/
+brauchst              = /bʁaʊxst/
+gesperrt              = /ɡəʃpɛʁt/
+protokolliert         = /pʁotokɔliːɐt/
+Schluss               = /ʃlʊs/
