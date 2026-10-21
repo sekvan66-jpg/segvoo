@@ -8,7 +8,7 @@ import { CarIcon, Card, Check, Headline, Orb, Pill, Stage, at, useAppear } from 
 /** Inhalt mittig; im Hochformat etwas größer gezoomt, damit das Bild gefüllt ist. */
 const Center: React.FC<{ children: React.ReactNode; gap?: number; style?: React.CSSProperties }> = ({ children, gap = 0, style }) => {
   const { width, height } = useVideoConfig();
-  const zoom = height > width ? 1.15 : 1;
+  const zoom = height > width ? 1.15 : 1.25;
   return (
     <AbsoluteFill style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap, transform: `scale(${zoom})`, ...style }}>{children}</AbsoluteFill>
   );
@@ -87,7 +87,7 @@ export const Chaos: React.FC<BeatProps> = (p) => {
         );
       })}
       <Center style={{ zIndex: 20 }}>
-        <Headline words={p.words} frame={frame} size={p.vertical ? 104 : 110} color="#fff" width={W * 0.86} style={{ textShadow: "0 10px 40px rgba(0,0,0,.6)" }} />
+        <Headline words={p.words} frame={frame} size={p.vertical ? 104 : 110} color="#fff" width={W * (p.vertical ? 0.76 : 0.68)} style={{ textShadow: "0 10px 40px rgba(0,0,0,.6)" }} />
       </Center>
     </Stage>
   );
@@ -179,7 +179,7 @@ export const LogoReveal: React.FC<BeatProps> = (p) => {
 export const Kugel: React.FC<BeatProps> = (p) => {
   const ap = useAppear();
   const drop = ap(p.frame, 2, 140, 9);
-  const size = p.vertical ? 520 : 400;
+  const size = p.vertical ? 520 : 330;
   const squash = drop > 1 ? 1 + (drop - 1) * 0.6 : 1;
   return (
     <Stage frame={p.frame} seed="kugel" dots={9}>
