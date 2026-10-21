@@ -1,0 +1,33 @@
+# AutoKontor – Sprechertext + Storyboard
+# Eine Zeile = ein Bild im Video. Format:   effekt | Text, der gesprochen und gezeigt wird
+#
+# Effekte:
+#   slam    – Wörter knallen groß rein, Kamera wackelt
+#   glitch  – RGB-Glitch, verschobene Streifen
+#   stretch – Wort wird breit gezogen mit Bewegungsunschärfe
+#   flash   – roter Hintergrund, schwarze Schrift
+#   morph   – rote Form verwandelt sich hinter dem Wort (Kreis → Quadrat → Stern)
+#   type    – Schreibmaschine in Code-Schrift mit roter Markierung
+#   laptop  – Laptop mit deiner Software (public/screenshot.png) + Text
+#   lock    – Schloss schließt sich + Text
+#   os      – drei Karten (eine pro Wort, z. B. Windows. Mac. Linux.)
+#   end     – Endbild: Logo, Slogan, Button (immer als letzte Zeile)
+#
+# Zeilen mit # werden ignoriert. Nach jeder Änderung:  /stimme  (oder npm run timeline ohne Stimme)
+
+slam    | Nein.
+glitch  | Keine Cloud.
+stretch | Keine Abos,
+flash   | die dich festhalten.
+slam    | Kannst du das glauben?
+laptop  | Deine Händlersoftware –
+type    | direkt auf deinem PC.
+morph   | Fahrzeuge.
+morph   | Kunden.
+morph   | Verträge.
+flash   | Alles an einem Ort.
+lock    | Deine Daten bleiben bei dir.
+stretch | Klar im Aufbau.
+glitch  | Klar im Alltag.
+os      | Windows. Mac. Linux.
+end     | AutoKontor. Dein Handel. In deiner Hand. Jetzt sieben Tage kostenlos testen.

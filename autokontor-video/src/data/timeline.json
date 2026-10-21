@@ -1,0 +1,394 @@
+{
+  "source": "schaetzung",
+  "duration": 31.044999999999995,
+  "audio": {
+    "voice": null,
+    "music": null,
+    "sfx": {
+      "impact": "sfx/impact.wav",
+      "whoosh": "sfx/whoosh.wav",
+      "glitch": "sfx/glitch.wav"
+    }
+  },
+  "screenshot": null,
+  "beats": [
+    {
+      "effect": "slam",
+      "text": "Nein.",
+      "words": [
+        {
+          "w": "Nein.",
+          "start": 0.25,
+          "end": 0.63
+        }
+      ],
+      "start": 0,
+      "end": 0.8699999999999999
+    },
+    {
+      "effect": "glitch",
+      "text": "Keine Cloud.",
+      "words": [
+        {
+          "w": "Keine",
+          "start": 0.9299999999999999,
+          "end": 1.365
+        },
+        {
+          "w": "Cloud.",
+          "start": 1.385,
+          "end": 1.82
+        }
+      ],
+      "start": 0.8699999999999999,
+      "end": 2.06
+    },
+    {
+      "effect": "stretch",
+      "text": "Keine Abos,",
+      "words": [
+        {
+          "w": "Keine",
+          "start": 2.12,
+          "end": 2.555
+        },
+        {
+          "w": "Abos,",
+          "start": 2.575,
+          "end": 2.955
+        }
+      ],
+      "start": 2.06,
+      "end": 3.075
+    },
+    {
+      "effect": "flash",
+      "text": "die dich festhalten.",
+      "words": [
+        {
+          "w": "die",
+          "start": 3.1350000000000002,
+          "end": 3.4600000000000004
+        },
+        {
+          "w": "dich",
+          "start": 3.4800000000000004,
+          "end": 3.8600000000000003
+        },
+        {
+          "w": "festhalten.",
+          "start": 3.8800000000000003,
+          "end": 4.590000000000001
+        }
+      ],
+      "start": 3.075,
+      "end": 4.830000000000001
+    },
+    {
+      "effect": "slam",
+      "text": "Kannst du das glauben?",
+      "words": [
+        {
+          "w": "Kannst",
+          "start": 4.890000000000001,
+          "end": 5.380000000000001
+        },
+        {
+          "w": "du",
+          "start": 5.4,
+          "end": 5.67
+        },
+        {
+          "w": "das",
+          "start": 5.69,
+          "end": 6.015000000000001
+        },
+        {
+          "w": "glauben?",
+          "start": 6.035,
+          "end": 6.58
+        }
+      ],
+      "start": 4.830000000000001,
+      "end": 6.82
+    },
+    {
+      "effect": "laptop",
+      "text": "Deine Händlersoftware –",
+      "words": [
+        {
+          "w": "Deine",
+          "start": 6.88,
+          "end": 7.3149999999999995
+        },
+        {
+          "w": "Händlersoftware",
+          "start": 7.335,
+          "end": 8.32
+        }
+      ],
+      "start": 6.82,
+      "end": 8.36
+    },
+    {
+      "effect": "type",
+      "text": "direkt auf deinem PC.",
+      "words": [
+        {
+          "w": "direkt",
+          "start": 8.42,
+          "end": 8.91
+        },
+        {
+          "w": "auf",
+          "start": 8.93,
+          "end": 9.254999999999999
+        },
+        {
+          "w": "deinem",
+          "start": 9.275,
+          "end": 9.765
+        },
+        {
+          "w": "PC.",
+          "start": 9.785,
+          "end": 10.055
+        }
+      ],
+      "start": 8.36,
+      "end": 10.295
+    },
+    {
+      "effect": "morph",
+      "text": "Fahrzeuge.",
+      "words": [
+        {
+          "w": "Fahrzeuge.",
+          "start": 10.355,
+          "end": 11.01
+        }
+      ],
+      "start": 10.295,
+      "end": 11.25
+    },
+    {
+      "effect": "morph",
+      "text": "Kunden.",
+      "words": [
+        {
+          "w": "Kunden.",
+          "start": 11.31,
+          "end": 11.8
+        }
+      ],
+      "start": 11.25,
+      "end": 12.04
+    },
+    {
+      "effect": "morph",
+      "text": "Verträge.",
+      "words": [
+        {
+          "w": "Verträge.",
+          "start": 12.1,
+          "end": 12.7
+        }
+      ],
+      "start": 12.04,
+      "end": 12.94
+    },
+    {
+      "effect": "flash",
+      "text": "Alles an einem Ort.",
+      "words": [
+        {
+          "w": "Alles",
+          "start": 13,
+          "end": 13.435
+        },
+        {
+          "w": "an",
+          "start": 13.455,
+          "end": 13.725
+        },
+        {
+          "w": "einem",
+          "start": 13.745000000000001,
+          "end": 14.180000000000001
+        },
+        {
+          "w": "Ort.",
+          "start": 14.200000000000001,
+          "end": 14.525
+        }
+      ],
+      "start": 12.94,
+      "end": 14.765
+    },
+    {
+      "effect": "lock",
+      "text": "Deine Daten bleiben bei dir.",
+      "words": [
+        {
+          "w": "Deine",
+          "start": 14.825000000000001,
+          "end": 15.260000000000002
+        },
+        {
+          "w": "Daten",
+          "start": 15.280000000000001,
+          "end": 15.715000000000002
+        },
+        {
+          "w": "bleiben",
+          "start": 15.735000000000001,
+          "end": 16.28
+        },
+        {
+          "w": "bei",
+          "start": 16.3,
+          "end": 16.625
+        },
+        {
+          "w": "dir.",
+          "start": 16.645,
+          "end": 16.97
+        }
+      ],
+      "start": 14.765,
+      "end": 17.21
+    },
+    {
+      "effect": "stretch",
+      "text": "Klar im Aufbau.",
+      "words": [
+        {
+          "w": "Klar",
+          "start": 17.27,
+          "end": 17.65
+        },
+        {
+          "w": "im",
+          "start": 17.669999999999998,
+          "end": 17.939999999999998
+        },
+        {
+          "w": "Aufbau.",
+          "start": 17.959999999999997,
+          "end": 18.449999999999996
+        }
+      ],
+      "start": 17.21,
+      "end": 18.689999999999998
+    },
+    {
+      "effect": "glitch",
+      "text": "Klar im Alltag.",
+      "words": [
+        {
+          "w": "Klar",
+          "start": 18.749999999999996,
+          "end": 19.129999999999995
+        },
+        {
+          "w": "im",
+          "start": 19.149999999999995,
+          "end": 19.419999999999995
+        },
+        {
+          "w": "Alltag.",
+          "start": 19.439999999999994,
+          "end": 19.929999999999993
+        }
+      ],
+      "start": 18.689999999999998,
+      "end": 20.169999999999995
+    },
+    {
+      "effect": "os",
+      "text": "Windows. Mac. Linux.",
+      "words": [
+        {
+          "w": "Windows.",
+          "start": 20.229999999999993,
+          "end": 20.774999999999995
+        },
+        {
+          "w": "Mac.",
+          "start": 20.994999999999994,
+          "end": 21.319999999999993
+        },
+        {
+          "w": "Linux.",
+          "start": 21.539999999999996,
+          "end": 21.974999999999994
+        }
+      ],
+      "start": 20.169999999999995,
+      "end": 22.214999999999996
+    },
+    {
+      "effect": "end",
+      "text": "AutoKontor. Dein Handel. In deiner Hand. Jetzt sieben Tage kostenlos testen.",
+      "words": [
+        {
+          "w": "AutoKontor.",
+          "start": 22.274999999999995,
+          "end": 22.984999999999996
+        },
+        {
+          "w": "Dein",
+          "start": 23.204999999999995,
+          "end": 23.584999999999994
+        },
+        {
+          "w": "Handel.",
+          "start": 23.604999999999993,
+          "end": 24.09499999999999
+        },
+        {
+          "w": "In",
+          "start": 24.314999999999994,
+          "end": 24.584999999999994
+        },
+        {
+          "w": "deiner",
+          "start": 24.604999999999993,
+          "end": 25.09499999999999
+        },
+        {
+          "w": "Hand.",
+          "start": 25.114999999999995,
+          "end": 25.494999999999994
+        },
+        {
+          "w": "Jetzt",
+          "start": 25.714999999999996,
+          "end": 26.149999999999995
+        },
+        {
+          "w": "sieben",
+          "start": 26.169999999999995,
+          "end": 26.659999999999993
+        },
+        {
+          "w": "Tage",
+          "start": 26.679999999999996,
+          "end": 27.059999999999995
+        },
+        {
+          "w": "kostenlos",
+          "start": 27.079999999999995,
+          "end": 27.734999999999996
+        },
+        {
+          "w": "testen.",
+          "start": 27.754999999999995,
+          "end": 28.244999999999994
+        }
+      ],
+      "start": 22.214999999999996,
+      "end": 31.044999999999995
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+AUTOKONTOR WERBEVIDEO – SO GEHT'S
+==================================
+
+OHNE CLAUDE CODE (Doppelklick):
+  1-SETUP.bat      einmalig: installiert alles (ca. 10–20 Minuten)
+  2-STIMME.bat     erzeugt die Sprecherstimme + Timing
+  3-VIDEO.bat      rendert das fertige Video  ->  Ordner "out"
+  VORSCHAU-STUDIO.bat   Video im Browser ansehen und durchklicken
+
+MIT CLAUDE CODE (empfohlen):
+  Ordner in Claude Code öffnen und eintippen:
+  /vorbereiten     richtet alles ein und behebt Fehler selbst
+  /stimme          Stimme erzeugen (z. B. "/stimme energischer")
+  /video           prüft jedes Bild und rendert das Video
+  /aendern ...     z. B. "/aendern neuer Satz: Rechnungen in Sekunden"
+
+OPTIONAL IN DEN ORDNER "public" LEGEN:
+  meine-stimme.wav   15–20 Sekunden DEINE Stimme, ruhig und deutlich
+                     -> das Video spricht dann mit deiner Stimme
+  sprecher.mp3       fertige Sprachaufnahme (z. B. ElevenLabs) statt KI-Stimme
+  screenshot.png     Bild deiner Software -> erscheint im Laptop
+  musik.mp3          Hintergrundmusik (z. B. aus Suno: "dark trap beat, hard hits")
+
+TEXT ÄNDERN:
+  skript.txt öffnen – jede Zeile ist ein Bild:  effekt | Text
+  Danach 2-STIMME.bat und 3-VIDEO.bat erneut.
+  Endbild (Slogan, Button-Text): src/theme.ts
