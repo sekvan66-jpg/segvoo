@@ -3,7 +3,7 @@ import React from "react";
 import { AbsoluteFill, interpolate, random, useVideoConfig } from "remotion";
 import { BeatProps, EASE, clamp, clean, isEmph } from "../lib";
 import { BRAND, C, FONT, P } from "../theme";
-import { CarIcon, Card, Check, Headline, Orb, Pill, Stage, at, useAppear } from "./kit";
+import { Burst, CarIcon, Card, Check, Eyes, Headline, Orb, Pill, Stage, at, useAppear } from "./kit";
 
 /** Inhalt mittig; im Hochformat etwas größer gezoomt, damit das Bild gefüllt ist. */
 const Center: React.FC<{ children: React.ReactNode; gap?: number; style?: React.CSSProperties }> = ({ children, gap = 0, style }) => {
@@ -62,7 +62,7 @@ export const Chaos: React.FC<BeatProps> = (p) => {
     <Stage tone="dark" frame={frame} seed="chaos" dots={6}>
       {items.map((it, i) => {
         const z = random(`cz${i}`);
-        const ang = random(`ca${i}`) * Math.PI * 2;
+        const ang = random(`ca${i}`) * Math.PI * 2 + frame * 0.012 * (0.6 + z); // Wirbelsturm
         const rad = 0.3 + random(`cr${i}`) * 0.22;
         const x = W / 2 + Math.cos(ang) * W * rad * (p.vertical ? 1.15 : 1.4) + Math.sin((frame + i * 20) / 30) * 20;
         const y = H / 2 + Math.sin(ang) * H * rad * (p.vertical ? 0.95 : 0.9) + Math.cos((frame + i * 13) / 26) * 16;
@@ -102,6 +102,7 @@ export const Schluss: React.FC<BeatProps> = (p) => {
   const size = Math.min(260, (p.width * 0.86) / (word.length * 0.66));
   return (
     <Stage tone="orange" frame={p.frame} seed="schluss" dots={8}>
+      <Burst frame={p.frame} at={last.f} x={p.width / 2} y={p.height / 2 + 40} size={1.6} count={30} seed="schluss" colors={["#FFFFFF", "#FFE2CF", "#FFD2B5"]} />
       <Center gap={20}>
         <Headline words={p.words.slice(0, -1)} frame={p.frame} size={p.vertical ? 70 : 64} color="#fff" weight={700} />
         <div
@@ -171,24 +172,48 @@ export const LogoReveal: React.FC<BeatProps> = (p) => {
           </div>
         </div>
       </Center>
+      <Burst frame={p.frame} at={fName} x={p.width / 2} y={p.height / 2} size={1.3} count={26} seed="logo" />
     </Stage>
   );
 };
 
 /* ---------- 4. KUGEL: orange Kugel mit Auto, Akzentwort darunter ---------- */
-export const Kugel: React.FC<BeatProps> = (p) => {
+/** Kugel-Figur, die von oben ins Bild plumpst (mit Quetschen beim Aufprall). */
+const DropOrb: React.FC<{ size: number; frame: number; f: number; seed: number; look?: number; children?: React.ReactNode }> = ({ size, frame, f, seed, look = 0, children }) => {
   const ap = useAppear();
-  const drop = ap(p.frame, 2, 140, 9);
-  const size = p.vertical ? 520 : 330;
-  const squash = drop > 1 ? 1 + (drop - 1) * 0.6 : 1;
+  const drop = ap(frame, f, 140, 9);
+  const squash = drop > 1 ? 1 + (drop - 1) * 0.7 : 1;
+  const idle = 1 + Math.sin((frame + seed * 11) / 9) * 0.015;
+  return (
+    <div style={{ transform: `translateY(${(1 - drop) * -1000}px)`, opacity: frame < f ? 0 : 1 }}>
+      <Orb size={size} sx={(1 + (squash - 1) * 0.5) * idle} sy={(1 / squash) * (2 - idle)}>
+        <Eyes size={size} frame={frame} seed={seed} lx={look} mood={0.8} />
+        {children}
+      </Orb>
+    </div>
+  );
+};
+
+export const Kugel: React.FC<BeatProps> = (p) => {
+  const fBig = at(p.words, "große", 2);
+  const fSmall = at(p.words, "kleine", fBig + 8);
+  const size = p.vertical ? 440 : 300;
+  const look = interpolate(p.frame, [fSmall, fSmall + 8], [0, 0.8], clamp);
   return (
     <Stage frame={p.frame} seed="kugel" dots={9}>
       <Center gap={p.vertical ? 70 : 40}>
-        <Headline words={p.words} only={(w) => !isEmph(w.w)} frame={p.frame} size={p.vertical ? 66 : 58} />
-        <div style={{ transform: `translateY(${(1 - drop) * -900}px)` }}>
-          <Orb size={size} sx={1 + (squash - 1) * 0.5} sy={1 / squash}>
-            <CarIcon s={size * 0.52} />
-          </Orb>
+        <Headline words={p.words} only={(w) => !isEmph(w.w)} frame={p.frame} size={p.vertical ? 66 : 58} width={p.width * 0.8} />
+        <div style={{ display: "flex", alignItems: "flex-end", gap: size * 0.12 }}>
+          <DropOrb size={size} frame={p.frame} f={fBig} seed={1} look={look}>
+            <div style={{ position: "absolute", bottom: size * 0.12 }}>
+              <CarIcon s={size * 0.3} />
+            </div>
+          </DropOrb>
+          <DropOrb size={size * 0.55} frame={p.frame} f={fSmall} seed={2} look={-0.8}>
+            <div style={{ position: "absolute", bottom: size * 0.06 }}>
+              <CarIcon s={size * 0.18} />
+            </div>
+          </DropOrb>
         </div>
         <Headline words={p.words} only={(w) => isEmph(w.w)} frame={p.frame} size={p.vertical ? 86 : 96} emphScale={1} />
       </Center>
@@ -422,10 +447,11 @@ export const Lokal: React.FC<BeatProps> = (p) => {
       <Center gap={p.vertical ? 90 : 50}>
         <Headline words={p.words} frame={p.frame} size={p.vertical ? 66 : 62} width={p.width * 0.78} />
         <LaptopFlat w={lw}>
-          <div style={{ transform: `translateY(${(1 - drop) * -500}px)` }}>
+          <div style={{ transform: `translateY(${(1 - drop) * -500}px)`, display: "flex", flexDirection: "column", alignItems: "center", gap: lw * 0.02 }}>
             <Orb size={lw * 0.3}>
-              <span style={{ fontFamily: FONT.ui, fontWeight: 700, color: "#fff", fontSize: lw * 0.045 }}>Deine Daten</span>
+              <Eyes size={lw * 0.3} frame={p.frame} seed={3} ly={0.3} mood={0.9} />
             </Orb>
+            <Pill size={lw * 0.05}>Deine Daten</Pill>
           </div>
         </LaptopFlat>
       </Center>
@@ -450,7 +476,7 @@ export const Wolke: React.FC<BeatProps> = (p) => {
           <LaptopFlat w={lw}>
             <div style={{ transform: `translate(${pull * lw * 0.12 * (1 - snap)}px, ${-pull * lw * 0.12 * (1 - snap)}px) scale(${1 + pull * 0.12 * (1 - snap)}, ${1 - pull * 0.1 * (1 - snap)})` }}>
               <Orb size={lw * 0.3}>
-                <span style={{ fontFamily: FONT.ui, fontWeight: 700, color: "#fff", fontSize: lw * 0.045 }}>Deine Daten</span>
+                <Eyes size={lw * 0.3} frame={p.frame} seed={3} lx={p.frame < fc ? 0.9 : 0} ly={p.frame < fc ? -0.8 : 0.2} mood={p.frame < fc ? -0.7 : 1} />
               </Orb>
             </div>
             <div style={{ position: "absolute", right: lw * 0.06, bottom: lw * 0.05, opacity: p.frame < fc ? 0 : 1 }}>
@@ -592,6 +618,7 @@ export const PreisP: React.FC<BeatProps> = (p) => {
         <Headline words={after} frame={p.frame} size={p.vertical ? 84 : 70} emphScale={1.3} />
         <div style={{ fontFamily: FONT.ui, fontSize: p.vertical ? 38 : 30, color: P.sub, ...fadeUp(p.frame, fNum + 4, 16) }}>{BRAND.priceNote}</div>
       </Center>
+      <Burst frame={p.frame} at={fNum} x={p.width / 2} y={p.height / 2} size={1.5} count={32} seed="preis" />
     </Stage>
   );
 };
@@ -687,6 +714,7 @@ export const EndP: React.FC<BeatProps> = (p) => {
         </div>
         <div style={{ marginTop: 20 * u, fontFamily: FONT.ui, fontSize: 30 * u, letterSpacing: "0.1em", color: P.sub, ...fadeUp(p.frame, fCta + 10, 20) }}>{BRAND.platforms}</div>
       </Center>
+      <Burst frame={p.frame} at={fCta} x={p.width / 2} y={p.height * 0.62} size={1.4} count={34} seed="end" />
     </Stage>
   );
 };

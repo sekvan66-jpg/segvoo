@@ -1,6 +1,6 @@
 # AutoKontor – 30 Sekunden im Premium-Stil (hell, glänzende Kugeln, kursive Akzentwörter)
 # stil: premium
-# musik: musik-hell.mp3
+# musik: musik-premium30.mp3   (komponiert passend zum Schnitt: python tools/musik.py premium30)
 # stimme: premium30   (Piper-Stimme: python tools/voice_piper.py --fassung premium30)
 #
 # Gleicher Sprechertext wie skript-tiktok30.txt, aber mit der realistischeren Piper-Stimme.
@@ -10,7 +10,7 @@
 chaos     | Zettel, Excel, Ordner *überall?*
 schluss   | Damit ist jetzt Schluss.
 logo      | Das ist AutoKontor,
-kugel     | die Software für kleine *Gebrauchtwagen~händler.*
+kugel     | die Software für große und kleine *Autohändler.*
 karten    | Fahrzeuge, Kunden, Kaufverträge und Rechnungen als PDF,
 klick     | mit wenigen *Klicks.*
 badges    | Auch als E-Rechnung, ZUGFeRD und XRechnung.

@@ -10,7 +10,8 @@ Stimmen (lädt das Skript selbst nach models/piper/):
 Aufruf:
   python tools/voice_piper.py --fassung premium30          (liest skript-premium30.txt → public/premium30/)
   python tools/voice_piper.py                               (skript.txt → public/)
-Optionen: --tempo 0.92   (kleiner = schneller)    --pause 0.18 (Sekunden nach jedem Satz)
+Optionen: --tempo 0.95   (kleiner = schneller)    --pause 0.3 (Sekunden nach jedem Satz)
+          --klang werbung (Werbesprecher: tiefer, voller, Kompressor) | studio (neutral)
           --zeige        (nur Lautschrift jedes Worts anzeigen)
 Aussprache schwieriger Wörter: aussprache-piper.txt
 """
@@ -32,8 +33,19 @@ VOICES = {
 }
 URL = "https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/{}.tar.bz2"
 PUNCT = ".,!?;:"
-# Studio-Kette: Brummen weg, etwas Wärme, Präsenz für Verständlichkeit, Kompressor, Limiter
-VOICE_FX = "highpass=f=75,equalizer=f=170:t=q:w=1:g=2,equalizer=f=3200:t=q:w=1.2:g=3,equalizer=f=9000:t=q:w=1:g=1.5,acompressor=threshold=-20dB:ratio=3:attack=4:release=90:makeup=5,alimiter=limit=0.89"
+# Klangketten für die Stimme (Länge bleibt gleich → Wort-Timing bleibt exakt)
+VOICE_FX = {
+    # neutral: Brummen weg, etwas Wärme, Präsenz, Kompressor
+    "studio": "highpass=f=75,equalizer=f=170:t=q:w=1:g=2,equalizer=f=3200:t=q:w=1.2:g=3,equalizer=f=9000:t=q:w=1:g=1.5,"
+    "acompressor=threshold=-20dB:ratio=3:attack=4:release=90:makeup=5,alimiter=limit=0.89",
+    # Werbesprecher: tiefer (Tonhöhe −1,5 Halbtöne, Klangfarbe erhalten), Nahbesprechungs-Bass, weniger Mulm,
+    # Präsenz + Glanz, De-Esser, kräftiger Kompressor, ganz kleiner Raum
+    "werbung": "rubberband=pitch=0.917:formant=preserved:transients=crisp,highpass=f=65,"
+    "equalizer=f=115:t=q:w=0.8:g=4,equalizer=f=320:t=q:w=1:g=-2.5,equalizer=f=3500:t=q:w=1.1:g=3.5,"
+    "equalizer=f=11000:t=q:w=0.8:g=2.5,deesser=i=0.4,"
+    "acompressor=threshold=-24dB:ratio=4:attack=3:release=70:makeup=7:knee=4,"
+    "aecho=0.92:0.9:19|31:0.07|0.05,alimiter=limit=0.89",
+}
 
 
 def read_script(fassung):
@@ -81,8 +93,9 @@ def main():
     ap.add_argument("--fassung", default="")
     ap.add_argument("--stimme", default="thorsten-high", choices=list(VOICES))
     ap.add_argument("--gefuehl", default="neutral", help="nur thorsten-emotional: amused, surprised, neutral, …")
-    ap.add_argument("--tempo", type=float, default=0.92)
-    ap.add_argument("--pause", type=float, default=0.18)
+    ap.add_argument("--tempo", type=float, default=0.95)
+    ap.add_argument("--pause", type=float, default=0.3, help="Pause nach jedem Satz (nach Fragen 1,5×)")
+    ap.add_argument("--klang", default="werbung", choices=list(VOICE_FX))
     ap.add_argument("--zeige", action="store_true")
     args = ap.parse_args()
 
@@ -151,7 +164,7 @@ def main():
     speaker = None
     if voice.config.num_speakers > 1:
         speaker = (voice.config.speaker_id_map or {}).get(args.gefuehl, 0)
-    syn = SynthesisConfig(speaker_id=speaker, length_scale=args.tempo, noise_scale=0.6, noise_w_scale=0.8, normalize_audio=False)
+    syn = SynthesisConfig(speaker_id=speaker, length_scale=args.tempo, noise_scale=0.7, noise_w_scale=0.85, normalize_audio=False)
     sr = voice.config.sample_rate
     pad, bos, eos = idmap["_"][0], idmap["^"][0], idmap["$"][0]
 
@@ -163,7 +176,6 @@ def main():
             cur = []
 
     out, words_out, t = [], [], 0.0
-    gap = np.zeros(int(args.pause * sr), dtype=np.float32)
     for si, idxs in enumerate(sentences, 1):
         ids, own = [bos, pad], [None, None]
         per_word = sentence_phonemes([flat[i][1] for i in idxs])
@@ -191,8 +203,10 @@ def main():
             ks = [k for k, o in enumerate(own) if o == i]
             words_out.append({"word": flat[i][1].replace("*", "").replace("~", ""), "start": round(t + edges[ks[0]] - cut, 3), "end": round(t + edges[ks[-1] + 1] - cut, 3)})
         seg = audio[int(cut * sr) : int((edges[last + 1] + 0.12) * sr)]
-        out += [seg, gap]
-        t += len(seg) / sr + args.pause
+        # dramatische Pausen: nach Fragen länger
+        pause = args.pause * (1.5 if flat[idxs[-1]][1].replace("*", "").endswith("?") else 1.0)
+        out += [seg, np.zeros(int(pause * sr), dtype=np.float32)]
+        t += len(seg) / sr + pause
 
     full = np.concatenate(out)
     full = full / max(1e-6, np.abs(full).max()) * 0.8
@@ -202,7 +216,7 @@ def main():
     raw.parent.mkdir(exist_ok=True)
     sf.write(raw, full, sr)
     # Studio-Bearbeitung, gleiche Länge (Timing bleibt exakt)
-    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(raw), "-af", VOICE_FX, "-ar", "44100", str(out_dir / "voice.wav")], check=True)
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(raw), "-af", VOICE_FX[args.klang], "-ar", "44100", str(out_dir / "voice.wav")], check=True)
 
     segs = []
     for bi, words in enumerate(beats):

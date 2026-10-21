@@ -60,6 +60,30 @@ export const Stage: React.FC<{ tone?: Tone; frame: number; seed?: string; dots?:
 };
 
 /** Glänzende orange 3D-Kugel. */
+/** Augen für die Kugel-Figur: blinzeln, schauen (lx/ly −1…1), Laune (mood: −1 ängstlich … 1 fröhlich). */
+export const Eyes: React.FC<{ size: number; frame: number; lx?: number; ly?: number; mood?: number; seed?: number }> = ({ size, frame, lx = 0, ly = 0, mood = 0.6, seed = 0 }) => {
+  const period = 70 + seed * 13;
+  const ph = (frame + seed * 29) % period;
+  const blink = ph < 4 ? Math.abs(ph - 2) / 2 : 1;
+  const ew = size * 0.15;
+  const eh = size * 0.2 * Math.max(0.08, blink);
+  const eye = (dx: number) => (
+    <div style={{ position: "absolute", left: size / 2 + dx - ew / 2, top: size * 0.36 - eh / 2, width: ew, height: eh, borderRadius: "50%", background: "#fff", boxShadow: "inset 0 -2px 0 rgba(0,0,0,.08)", overflow: "hidden" }}>
+      <div style={{ position: "absolute", width: ew * 0.55, height: ew * 0.55, borderRadius: "50%", background: "#17181C", left: ew * 0.225 + lx * ew * 0.2, top: eh / 2 - ew * 0.275 + ly * eh * 0.22 }} />
+    </div>
+  );
+  const smile = size * 0.06 * mood;
+  return (
+    <>
+      {eye(-size * 0.13)}
+      {eye(size * 0.13)}
+      <svg style={{ position: "absolute", left: size * 0.38, top: size * 0.52, overflow: "visible" }} width={size * 0.24} height={size * 0.12}>
+        <path d={`M0 ${size * 0.03} Q${size * 0.12} ${size * 0.03 + smile * 2} ${size * 0.24} ${size * 0.03}`} fill="none" stroke="#7A2400" strokeWidth={size * 0.022} strokeLinecap="round" />
+      </svg>
+    </>
+  );
+};
+
 export const Orb: React.FC<{ size: number; children?: React.ReactNode; style?: React.CSSProperties; sx?: number; sy?: number }> = ({ size, children, style, sx = 1, sy = 1 }) => (
   <div
     style={{
@@ -101,10 +125,12 @@ export const Headline: React.FC<{
         const l = frame - w.f;
         const t = interpolate(l, [0, 7], [0, 1], { ...clamp, easing: EASE });
         const emph = isEmph(w.w);
+        const draw = interpolate(l, [5, 16], [0, 1], { ...clamp, easing: EASE });
         return (
           <span
             key={w.i}
             style={{
+              position: "relative",
               display: "inline-block",
               fontFamily: emph ? FONT.serif : FONT.ui,
               fontStyle: emph ? "italic" : "normal",
@@ -120,6 +146,11 @@ export const Headline: React.FC<{
             }}
           >
             {clean(w.w)}
+            {emph && (
+              <svg viewBox="0 0 100 12" preserveAspectRatio="none" style={{ position: "absolute", left: "2%", bottom: -size * 0.08, width: "96%", height: size * 0.22, overflow: "visible" }}>
+                <path d="M2 8 C 25 2, 55 2, 98 6" fill="none" stroke={accent} strokeWidth={3.2} strokeLinecap="round" strokeDasharray={110} strokeDashoffset={110 * (1 - draw)} vectorEffect="non-scaling-stroke" style={{ strokeWidth: Math.max(3, size * 0.06) }} />
+              </svg>
+            )}
           </span>
         );
       })}
@@ -178,4 +209,49 @@ export const at = (words: WordF[], target: string | string[], fallback = 0) => {
   const n = (s: string) => clean(s).toLowerCase().replace(/[^a-zäöüß0-9-]/g, "");
   const w = words.find((x) => t.includes(n(x.w)));
   return w ? w.f : fallback;
+};
+
+/** Funken-Explosion ab Frame `at` (Kreise + kleine Sterne fliegen auseinander und fallen). */
+export const Burst: React.FC<{ frame: number; at: number; x: number; y: number; size?: number; count?: number; seed?: string; colors?: string[] }> = ({
+  frame,
+  at,
+  x,
+  y,
+  size = 1,
+  count = 22,
+  seed = "b",
+  colors = [P.orange, P.orangeHi, "#FFFFFF", "#FFD23F"],
+}) => {
+  const l = frame - at;
+  if (l < 0 || l > 40) return null;
+  return (
+    <>
+      {Array.from({ length: count }).map((_, k) => {
+        const a = random(`${seed}a${k}`) * Math.PI * 2;
+        const v = (300 + random(`${seed}v${k}`) * 500) * size;
+        const t = l / 30;
+        const px = x + Math.cos(a) * v * (1 - Math.exp(-t * 3)) * 0.45;
+        const py = y + Math.sin(a) * v * (1 - Math.exp(-t * 3)) * 0.45 + 260 * size * t * t;
+        const s = (8 + random(`${seed}s${k}`) * 16) * size;
+        const star = k % 4 === 0;
+        return (
+          <div
+            key={k}
+            style={{
+              position: "absolute",
+              left: px - s / 2,
+              top: py - s / 2,
+              width: s,
+              height: s,
+              borderRadius: star ? 2 : "50%",
+              background: colors[k % colors.length],
+              opacity: interpolate(l, [0, 4, 26, 40], [0, 1, 1, 0], clamp),
+              transform: `rotate(${l * 12 + k * 30}deg) scale(${star ? 0.8 : 1})`,
+              boxShadow: "0 2px 8px rgba(201,68,10,.25)",
+            }}
+          />
+        );
+      })}
+    </>
+  );
 };

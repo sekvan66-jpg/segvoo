@@ -11,7 +11,7 @@ slam    | Damit ist jetzt Schluss.
 
 # Was ist es
 laptop  | Das ist AutoKontor,
-slam    | die Software für kleine Gebrauchtwagen~händler.
+slam    | die Software für große und kleine Autohändler.
 
 # Was man damit macht
 morph   | Fahrzeuge,

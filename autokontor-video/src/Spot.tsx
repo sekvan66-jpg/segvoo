@@ -1,5 +1,5 @@
 import React from "react";
-import { AbsoluteFill, Audio, Sequence, interpolate, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, Audio, Easing, Sequence, interpolate, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { Beat, BeatProps, EASE, Timeline, cardWords, clamp, toFrames } from "./lib";
 import { Flash, Glitch, Morph, Slam, Stretch, Type } from "./effects/text";
 import { Doc, End, Laptop, Lock, OS, Preis } from "./effects/scenes";
@@ -40,11 +40,22 @@ const BeatView: React.FC<{ beat: Beat; index: number; occ: number; dur: number; 
     screenshot,
   };
   if (premium) {
-    // Premium: weiches Einblenden (Unschärfe + leichter Zoom) und langsamer Kamera-Push
+    // Premium: weiches Einblenden, Zoom-Ausgang, langsamer Kamera-Push und leichte 3D-Kamerabewegung
     const t = interpolate(frame, [0, 8], [0, 1], { ...clamp, easing: EASE });
+    const out = isEnd ? 0 : interpolate(frame, [dur - 6, dur], [0, 1], { ...clamp, easing: Easing.in(Easing.cubic) });
+    const rx = Math.sin((frame + index * 30) / 45) * 2.2;
+    const ry = Math.cos((frame + index * 30) / 52) * 2.8;
+    const blur = (1 - t) * 12 + out * 10;
     return (
-      <AbsoluteFill style={{ transform: `scale(${(1.06 - 0.06 * t) * (1 + (frame / Math.max(1, dur)) * 0.025)})`, filter: t < 1 ? `blur(${(1 - t) * 12}px)` : undefined }}>
-        <Comp {...props} />
+      <AbsoluteFill style={{ perspective: 2200 }}>
+        <AbsoluteFill
+          style={{
+            transform: `scale(${(1.06 - 0.06 * t) * (1 + (frame / Math.max(1, dur)) * 0.03) * (1 + out * 0.12)}) rotateX(${rx}deg) rotateY(${ry}deg)`,
+            filter: blur > 0.05 ? `blur(${blur}px)` : undefined,
+          }}
+        >
+          <Comp {...props} />
+        </AbsoluteFill>
       </AbsoluteFill>
     );
   }
@@ -59,6 +70,37 @@ const BeatView: React.FC<{ beat: Beat; index: number; occ: number; dur: number; 
       {!isEnd && <AbsoluteFill style={{ background: C.white, opacity: interpolate(frame, [0, 3], [0.3, 0], clamp), pointerEvents: "none" }} />}
     </AbsoluteFill>
   );
+};
+
+/** Premium: orange Kugel füllt das Bild und gibt die nächste Szene frei (vor wichtigen Szenen). */
+const WIPE_INTO = ["schluss", "logo", "karten", "lokal", "preis", "end"];
+const OrbWipes: React.FC<{ beats: Beat[] }> = ({ beats }) => {
+  const frame = useCurrentFrame();
+  const { width, height } = useVideoConfig();
+  const R = Math.hypot(width, height) * 0.56;
+  for (const b of beats.slice(1)) {
+    if (!WIPE_INTO.includes(b.effect)) continue;
+    const B = Math.round(b.start * FPS);
+    if (frame < B - 7 || frame >= B + 9) continue;
+    const r = frame < B ? interpolate(frame, [B - 7, B], [0, R], { ...clamp, easing: Easing.in(Easing.cubic) }) : interpolate(frame, [B, B + 9], [R, 0], { ...clamp, easing: Easing.out(Easing.cubic) });
+    return (
+      <AbsoluteFill style={{ pointerEvents: "none" }}>
+        <div
+          style={{
+            position: "absolute",
+            left: width / 2 - r,
+            top: height / 2 - r,
+            width: r * 2,
+            height: r * 2,
+            borderRadius: "50%",
+            background: `radial-gradient(circle at 34% 28%, #FFD3B0 0%, #FF9A55 14%, ${P.orange} 36%, #E2500C 70%, #B83C04 100%)`,
+            boxShadow: "0 40px 120px rgba(201,68,10,.45)",
+          }}
+        />
+      </AbsoluteFill>
+    );
+  }
+  return null;
 };
 
 /** Filmkorn, Vignette, Scanlines – macht den Look „teuer“. */
@@ -122,7 +164,7 @@ const SFX_FOR: Record<string, (b: Beat) => Sfx[]> = {
 /** Weiche Sounds für den Premium-Stil. */
 const SFX_PREMIUM: Record<string, (b: Beat) => Sfx[]> = {
   chaos: (b) => b.words.map((w) => ({ at: w.start, file: "pop", vol: 0.5 })),
-  schluss: (b) => [{ at: b.start, file: "swish", vol: 0.6 }, { at: b.words.at(-1)!.start, file: "impact", vol: 0.35 }],
+  schluss: (b) => [{ at: b.start - 0.2, file: "swish", vol: 0.6 }],
   logo: (b) => [{ at: b.start, file: "swish", vol: 0.6 }, { at: wordStart(b, /autokontor/i), file: "ding", vol: 0.45 }],
   kugel: (b) => [{ at: b.start + 0.3, file: "pop", vol: 0.7 }],
   karten: (b) => b.words.filter((w) => /fahrzeuge|kunden|kaufvertr|rechnungen|pdf/i.test(w.w)).map((w) => ({ at: w.start, file: "pop", vol: 0.55 })),
@@ -144,7 +186,7 @@ const Sound: React.FC<{ total: number; timeline: Timeline }> = ({ total, timelin
   const a = timeline.audio;
   const premium = timeline.stil === "premium";
   const sfxMap = premium ? SFX_PREMIUM : SFX_FOR;
-  const musicVol = a.voice ? (premium ? 0.16 : 0.14) : 0.6;
+  const musicVol = a.voice ? (premium ? 0.2 : 0.14) : 0.6;
   const sfxVol = a.voice ? 0.55 : 1;
   return (
     <>
@@ -193,6 +235,7 @@ export const Spot: React.FC<{ timeline: Timeline }> = ({ timeline }) => {
       })}
       {!premium && <Corner endFrom={endBeat ? Math.round(endBeat.start * FPS) : durationInFrames} />}
       {!premium && <Overlays />}
+      {premium && <OrbWipes beats={beats} />}
       <Sound total={durationInFrames} timeline={timeline} />
     </AbsoluteFill>
   );

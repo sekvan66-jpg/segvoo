@@ -32,7 +32,7 @@ slam    | Schluss.
 # Szene 2 – Was ist es
 laptop  | Das ist AutoKontor,
 stretch | die Software
-slam    | für kleine Gebrauchtwagen~händler.
+slam    | für große und kleine Autohändler.
 type    | Sie läuft direkt auf deinem *PC,*
 os      | unter Windows, Mac und Linux.
 

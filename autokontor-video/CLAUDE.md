@@ -28,6 +28,7 @@ Python immer aus der venv: Windows `.venv\Scripts\python`, Mac/Linux `.venv/bin/
 - `src/lib.tsx` – Wort-Timing, Zeilenumbruch, automatische Schriftgröße, Kamerawackler.
 - `public/fonts` – Schriften lokal (Anton, Inter, JetBrains Mono). `public/sfx` – impact/whoosh/glitch.
 - Optional in `public/`: `screenshot.png` (echte Software im Laptop), `musik.mp3`, `meine-stimme.wav`, `sprecher.mp3`.
+- `tools/musik.py <fassung>` – komponiert Werbemusik passend zum Schnitt (Spannung → Schlag bei „Schluss.“ → Drop beim Logo → Lift beim Preis → Schlussakkord) als `public/musik-<fassung>.mp3`. Erst Stimme + Timeline bauen, dann Musik, dann Timeline nochmal.
 - `tools/beat.py` – erzeugt einen lizenzfreien Trap-Beat (150 BPM) als `public/musik.mp3`; eigene Musik einfach darüber ablegen.
 - Dynamik (Spot.tsx `BeatView`): Wisch-Übergang + Blitz bei jedem Schnitt, Kamera-Kick auf jedem Wort. Kurze Skript-Zeilen (1–4 Wörter) = mehr Schnitte = mehr Tempo.
 
