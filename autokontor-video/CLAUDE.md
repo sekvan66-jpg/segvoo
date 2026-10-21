@@ -13,6 +13,12 @@ Dieses Projekt erzeugt einen Kinetic-Typography-Werbespot (Stil: virale TikTok-E
 
 Python immer aus der venv: Windows `.venv\Scripts\python`, Mac/Linux `.venv/bin/python`.
 
+## Fassungen und Stile
+- Fassung = `skript-<name>.txt` → Stimme in `public/<name>/` → `src/data/timeline-<name>.json` (`node tools/build-timeline.mjs <name>`), Komposition in `src/Root.tsx` eintragen. Ohne Name: `skript.txt` (Erklärvideo, ~56 s).
+- Vorhanden: Erklärvideo (`AutoKontorYouTube`/`AutoKontorTikTok`), `tiktok30` (`AutoKontorTikTok30`), `premium30` (`AutoKontorPremium30`).
+- Skript-Kopf steuert pro Fassung: `# stil: premium` (sonst TikTok-Glitch-Stil), `# musik: musik-hell.mp3`, `# stimme: tiktok30` (Stimme einer anderen Fassung mit gleichem Text übernehmen).
+- **Premium-Stil** (`src/premium/`): heller Look nach Referenzvideo – glänzende orange Kugeln (`Orb`), Bokeh-Hintergrund (`Stage`), Schlagzeile mit kursiven Akzentwörtern (`Headline`, `*Wort*`), 3D-Karten. Eine Szene pro Effekt-Name (`PREMIUM_EFFECTS`), Sounds in `SFX_PREMIUM` (Spot.tsx), weiche SFX aus `tools/sounds.py`, Musik `tools/beat.py --stil hell`.
+
 ## Code-Struktur
 - `src/theme.ts` – Markenname, Slogan, Button-Text, Preis + „zzgl. MwSt.“, Farben, Schriften. Texte im Endbild hier ändern.
 - `src/Spot.tsx` – Zusammenbau: Bilder, Kamera-Punch, Filmkorn/Vignette, Sound (Stimme, Musik, SFX).
