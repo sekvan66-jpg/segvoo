@@ -428,10 +428,10 @@ export const Problem: React.FC<BeatProps> = (p) => {
           </div>
         </div>
       ))}
-      <div style={{ ...abs(0, 820), width: 1080, display: "flex", justifyContent: "center", perspective: 800, opacity: 1 - gone }}>
+      <div style={{ ...abs(0, 820), width: 1080, display: "flex", justifyContent: "center", perspective: 800, opacity: 1 - appear(frame, fd - 2, 5) }}>
         <Word text="überall?" at={fu} frame={frame} size={110} color="#2B2C33" weight={800} />
       </div>
-      <div style={{ ...abs(0, 330), width: 1080, display: "flex", justifyContent: "center", gap: 22, perspective: 800, opacity: frame < fs ? 1 : 1 - gone * 0.0 }}>
+      <div style={{ ...abs(0, 820), width: 1080, display: "flex", justifyContent: "center", gap: 22, perspective: 800 }}>
         {frame >= fd && frame < fs && ["Damit", "ist", "jetzt"].map((w, i) => <Word key={w} text={w} at={words.find((x) => x.w.toLowerCase().startsWith(w.toLowerCase()))?.f ?? fd + i * 4} frame={frame} size={96} />)}
       </div>
       {frame >= fs && (
