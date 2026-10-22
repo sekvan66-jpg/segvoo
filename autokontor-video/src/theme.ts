@@ -50,3 +50,24 @@ export const P = {
 };
 
 export const FPS = 30;
+
+// Nacht-Stil (Automobil-Look): tiefschwarz/grafit, elektrisches Cyan, Bernstein wie Armaturenlichter
+export const N = {
+  bg: "#06080C",
+  graphite: "#10141B",
+  panel: "#141A23",
+  line: "rgba(255,255,255,.09)",
+  text: "#EEF2F8",
+  sub: "#8B95A7",
+  cyan: "#3FD0FF",
+  cyanDeep: "#0A84C6",
+  amber: "#FFB547",
+  green: "#34E89E",
+  red: "#FF4D57",
+  chrome: "linear-gradient(180deg,#FFFFFF 0%,#D6DEE8 38%,#8C97A6 52%,#E9EEF4 68%,#B9C3CF 100%)",
+};
+
+export const NFONT = {
+  head: "Sora, Inter, sans-serif",
+  hud: "Saira Condensed, Inter, sans-serif",
+};

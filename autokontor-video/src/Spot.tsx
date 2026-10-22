@@ -4,17 +4,20 @@ import { lightLeak } from "@remotion/effects/light-leak";
 import { Beat, BeatProps, EASE, Timeline, cardWords, clamp, toFrames } from "./lib";
 import { Flash, Glitch, Morph, Slam, Stretch, Type } from "./effects/text";
 import { Doc, End, Laptop, Lock, OS, Preis } from "./effects/scenes";
-import { BRAND, C, FONT, FPS, P } from "./theme";
+import { BRAND, C, FONT, FPS, N, P } from "./theme";
 import { PREMIUM_EFFECTS } from "./premium/scenes";
+import { NACHT_EFFECTS } from "./nacht/scenes";
 
 const EFFECTS: Record<string, React.FC<any>> = { slam: Slam, glitch: Glitch, stretch: Stretch, flash: Flash, morph: Morph, type: Type, laptop: Laptop, lock: Lock, os: OS, doc: Doc, preis: Preis, end: End };
 
 /** Ein Bild: Wisch-Übergang + Kamera-Punch beim Schnitt, Kamera-Kick auf jedem Wort, Drift. */
-const BeatView: React.FC<{ beat: Beat; index: number; occ: number; dur: number; screenshot: string | null; premium: boolean }> = ({ beat, index, occ, dur, screenshot, premium }) => {
+const BeatView: React.FC<{ beat: Beat; index: number; occ: number; dur: number; screenshot: string | null; stil: string }> = ({ beat, index, occ, dur, screenshot, stil }) => {
   const frame = useCurrentFrame();
   const { width, height } = useVideoConfig();
-  const Comp = (premium ? PREMIUM_EFFECTS[beat.effect] : EFFECTS[beat.effect]) ?? Slam;
-  const isEnd = beat.effect === "end";
+  const premium = stil === "premium" || stil === "nacht";
+  const map = stil === "nacht" ? NACHT_EFFECTS : stil === "premium" ? PREMIUM_EFFECTS : EFFECTS;
+  const Comp = map[beat.effect] ?? Slam;
+  const isEnd = beat.effect === "end" || beat.effect === "finale";
   const words = toFrames(beat);
   const dir = index % 2 ? 1 : -1;
   const punch = isEnd ? 1 : interpolate(frame, [0, 6], [1.18, 1], { ...clamp, easing: EASE });
@@ -47,12 +50,15 @@ const BeatView: React.FC<{ beat: Beat; index: number; occ: number; dur: number; 
     const rx = Math.sin((frame + index * 30) / 45) * 2.2;
     const ry = Math.cos((frame + index * 30) / 52) * 2.8;
     const blur = (1 - t) * 12 + out * 10;
+    // Nacht: Scheinwerfer-Aufblitzen beim Schnitt
+    const flash = stil === "nacht" ? 1 + (1 - t) * 0.9 + out * 0.8 : 1;
+    const filter = [blur > 0.05 ? `blur(${blur}px)` : "", flash > 1.01 ? `brightness(${flash})` : ""].filter(Boolean).join(" ");
     return (
       <AbsoluteFill style={{ perspective: 2200 }}>
         <AbsoluteFill
           style={{
             transform: `scale(${(1.06 - 0.06 * t) * (1 + (frame / Math.max(1, dur)) * 0.03) * (1 + out * 0.12)}) rotateX(${rx}deg) rotateY(${ry}deg)`,
-            filter: blur > 0.05 ? `blur(${blur}px)` : undefined,
+            filter: filter || undefined,
           }}
         >
           <Comp {...props} />
@@ -105,27 +111,46 @@ const OrbWipes: React.FC<{ beats: Beat[] }> = ({ beats }) => {
 };
 
 /** Premium: warmer Licht-Effekt (Light Leak, @remotion/effects) über wichtigen Schnitten – wie bei Kinowerbung. */
-const LEAK_AT = ["logo", "kugel", "preis", "end"];
-const LeakOverlay: React.FC<{ seed: number }> = ({ seed }) => {
+const LEAK_AT: Record<string, string[]> = { premium: ["logo", "kugel", "preis", "end"], nacht: ["zuendung", "silhouetten", "preisschild", "finale"] };
+const LeakOverlay: React.FC<{ seed: number; nacht: boolean }> = ({ seed, nacht }) => {
   const frame = useCurrentFrame();
   const { width, height, durationInFrames } = useVideoConfig();
   return (
-    <AbsoluteFill style={{ mixBlendMode: "soft-light", pointerEvents: "none" }}>
-      <Solid width={width} height={height} effects={[lightLeak({ seed, hueShift: 0, progress: interpolate(frame, [0, durationInFrames - 1], [0, 1], clamp) })]} />
+    <AbsoluteFill style={{ mixBlendMode: nacht ? "screen" : "soft-light", opacity: nacht ? 0.75 : 1, pointerEvents: "none" }}>
+      <Solid width={width} height={height} effects={[lightLeak({ seed, hueShift: nacht ? 195 : 0, progress: interpolate(frame, [0, durationInFrames - 1], [0, 1], clamp) })]} />
     </AbsoluteFill>
   );
 };
-const LightLeaks: React.FC<{ beats: Beat[] }> = ({ beats }) => (
+const LightLeaks: React.FC<{ beats: Beat[]; stil: string }> = ({ beats, stil }) => (
   <>
     {beats.map((b, i) =>
-      LEAK_AT.includes(b.effect) && i > 0 ? (
+      (LEAK_AT[stil] ?? []).includes(b.effect) && i > 0 ? (
         <Sequence key={i} from={Math.max(0, Math.round(b.start * FPS) - 10)} durationInFrames={26} layout="none">
-          <LeakOverlay seed={i * 3} />
+          <LeakOverlay seed={i * 3} nacht={stil === "nacht"} />
         </Sequence>
       ) : null,
     )}
   </>
 );
+
+/** Nacht: Vignette + feines Filmkorn. */
+const NachtOverlay: React.FC = () => {
+  const frame = useCurrentFrame();
+  return (
+    <>
+      <AbsoluteFill style={{ background: "radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,.55) 100%)", pointerEvents: "none" }} />
+      <AbsoluteFill style={{ opacity: 0.06, mixBlendMode: "overlay", pointerEvents: "none" }}>
+        <svg width="100%" height="100%">
+          <filter id="ngrain">
+            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves={2} seed={frame % 10} stitchTiles="stitch" />
+            <feColorMatrix type="saturate" values="0" />
+          </filter>
+          <rect width="100%" height="100%" filter="url(#ngrain)" />
+        </svg>
+      </AbsoluteFill>
+    </>
+  );
+};
 
 /** Filmkorn, Vignette, Scanlines – macht den Look „teuer“. */
 const Overlays: React.FC = () => {
@@ -207,10 +232,28 @@ const SFX_PREMIUM: Record<string, (b: Beat) => Sfx[]> = {
   end: (b) => [{ at: b.start - 0.25, file: "ui-swish", vol: 0.45 }, { at: wordStart(b, /\d/), file: "ui-ding", vol: 0.5 }],
 };
 
+/** Nacht: dezente Sounds passend zu den Auto-Motiven. */
+const SFX_NACHT: Record<string, (b: Beat) => Sfx[]> = {
+  strasse: (b) => b.words.slice(0, 3).map((w) => ({ at: w.start, file: "swish", vol: 0.35 })),
+  stopp: (b) => [{ at: b.words.at(-1)!.start, file: "ui-click", vol: 0.9 }],
+  zuendung: (b) => [{ at: wordStart(b, /autokontor/i) - 0.2, file: "ui-click", vol: 0.9 }, { at: wordStart(b, /autokontor/i), file: "ui-ding", vol: 0.45 }],
+  silhouetten: (b) => b.words.filter((w) => /große|kleine/i.test(w.w)).map((w) => ({ at: w.start, file: "ui-swish", vol: 0.4 })),
+  cockpit: (b) => b.words.filter((w) => /fahrzeuge|kunden|kaufvertr|rechnungen/i.test(w.w)).map((w) => ({ at: w.start, file: "ui-tick", vol: 0.55 })),
+  schluessel: (b) => [{ at: wordStart(b, /klicks/i), file: "ui-click", vol: 0.9 }, { at: wordStart(b, /klicks/i) + 0.12, file: "ui-tick", vol: 0.6 }, { at: wordStart(b, /klicks/i) + 0.33, file: "ui-tick", vol: 0.6 }],
+  leuchten: (b) => b.words.filter((w) => /rechnung|zugferd/i.test(w.w)).map((w) => ({ at: w.start, file: "ui-toggle", vol: 0.5 })),
+  rechner: (b) => [{ at: b.start + 0.2, file: "ui-swish", vol: 0.35 }],
+  wolke: (b) => [{ at: wordStart(b, /cloud/i), file: "ui-pop", vol: 0.7 }],
+  tacho: (b) => [{ at: b.end - 0.3, file: "ui-ding", vol: 0.4 }],
+  kennzeichen: (b) => b.words.filter((w) => /windows|mac|linux/i.test(w.w)).map((w) => ({ at: w.start, file: "ui-pop", vol: 0.55 })),
+  preisschild: (b) => [{ at: wordStart(b, /\d/) - 0.2, file: "ui-swish", vol: 0.4 }, { at: wordStart(b, /\d/), file: "ui-ding", vol: 0.55 }],
+  kuendbar: (b) => [{ at: wordStart(b, /kündbar/i), file: "ui-toggle", vol: 0.7 }],
+  finale: (b) => [{ at: b.start, file: "ui-swish", vol: 0.4 }, { at: wordStart(b, /\d/), file: "ui-ding", vol: 0.5 }],
+};
+
 const Sound: React.FC<{ total: number; timeline: Timeline }> = ({ total, timeline }) => {
   const a = timeline.audio;
-  const premium = timeline.stil === "premium";
-  const sfxMap = premium ? SFX_PREMIUM : SFX_FOR;
+  const premium = timeline.stil === "premium" || timeline.stil === "nacht";
+  const sfxMap = timeline.stil === "nacht" ? SFX_NACHT : premium ? SFX_PREMIUM : SFX_FOR;
   // Premium: Musik ist schon unter der Stimme abgesenkt (tools/musik.py --stil sanft) und bleibt dezent im Hintergrund
   const musicVol = a.voice ? (premium ? 0.3 : 0.14) : 0.6;
   const sfxVol = a.voice ? 0.55 : 1;
@@ -242,11 +285,13 @@ const Sound: React.FC<{ total: number; timeline: Timeline }> = ({ total, timelin
 export const Spot: React.FC<{ timeline: Timeline }> = ({ timeline }) => {
   const { durationInFrames } = useVideoConfig();
   const beats = timeline.beats;
-  const premium = timeline.stil === "premium";
+  const stil = timeline.stil ?? "tiktok";
+  const premium = stil === "premium";
+  const nacht = stil === "nacht";
   const count: Record<string, number> = {};
   const endBeat = beats.find((b) => b.effect === "end");
   return (
-    <AbsoluteFill style={{ background: premium ? P.bg : C.black }}>
+    <AbsoluteFill style={{ background: nacht ? N.bg : premium ? P.bg : C.black }}>
       {beats.map((b, i) => {
         const occ = count[b.effect] ?? 0;
         count[b.effect] = occ + 1;
@@ -255,14 +300,15 @@ export const Spot: React.FC<{ timeline: Timeline }> = ({ timeline }) => {
         const dur = Math.max(1, to - from);
         return (
           <Sequence key={i} from={from} durationInFrames={dur}>
-            <BeatView beat={b} index={i} occ={occ} dur={dur} screenshot={timeline.screenshot} premium={premium} />
+            <BeatView beat={b} index={i} occ={occ} dur={dur} screenshot={timeline.screenshot} stil={stil} />
           </Sequence>
         );
       })}
-      {!premium && <Corner endFrom={endBeat ? Math.round(endBeat.start * FPS) : durationInFrames} />}
-      {!premium && <Overlays />}
+      {!premium && !nacht && <Corner endFrom={endBeat ? Math.round(endBeat.start * FPS) : durationInFrames} />}
+      {!premium && !nacht && <Overlays />}
       {premium && <OrbWipes beats={beats} />}
-      {premium && <LightLeaks beats={beats} />}
+      {(premium || nacht) && <LightLeaks beats={beats} stil={stil} />}
+      {nacht && <NachtOverlay />}
       <Sound total={durationInFrames} timeline={timeline} />
     </AbsoluteFill>
   );

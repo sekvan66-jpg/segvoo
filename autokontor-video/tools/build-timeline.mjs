@@ -29,7 +29,9 @@ const stimme = settings.stimme ?? fassung;
 const audioDir = stimme ? `${stimme}/` : "";
 const EFFECTS = ["slam", "glitch", "stretch", "flash", "morph", "type", "laptop", "lock", "os", "doc", "preis", "end",
   // Premium-Stil (src/premium/scenes.tsx)
-  "chaos", "schluss", "logo", "kugel", "karten", "klick", "badges", "lokal", "wolke", "backup", "plattform", "kuendbar"];
+  "chaos", "schluss", "logo", "kugel", "karten", "klick", "badges", "lokal", "wolke", "backup", "plattform", "kuendbar",
+  // Nacht-Stil (src/nacht/scenes.tsx)
+  "strasse", "stopp", "zuendung", "silhouetten", "cockpit", "schluessel", "leuchten", "rechner", "tacho", "kennzeichen", "preisschild", "finale"];
 
 // ---------- Skript lesen ----------
 const beats = fs

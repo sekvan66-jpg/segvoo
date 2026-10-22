@@ -21,12 +21,12 @@ const fadeUp = (frame: number, f: number, dist = 40) => {
 };
 
 /* ---------- 1. CHAOS: Zettel, Excel, Ordner fliegen überall herum (dunkel) ---------- */
-const Zettel: React.FC<{ s: number; k: number }> = ({ s, k }) => (
+export const Zettel: React.FC<{ s: number; k: number }> = ({ s, k }) => (
   <div style={{ width: 230 * s, height: 210 * s, background: "linear-gradient(160deg,#FFF59A,#FFE45C)", boxShadow: "0 20px 40px rgba(0,0,0,.4)", padding: 22 * s, fontFamily: FONT.serif, fontStyle: "italic", fontSize: 40 * s, color: "#3A3200", lineHeight: 1.1 }}>
     {["Kunde ruft zurück!", "TÜV 03/26?", "Anzahlung 500 €", "Schlüssel??"][k % 4]}
   </div>
 );
-const Excel: React.FC<{ s: number; k: number }> = ({ s, k }) => (
+export const Excel: React.FC<{ s: number; k: number }> = ({ s, k }) => (
   <Card w={330 * s} dark style={{ padding: 0 }}>
     <div style={{ background: "#1F7A45", color: "#fff", fontSize: 20 * s, fontWeight: 700, padding: `${10 * s}px ${14 * s}px` }}>{["Bestand_final_v3.xlsx", "Kunden_ALT.xlsx", "Rechnungen_2024.xlsx"][k % 3]}</div>
     <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 4 * s, padding: 12 * s }}>
@@ -36,7 +36,7 @@ const Excel: React.FC<{ s: number; k: number }> = ({ s, k }) => (
     </div>
   </Card>
 );
-const Ordner: React.FC<{ s: number; k: number }> = ({ s, k }) => (
+export const Ordner: React.FC<{ s: number; k: number }> = ({ s, k }) => (
   <div style={{ position: "relative", width: 280 * s, height: 200 * s }}>
     <div style={{ position: "absolute", left: 0, top: 0, width: 120 * s, height: 40 * s, borderRadius: `${12 * s}px ${12 * s}px 0 0`, background: "#D9A04F" }} />
     <div style={{ position: "absolute", left: 0, top: 26 * s, right: 0, bottom: 0, borderRadius: 14 * s, background: "linear-gradient(170deg,#F2C57A,#E0A653)", boxShadow: "0 20px 40px rgba(0,0,0,.4)", display: "flex", alignItems: "flex-end", padding: 18 * s, fontFamily: FONT.ui, fontWeight: 700, fontSize: 26 * s, color: "#5A3A08" }}>
