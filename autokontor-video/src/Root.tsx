@@ -9,6 +9,7 @@ import timeline30Json from "./data/timeline-tiktok30.json";
 import timelineP30Json from "./data/timeline-premium30.json";
 import timelineN30Json from "./data/timeline-nacht30.json";
 import timelineS30MJson from "./data/timeline-studio30m.json";
+import timelineSp30Json from "./data/timeline-sport30.json";
 import { Studio } from "./studio/Studio";
 import "./fonts";
 
@@ -19,6 +20,7 @@ const timeline30 = timeline30Json as Timeline;
 const timelineP30 = timelineP30Json as Timeline;
 const timelineN30 = timelineN30Json as Timeline;
 const timelineS30M = timelineS30MJson as Timeline;
+const timelineSp30 = timelineSp30Json as Timeline;
 const frames = (t: Timeline) => Math.ceil(t.duration * FPS);
 
 export const Root: React.FC = () => (
@@ -36,6 +38,9 @@ export const Root: React.FC = () => (
     {/* „AutoKontor bei Nacht“ – Automobil-Look (skript-nacht30.txt) */}
     <Composition id="AutoKontorNacht30" component={Spot} durationInFrames={frames(timelineN30)} fps={FPS} width={1080} height={1920} defaultProps={{ timeline: timelineN30 }} />
     <Composition id="AutoKontorNacht30Wide" component={Spot} durationInFrames={frames(timelineN30)} fps={FPS} width={1920} height={1080} defaultProps={{ timeline: timelineN30 }} />
+    {/* „AutoKontor Sport“ – Motorsport-/Sportwerbungs-Look (skript-sport30.txt) */}
+    <Composition id="AutoKontorSport30" component={Spot} durationInFrames={frames(timelineSp30)} fps={FPS} width={1080} height={1920} defaultProps={{ timeline: timelineSp30 }} />
+    <Composition id="AutoKontorSport30Wide" component={Spot} durationInFrames={frames(timelineSp30)} fps={FPS} width={1920} height={1080} defaultProps={{ timeline: timelineSp30 }} />
     {/* „Studio“-Hochformat: Rahmen mit Schlagzeile, Karte mit dem Premium-Spot, Chips, Button (src/studio/Studio.tsx) */}
     <Composition id="AutoKontorStudio" component={Studio} durationInFrames={frames(timelineP30)} fps={FPS} width={1080} height={1920} defaultProps={{ timeline: timelineP30 }} />
     <Composition id="AutoKontorStudioM" component={Studio} durationInFrames={frames(timelineS30M)} fps={FPS} width={1080} height={1920} defaultProps={{ timeline: timelineS30M }} />

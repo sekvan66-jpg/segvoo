@@ -71,3 +71,21 @@ export const NFONT = {
   head: "Sora, Inter, sans-serif",
   hud: "Saira Condensed, Inter, sans-serif",
 };
+
+// Sport-Stil („AutoKontor Sport“): Neongelb (Volt), Asphalt-Schwarz, Weiß – Motorsport-/Sportwerbungs-Look
+export const S = {
+  volt: "#D4FF1F",
+  voltDeep: "#A9D300",
+  black: "#0A0B0D",
+  asphalt: "#16181D",
+  white: "#F6F7F2",
+  grey: "#8C9099",
+  red: "#FF2B3A",
+  green: "#22E07A",
+  purple: "#B45CFF",
+};
+
+export const SFONT = {
+  head: "Barlow Condensed, Anton, sans-serif",
+  ui: "Inter, Arial, sans-serif",
+};

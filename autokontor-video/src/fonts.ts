@@ -11,3 +11,6 @@ loadFont({ family: "Instrument Serif", url: staticFile("fonts/serif-italic.woff2
 // Nacht-Stil: Sora (Überschriften), Saira Condensed (Cockpit-Zahlen, Labels) – beide OFL
 for (const w of ["400", "600", "800"]) loadFont({ family: "Sora", url: staticFile(`fonts/sora-${w}.woff2`), weight: w });
 for (const w of ["500", "700", "800"]) loadFont({ family: "Saira Condensed", url: staticFile(`fonts/saira-${w}.woff2`), weight: w });
+// Sport-Stil: Barlow Condensed (schräg, extra fett) – OFL, aus @fontsource/barlow-condensed
+for (const w of ["600", "800", "900"]) loadFont({ family: "Barlow Condensed", url: staticFile(`fonts/barlow-${w}-italic.woff2`), weight: w, style: "italic" });
+loadFont({ family: "Barlow Condensed", url: staticFile("fonts/barlow-700-normal.woff2"), weight: "700", style: "normal" });

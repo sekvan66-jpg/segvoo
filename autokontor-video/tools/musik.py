@@ -363,9 +363,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("fassung")
     ap.add_argument("--bpm", type=float, default=None)
-    ap.add_argument("--stil", default="sanft", choices=["sanft", "kraftvoll", "nacht"])
+    ap.add_argument("--stil", default="sanft", choices=["sanft", "kraftvoll", "nacht", "sport"])
     args = ap.parse_args()
-    args.bpm = args.bpm or {"sanft": 96, "nacht": 100}.get(args.stil, 120)
+    args.bpm = args.bpm or {"sanft": 96, "nacht": 100, "sport": 128}.get(args.stil, 120)
     tl_path = ROOT / "src" / "data" / f"timeline-{args.fassung}.json"
     if not tl_path.exists():
         sys.exit(f"{tl_path} fehlt – erst: node tools/build-timeline.mjs {args.fassung}")
@@ -376,7 +376,7 @@ def main():
         return next((b for b in beats if b["effect"] in effects), None)
 
     # Schlüsselstellen (Namen aus den verschiedenen Stilen)
-    b_schluss, b_logo, b_preis, b_end = beat("schluss", "stopp"), beat("logo", "zuendung"), beat("preis", "preisschild"), beat("end", "finale")
+    b_schluss, b_logo, b_preis, b_end = beat("schluss", "stopp", "ampel"), beat("logo", "zuendung", "teamlogo"), beat("preis", "preisschild", "startnummer"), beat("end", "finale", "zielflagge")
     t_hit = b_schluss["words"][-1]["start"] if b_schluss else beats[1]["start"]
     t_drop = b_logo["start"] if b_logo else beats[min(2, len(beats) - 1)]["start"]
     t_lift = b_preis["start"] if b_preis else dur * 0.7
@@ -494,6 +494,8 @@ def main():
     ir = reverb_ir()
     wet = np.stack([fftconvolve(send.x[:, c], ir[:, c])[:n] for c in range(2)], axis=1)
     mix = drums.x * 0.9 + music.x + wet * 0.35
+    if args.stil == "sport":  # treibend, aber unter der Stimme automatisch leiser
+        mix *= voice_duck(args.fassung, len(mix), -7.0)[:, None]
     finish(mix, dur, args, t_hit, t_drop, t_lift, t_end)
 
 
