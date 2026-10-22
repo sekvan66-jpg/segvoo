@@ -184,7 +184,10 @@ def soft_hit():
 
 def voice_duck(fassung, n, depth_db=-8.0):
     """Hüllkurve: −8 dB während gesprochen wird, weiche Übergänge in den Pausen."""
-    path = ROOT / "public" / fassung / "voice-words.json"
+    # die Stimme kann aus einer anderen Fassung stammen (Skript-Kopf „# stimme: …“) → Ordner aus der Timeline
+    tl = ROOT / "src" / "data" / f"timeline-{fassung}.json"
+    voice = json.loads(tl.read_text(encoding="utf-8"))["audio"].get("voice") if tl.exists() else None
+    path = ROOT / "public" / (Path(voice).parent.as_posix() if voice else fassung) / "voice-words.json"
     g = np.ones(n)
     if not path.exists():
         return g
