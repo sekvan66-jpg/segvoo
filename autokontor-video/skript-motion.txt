@@ -1,0 +1,18 @@
+# AutoKontor – Werbespot im Stil der Vorlage (Apple-/Tech-Motion-Graphics, hell → schwarz), ca. 40 s, 1:1 und 9:16
+# stil: motion
+# laenge: 40               (Gesamtlänge in Sekunden)
+# musik: musik-motion.mp3   (python tools/musik.py motion --stil motion)
+# stimme: motion            (python tools/voice_piper.py --fassung motion --tempo 0.9 --pause 0.24 --takes 6)
+problem    | Zettel, Excel, Ordner überall? Damit ist jetzt Schluss.
+icons      | Fahrzeuge. Kaufverträge. E-Rechnung.
+bigicon    | Alles in einer Software.
+infokarte  | AutoKontor, die Software für große und kleine Autohändler.
+suchfeld   | Kaufvertrag? Mit wenigen Klicks als PDF.
+bildkarten | Fahrzeuge, Kunden, Rechnungen.
+erechnung  | Auch als E-Rechnung, im Format ZUGFeRD oder XRechnung.
+gobd       | Rechnungen werden gesperrt und protokolliert, für die GoBD.
+chart      | Deine Daten bleiben auf deinem Rechner, jeden Tag gesichert.
+geraete    | Für Windows, Mac und Linux, auf zwei Geräten.
+zaehler    | Ab 19 € im Monat, monatlich kündbar.
+logoglow   | Jetzt 7 Tage kostenlos testen.
+abschluss  | AutoKontor. Dein Handel. In deiner Hand.

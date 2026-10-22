@@ -1,0 +1,74 @@
+# AutoKontor – Sprechertext + Storyboard (Erklärvideo, ca. 60 Sekunden)
+# Eine Zeile = ein Bild im Video. Format:   effekt | Text, der gesprochen und gezeigt wird
+#
+# Effekte:
+#   slam    – Wörter knallen groß rein, Kamera wackelt
+#   glitch  – RGB-Glitch, verschobene Streifen
+#   stretch – Wort wird breit gezogen mit Bewegungsunschärfe
+#   flash   – roter Hintergrund, schwarze Schrift
+#   morph   – rote Form verwandelt sich hinter dem Wort (Kreis → Quadrat → Stern)
+#   type    – Schreibmaschine in Code-Schrift mit roter Markierung (*Wort* = rot markiert, sonst das letzte Wort)
+#   (überall: Wort~teil = Trennstelle für sehr lange Wörter, wird nicht gesprochen)
+#   laptop  – Laptop mit deiner Software (public/screenshot.png) + Text
+#   lock    – Schloss schließt sich + Text
+#   os      – Karten mit Symbol für Windows / Mac / Linux / Büro / Laptop (erscheinen, wenn das Wort fällt)
+#   doc     – Dokumente (Kaufvertrag, Rechnung als PDF) fliegen ins Bild + Text
+#   preis   – großer Preis mit kleinem Hinweis „zzgl. MwSt.“ (Text in src/theme.ts)
+#   end     – Endbild: Logo, Slogan, Button, Preis (immer als letzte Zeile)
+#
+# Zeilen mit # werden ignoriert. Aussprache schwieriger Wörter: aussprache.txt
+# Nach jeder Änderung:  /stimme  (oder npm run timeline ohne Stimme)
+
+# Szene 1 – Problem
+slam    | Du verkaufst
+stretch | Gebrauchtwagen
+glitch  | und hast Zettel,
+flash   | Excel
+morph   | und Ordner
+slam    | überall?
+flash   | Damit ist jetzt
+slam    | Schluss.
+
+# Szene 2 – Was ist es
+laptop  | Das ist AutoKontor,
+stretch | die Software
+slam    | für große und kleine Autohändler.
+type    | Sie läuft direkt auf deinem *PC,*
+os      | unter Windows, Mac und Linux.
+
+# Szene 3 – Was man damit macht
+morph   | Du legst deine Fahrzeuge
+morph   | und Kunden an.
+glitch  | Mit wenigen Klicks
+doc     | erstellst du Kaufverträge und Rechnungen als PDF,
+type    | auch als *E-Rechnung*
+stretch | im Format ZUGFeRD
+glitch  | oder XRechnung.
+slam    | Wenn mal was schiefgeht,
+flash   | schreibst du eine Stornorechnung.
+
+# Szene 4 – Sicherheit
+lock    | Deine Daten bleiben auf deinem Rechner,
+glitch  | nicht in einer fremden Cloud.
+stretch | AutoKontor sichert alles
+slam    | automatisch
+flash   | jeden Tag.
+type    | Und weil Rechnungen *gesperrt*
+type    | und *protokolliert* werden,
+morph   | unterstützt AutoKontor
+slam    | die GoBD-Anforderungen.
+
+# Szene 5 – Offline
+glitch  | Du brauchst
+slam    | kein Internet.
+type    | Nur *einmal* *im* *Monat*
+stretch | prüft AutoKontor kurz deine Lizenz.
+
+# Szene 6 – Preis und Aufruf
+preis   | Ab 19 € im Monat,
+stretch | monatlich kündbar,
+flash   | die ersten 7 Tage
+slam    | kostenlos.
+glitch  | Für zwei Geräte,
+os      | zum Beispiel Büro und Laptop.
+end     | Jetzt AutoKontor herunterladen und testen!

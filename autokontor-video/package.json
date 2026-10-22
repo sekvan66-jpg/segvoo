@@ -1,0 +1,32 @@
+{
+  "name": "autokontor-video",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "studio": "remotion studio",
+    "timeline": "node tools/build-timeline.mjs",
+    "check": "node tools/build-timeline.mjs && node tools/check-stills.mjs AutoKontorTikTok && node tools/check-stills.mjs AutoKontorYouTube",
+    "render": "node tools/build-timeline.mjs && remotion render AutoKontorTikTok out/autokontor-tiktok.mp4 --codec h264 --crf 16",
+    "render:yt": "node tools/build-timeline.mjs && remotion render AutoKontorYouTube out/autokontor-youtube.mp4 --codec h264 --crf 16",
+    "render:alle": "npm run render && npm run render:yt",
+    "timeline:30": "node tools/build-timeline.mjs tiktok30",
+    "check:30": "node tools/build-timeline.mjs tiktok30 && node tools/check-stills.mjs AutoKontorTikTok30 tiktok30",
+    "render:30": "node tools/build-timeline.mjs tiktok30 && remotion render AutoKontorTikTok30 out/autokontor-tiktok-30s.mp4 --codec h264 --crf 16"
+  },
+  "dependencies": {
+    "@remotion/bundler": "4.0.537",
+    "@remotion/cli": "4.0.537",
+    "@remotion/effects": "^4.0.537",
+    "@remotion/fonts": "4.0.537",
+    "@remotion/renderer": "4.0.537",
+    "@remotion/transitions": "^4.0.537",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "4.0.537"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.31",
+    "typescript": "5.6.3"
+  },
+  "type": "module"
+}

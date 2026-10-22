@@ -1,0 +1,18 @@
+# AutoKontor Sport – 30 s mit Männerstimme „gut gelaunt“ (Thorsten emotional, amused)
+# stil: sport
+# musik: musik-sport30m.mp3   (python tools/musik.py sport30m --stil sport)
+# stimme: sport30m            (python tools/voice_piper.py --fassung sport30m --stimme thorsten-emotional --gefuehl amused --tempo 0.9 --pause 0.22 --takes 5)
+fehlstart   | Zettel, Excel, Ordner *überall?*
+ampel       | Damit ist jetzt Schluss.
+teamlogo    | Das ist AutoKontor,
+duell       | die Software für große und kleine *Autohändler.*
+tabelle     | Fahrzeuge, Kunden, Kaufverträge und Rechnungen als PDF,
+boxenstopp  | mit wenigen *Klicks.*
+sektoren    | Auch als E-Rechnung, ZUGFeRD und XRechnung.
+heimspiel   | Deine Daten bleiben auf *deinem* *Rechner,*
+rotekarte   | nicht in der *Cloud.*
+serie       | Automatische Sicherung *jeden* *Tag.*
+trikots     | Für Windows, Mac und Linux.
+startnummer | Ab 19 € *im* *Monat,*
+flex        | monatlich *kündbar.*
+zielflagge  | Jetzt 7 Tage kostenlos testen!

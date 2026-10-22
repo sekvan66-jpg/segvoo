@@ -1,0 +1,19 @@
+# AutoKontor – 30 s „Studio“-Hochformat mit Männerstimme (Rahmen: src/studio/Studio.tsx, Komposition AutoKontorStudioM)
+# stil: premium
+# musik: musik-studio30m.mp3   (python tools/musik.py studio30m)
+# stimme: tiktok30            (gleicher Text – Piper Thorsten, Klang natuerlich)
+
+chaos     | Zettel, Excel, Ordner *überall?*
+schluss   | Damit ist jetzt Schluss.
+logo      | Das ist AutoKontor,
+kugel     | die Software für große und kleine *Autohändler.*
+karten    | Fahrzeuge, Kunden, Kaufverträge und Rechnungen als PDF,
+klick     | mit wenigen *Klicks.*
+badges    | Auch als E-Rechnung, ZUGFeRD und XRechnung.
+lokal     | Deine Daten bleiben auf *deinem* *Rechner,*
+wolke     | nicht in der *Cloud.*
+backup    | Automatische Sicherung *jeden* *Tag.*
+plattform | Für Windows, Mac und Linux.
+preis     | Ab 19 € *im* *Monat,*
+kuendbar  | monatlich *kündbar.*
+end       | Jetzt 7 Tage kostenlos testen!
