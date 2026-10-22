@@ -33,7 +33,9 @@ const EFFECTS = ["slam", "glitch", "stretch", "flash", "morph", "type", "laptop"
   // Nacht-Stil (src/nacht/scenes.tsx)
   "strasse", "stopp", "zuendung", "silhouetten", "cockpit", "schluessel", "leuchten", "rechner", "tacho", "kennzeichen", "preisschild", "finale",
   // Sport-Stil (src/sport/scenes.tsx)
-  "fehlstart", "ampel", "teamlogo", "duell", "tabelle", "boxenstopp", "sektoren", "heimspiel", "rotekarte", "serie", "trikots", "startnummer", "flex", "zielflagge"];
+  "fehlstart", "ampel", "teamlogo", "duell", "tabelle", "boxenstopp", "sektoren", "heimspiel", "rotekarte", "serie", "trikots", "startnummer", "flex", "zielflagge",
+  // Motion-Stil (src/motion/scenes.tsx)
+  "icons", "bigicon", "infokarte", "suchfeld", "bildkarten", "zaehler", "chart", "logoglow", "abschluss"];
 
 // ---------- Skript lesen ----------
 const beats = fs

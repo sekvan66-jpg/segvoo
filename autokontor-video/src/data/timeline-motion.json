@@ -1,0 +1,344 @@
+{
+  "stil": "motion",
+  "source": "whisper",
+  "duration": 26.459,
+  "audio": {
+    "voice": "motion/voice.wav",
+    "music": "musik-motion.mp3",
+    "sfx": {
+      "impact": "sfx/impact.wav",
+      "whoosh": "sfx/whoosh.wav",
+      "glitch": "sfx/glitch.wav",
+      "pop": "sfx/pop.wav",
+      "swish": "sfx/swish.wav",
+      "click": "sfx/click.wav",
+      "ding": "sfx/ding.wav",
+      "ui-pop": "sfx/ui-pop.wav",
+      "ui-click": "sfx/ui-click.wav",
+      "ui-ding": "sfx/ui-ding.wav",
+      "ui-tick": "sfx/ui-tick.wav",
+      "ui-swish": "sfx/ui-swish.wav",
+      "ui-toggle": "sfx/ui-toggle.wav"
+    }
+  },
+  "screenshot": null,
+  "beats": [
+    {
+      "effect": "icons",
+      "text": "Fahrzeuge. Kaufverträge. E-Rechnung.",
+      "words": [
+        {
+          "w": "Fahrzeuge.",
+          "start": 0.04,
+          "end": 0.586
+        },
+        {
+          "w": "Kaufverträge.",
+          "start": 1.006,
+          "end": 1.679
+        },
+        {
+          "w": "E-Rechnung.",
+          "start": 2.099,
+          "end": 2.61
+        }
+      ],
+      "start": 0,
+      "end": 2.9699999999999998
+    },
+    {
+      "effect": "bigicon",
+      "text": "Alles in einer Software.",
+      "words": [
+        {
+          "w": "Alles",
+          "start": 3.03,
+          "end": 3.297
+        },
+        {
+          "w": "in",
+          "start": 3.32,
+          "end": 3.401
+        },
+        {
+          "w": "einer",
+          "start": 3.425,
+          "end": 3.622
+        },
+        {
+          "w": "Software.",
+          "start": 3.668,
+          "end": 4.133
+        }
+      ],
+      "start": 2.9699999999999998,
+      "end": 4.493
+    },
+    {
+      "effect": "infokarte",
+      "text": "AutoKontor, die Software für große und kleine Autohändler.",
+      "words": [
+        {
+          "w": "AutoKontor,",
+          "start": 4.553,
+          "end": 5.307
+        },
+        {
+          "w": "die",
+          "start": 5.493,
+          "end": 5.598
+        },
+        {
+          "w": "Software",
+          "start": 5.633,
+          "end": 6.027
+        },
+        {
+          "w": "für",
+          "start": 6.062,
+          "end": 6.201
+        },
+        {
+          "w": "große",
+          "start": 6.248,
+          "end": 6.724
+        },
+        {
+          "w": "und",
+          "start": 6.794,
+          "end": 6.956
+        },
+        {
+          "w": "kleine",
+          "start": 7.026,
+          "end": 7.235
+        },
+        {
+          "w": "Autohändler.",
+          "start": 7.281,
+          "end": 7.827
+        }
+      ],
+      "start": 4.493,
+      "end": 8.187
+    },
+    {
+      "effect": "suchfeld",
+      "text": "Kaufvertrag? Mit wenigen Klicks als PDF.",
+      "words": [
+        {
+          "w": "Kaufvertrag?",
+          "start": 8.247,
+          "end": 8.92
+        },
+        {
+          "w": "Mit",
+          "start": 9.455,
+          "end": 9.606
+        },
+        {
+          "w": "wenigen",
+          "start": 9.629,
+          "end": 10.07
+        },
+        {
+          "w": "Klicks",
+          "start": 10.117,
+          "end": 10.36
+        },
+        {
+          "w": "als",
+          "start": 10.465,
+          "end": 10.569
+        },
+        {
+          "w": "PDF.",
+          "start": 10.616,
+          "end": 11.138
+        }
+      ],
+      "start": 8.187,
+      "end": 11.466
+    },
+    {
+      "effect": "bildkarten",
+      "text": "Fahrzeuge, Kunden, Rechnungen.",
+      "words": [
+        {
+          "w": "Fahrzeuge,",
+          "start": 11.526,
+          "end": 12.014
+        },
+        {
+          "w": "Kunden,",
+          "start": 12.176,
+          "end": 12.582
+        },
+        {
+          "w": "Rechnungen.",
+          "start": 12.699,
+          "end": 13.221
+        }
+      ],
+      "start": 11.466,
+      "end": 13.530999999999999
+    },
+    {
+      "effect": "zaehler",
+      "text": "Ab 19 € im Monat.",
+      "words": [
+        {
+          "w": "Ab",
+          "start": 13.591,
+          "end": 13.718
+        },
+        {
+          "w": "19",
+          "start": 13.765,
+          "end": 14.183
+        },
+        {
+          "w": "€",
+          "start": 14.183,
+          "end": 14.531
+        },
+        {
+          "w": "im",
+          "start": 14.531,
+          "end": 14.636
+        },
+        {
+          "w": "Monat.",
+          "start": 14.659,
+          "end": 15.007
+        }
+      ],
+      "start": 13.530999999999999,
+      "end": 15.34
+    },
+    {
+      "effect": "chart",
+      "text": "Deine Daten bleiben auf deinem Rechner, jeden Tag gesichert.",
+      "words": [
+        {
+          "w": "Deine",
+          "start": 15.4,
+          "end": 15.609
+        },
+        {
+          "w": "Daten",
+          "start": 15.667,
+          "end": 16.004
+        },
+        {
+          "w": "bleiben",
+          "start": 16.039,
+          "end": 16.387
+        },
+        {
+          "w": "auf",
+          "start": 16.422,
+          "end": 16.503
+        },
+        {
+          "w": "deinem",
+          "start": 16.526,
+          "end": 16.724
+        },
+        {
+          "w": "Rechner,",
+          "start": 16.758,
+          "end": 17.107
+        },
+        {
+          "w": "jeden",
+          "start": 17.35,
+          "end": 17.606
+        },
+        {
+          "w": "Tag",
+          "start": 17.652,
+          "end": 17.803
+        },
+        {
+          "w": "gesichert.",
+          "start": 17.838,
+          "end": 18.279
+        }
+      ],
+      "start": 15.34,
+      "end": 18.589000000000002
+    },
+    {
+      "effect": "logoglow",
+      "text": "Jetzt 7 Tage kostenlos testen.",
+      "words": [
+        {
+          "w": "Jetzt",
+          "start": 18.649,
+          "end": 18.87
+        },
+        {
+          "w": "7",
+          "start": 18.916,
+          "end": 19.137
+        },
+        {
+          "w": "Tage",
+          "start": 19.183,
+          "end": 19.438
+        },
+        {
+          "w": "kostenlos",
+          "start": 19.496,
+          "end": 19.996
+        },
+        {
+          "w": "testen.",
+          "start": 20.054,
+          "end": 20.414
+        }
+      ],
+      "start": 18.589000000000002,
+      "end": 20.77
+    },
+    {
+      "effect": "abschluss",
+      "text": "AutoKontor. Dein Handel. In deiner Hand.",
+      "words": [
+        {
+          "w": "AutoKontor.",
+          "start": 20.83,
+          "end": 21.55
+        },
+        {
+          "w": "Dein",
+          "start": 21.931,
+          "end": 22.128
+        },
+        {
+          "w": "Handel.",
+          "start": 22.186,
+          "end": 22.535
+        },
+        {
+          "w": "In",
+          "start": 22.951,
+          "end": 23.044
+        },
+        {
+          "w": "deiner",
+          "start": 23.09,
+          "end": 23.369
+        },
+        {
+          "w": "Hand.",
+          "start": 23.415,
+          "end": 23.659
+        }
+      ],
+      "start": 20.77,
+      "end": 26.459
+    }
+  ]
+}

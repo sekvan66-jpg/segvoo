@@ -8,6 +8,7 @@ import { BRAND, C, FONT, FPS, N, P, S, SFONT } from "./theme";
 import { PREMIUM_EFFECTS } from "./premium/scenes";
 import { NACHT_EFFECTS } from "./nacht/scenes";
 import { SPORT_EFFECTS } from "./sport/scenes";
+import { MOTION_EFFECTS } from "./motion/scenes";
 import { Badge, xblur } from "./sport/kit";
 
 const EFFECTS: Record<string, React.FC<any>> = { slam: Slam, glitch: Glitch, stretch: Stretch, flash: Flash, morph: Morph, type: Type, laptop: Laptop, lock: Lock, os: OS, doc: Doc, preis: Preis, end: End };
@@ -17,9 +18,9 @@ const BeatView: React.FC<{ beat: Beat; index: number; occ: number; dur: number; 
   const frame = useCurrentFrame();
   const { width, height } = useVideoConfig();
   const premium = stil === "premium" || stil === "nacht";
-  const map = stil === "sport" ? SPORT_EFFECTS : stil === "nacht" ? NACHT_EFFECTS : stil === "premium" ? PREMIUM_EFFECTS : EFFECTS;
+  const map = stil === "motion" ? MOTION_EFFECTS : stil === "sport" ? SPORT_EFFECTS : stil === "nacht" ? NACHT_EFFECTS : stil === "premium" ? PREMIUM_EFFECTS : EFFECTS;
   const Comp = map[beat.effect] ?? Slam;
-  const isEnd = beat.effect === "end" || beat.effect === "finale" || beat.effect === "zielflagge";
+  const isEnd = beat.effect === "end" || beat.effect === "finale" || beat.effect === "zielflagge" || beat.effect === "abschluss";
   const words = toFrames(beat);
   const dir = index % 2 ? 1 : -1;
   const punch = isEnd ? 1 : interpolate(frame, [0, 6], [1.18, 1], { ...clamp, easing: EASE });
@@ -45,6 +46,14 @@ const BeatView: React.FC<{ beat: Beat; index: number; occ: number; dur: number; 
     vertical: height > width,
     screenshot,
   };
+  if (stil === "motion") {
+    // Motion (Vorlage): harte Schnitte, die Szenen animieren sich selbst; nur ein leichter Kamera-Push
+    return (
+      <AbsoluteFill style={{ transform: `scale(${1 + (frame / Math.max(1, dur)) * 0.025})` }}>
+        <Comp {...props} />
+      </AbsoluteFill>
+    );
+  }
   if (stil === "sport") {
     // Sport: schießt von rechts herein (Schräglage, Bewegungsunschärfe), raus nach links, Kamera-Kick auf jedem Wort
     const t = interpolate(frame, [0, 7], [0, 1], { ...clamp, easing: EASE });
@@ -388,13 +397,31 @@ const SFX_SPORT: Record<string, (b: Beat) => Sfx[]> = {
   zielflagge: (b) => [{ at: b.start, file: "impact", vol: 0.7 }, { at: b.start + 0.3, file: "ui-ding", vol: 0.5 }],
 };
 
+/** Motion: feine Interface-Sounds wie in Tech-Werbung. */
+const ticks = (from: number, to: number, step = 0.085, vol = 0.22): Sfx[] => {
+  const out: Sfx[] = [];
+  for (let t = from; t < to; t += step) out.push({ at: t, file: "ui-tick", vol });
+  return out;
+};
+const SFX_MOTION: Record<string, (b: Beat) => Sfx[]> = {
+  icons: (b) => b.words.flatMap((w) => [{ at: w.start - 0.06, file: "ui-swish" as const, vol: 0.4 }, { at: w.start + 0.12, file: "ui-pop" as const, vol: 0.4 }]),
+  bigicon: (b) => [{ at: b.start, file: "whoosh", vol: 0.45 }, { at: b.start + 0.5, file: "ui-ding", vol: 0.35 }],
+  infokarte: (b) => [{ at: b.start, file: "whoosh", vol: 0.5 }, { at: wordStart(b, /autohändler/i), file: "ui-pop", vol: 0.5 }],
+  suchfeld: (b) => [...ticks(b.start + 0.2, wordStart(b, /^mit$/i)), { at: wordStart(b, /klicks/i), file: "ui-click", vol: 0.8 }, { at: wordStart(b, /pdf/i), file: "ui-ding", vol: 0.5 }],
+  bildkarten: (b) => b.words.map((w) => ({ at: w.start - 0.05, file: "ui-swish" as const, vol: 0.5 })),
+  zaehler: (b) => [...ticks(Math.max(b.start, wordStart(b, /19/) - 0.2), wordStart(b, /19/) + 0.33, 0.06, 0.2), { at: wordStart(b, /monat/i), file: "ui-ding", vol: 0.45 }],
+  chart: (b) => [{ at: b.start, file: "whoosh", vol: 0.45 }, ...Array.from({ length: 7 }, (_, i) => ({ at: wordStart(b, /jeden/i) + (i * 2.5) / FPS, file: "ui-tick" as const, vol: 0.35 })), { at: wordStart(b, /gesichert/i), file: "ui-ding", vol: 0.45 }],
+  logoglow: (b) => [{ at: b.start, file: "impact", vol: 0.55 }],
+  abschluss: (b) => [{ at: b.start, file: "whoosh", vol: 0.45 }, ...ticks(b.start + 0.4, b.start + 0.95, 0.07, 0.2), { at: wordStart(b, /hand$/i, b.end - 1), file: "ui-ding", vol: 0.4 }],
+};
+
 const Sound: React.FC<{ total: number; timeline: Timeline }> = ({ total, timeline }) => {
   const a = timeline.audio;
   const premium = timeline.stil === "premium" || timeline.stil === "nacht";
   const sport = timeline.stil === "sport";
-  const sfxMap = sport ? SFX_SPORT : timeline.stil === "nacht" ? SFX_NACHT : premium ? SFX_PREMIUM : SFX_FOR;
+  const sfxMap = timeline.stil === "motion" ? SFX_MOTION : sport ? SFX_SPORT : timeline.stil === "nacht" ? SFX_NACHT : premium ? SFX_PREMIUM : SFX_FOR;
   // Premium: Musik ist schon unter der Stimme abgesenkt (tools/musik.py --stil sanft) und bleibt dezent im Hintergrund
-  const musicVol = a.voice ? (premium ? 0.3 : sport ? 0.3 : 0.14) : 0.6;
+  const musicVol = a.voice ? (premium || timeline.stil === "motion" ? 0.3 : sport ? 0.3 : 0.14) : 0.6;
   const sfxVol = a.voice ? 0.55 : 1;
   return (
     <>
@@ -428,6 +455,7 @@ export const Spot: React.FC<{ timeline: Timeline }> = ({ timeline }) => {
   const premium = stil === "premium";
   const nacht = stil === "nacht";
   const sport = stil === "sport";
+  const motion = stil === "motion";
   const count: Record<string, number> = {};
   const endBeat = beats.find((b) => b.effect === "end");
   return (
@@ -444,8 +472,8 @@ export const Spot: React.FC<{ timeline: Timeline }> = ({ timeline }) => {
           </Sequence>
         );
       })}
-      {!premium && !nacht && !sport && <Corner endFrom={endBeat ? Math.round(endBeat.start * FPS) : durationInFrames} />}
-      {!premium && !nacht && !sport && <Overlays />}
+      {!premium && !nacht && !sport && !motion && <Corner endFrom={endBeat ? Math.round(endBeat.start * FPS) : durationInFrames} />}
+      {!premium && !nacht && !sport && !motion && <Overlays />}
       {sport && <SportCuts beats={beats} />}
       {sport && <SportHud beats={beats} />}
       {sport && <SportOverlay />}

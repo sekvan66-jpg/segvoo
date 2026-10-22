@@ -14,3 +14,5 @@ for (const w of ["500", "700", "800"]) loadFont({ family: "Saira Condensed", url
 // Sport-Stil: Barlow Condensed (schräg, extra fett) – OFL, aus @fontsource/barlow-condensed
 for (const w of ["600", "800", "900"]) loadFont({ family: "Barlow Condensed", url: staticFile(`fonts/barlow-${w}-italic.woff2`), weight: w, style: "italic" });
 loadFont({ family: "Barlow Condensed", url: staticFile("fonts/barlow-700-normal.woff2"), weight: "700", style: "normal" });
+// Motion-Stil: weitere Inter-Stärken (OFL, aus @fontsource/inter)
+for (const w of ["500", "600", "800", "900"]) loadFont({ family: "Inter", url: staticFile(`fonts/inter-${w}.woff2`), weight: w });

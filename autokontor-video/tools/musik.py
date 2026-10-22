@@ -553,6 +553,130 @@ def build_sport(beats, dur, t_hit, t_drop, t_lift, t_end, bpm, fassung):
     return bed.x * 0.85 + acc.x + wet * 0.3
 
 
+
+# ---------- Motion (Vorlage, Tech-Werbung): D-Dur, 118 BPM, hell und federnd, Akzente auf jedem Schnitt ----------
+def build_motion(beats, dur, bpm, fassung):
+    step = 60 / bpm / 4
+    bar = 16 * step
+    bed, acc, send, sc = Track(dur), Track(dur), Track(dur), Track(dur)
+    prog = [  # D – A – Hm – G
+        ([293.7, 370.0, 440.0], 73.4),
+        ([277.2, 329.6, 440.0], 55.0),
+        ([293.7, 370.0, 493.9], 61.7),
+        ([293.7, 392.0, 493.9], 49.0),
+    ]
+    by = {b["effect"]: b for b in beats}
+    t_big = by["bigicon"]["start"] if "bigicon" in by else beats[min(1, len(beats) - 1)]["start"]
+    t_black = by["logoglow"]["start"] if "logoglow" in by else dur - 7
+    t_end = by["abschluss"]["start"] if "abschluss" in by else dur - 4
+    zb = by.get("zaehler")
+    t_19 = next((x["start"] for x in zb["words"] if "19" in x["w"]), zb["start"]) if zb else None
+
+    def hit(t, chord, gain=1.0, big=False):
+        acc.add(kick(big=True), t, 0.8 * gain)
+        acc.add(clap(), t, 0.4 * gain)
+        acc.add(crash(2.2 if big else 1.2), t, (0.45 if big else 0.22) * gain)
+        send.add(crash(1.6), t, 0.2 * gain)
+        if big:
+            acc.add(boom(), t, 0.6 * gain)
+        st = supersaw([f * 0.5 for f in chord] + chord, 0.9 if big else 0.4, cutoff=6500, decay=0.45 if big else 0.16)
+        acc.add(st, t, 0.42 * gain)
+        send.add(st, t, 0.3 * gain)
+
+    # Intro: federnde Plucks, leise Hi-Hats, Akzente auf den drei Icons
+    t = 0.0
+    k = 0
+    while t < t_big - 0.02:
+        chord = prog[(k // 8) % 4][0]
+        bed.add(pluck(chord[k % 3] * 2, 0.4, bright=0.8), t, 0.2, -0.3 if k % 2 else 0.3)
+        send.add(pluck(chord[k % 3] * 2, 0.4, bright=0.8), t, 0.12)
+        if k % 2 == 0:
+            bed.add(hat(), t, 0.12)
+        t += 2 * step
+        k += 1
+    bed.add(riser(min(1.6, t_big)), t_big - min(1.6, t_big), 0.3)
+    if "icons" in by:
+        for i, w in enumerate(by["icons"]["words"]):
+            acc.add(supersaw(prog[i % 4][0], 0.35, cutoff=5200, decay=0.14), w["start"], 0.32)
+            acc.add(clap(), w["start"], 0.22)
+
+    # Groove ab dem großen Icon bis zum Wechsel ins Schwarze
+    hit(t_big, prog[0][0], 1.0, big=True)
+    tb, b = t_big, 0
+    while tb < t_black - 0.01:
+        chord, root = prog[b % 4]
+        for s16 in range(16):
+            ts = tb + s16 * step
+            if ts >= t_black - 0.01:
+                break
+            if s16 % 4 == 0:
+                bed.add(kick(), ts, 0.8)
+                sc.add(np.ones(1), ts, 1.0)
+            if s16 in (4, 12):
+                bed.add(clap(), ts, 0.45)
+                send.add(clap(), ts, 0.18)
+            bed.add(hat(), ts, 0.16 if s16 % 2 else 0.08)
+            if s16 % 4 == 2:
+                bed.add(hat(True), ts, 0.22)
+            if s16 % 2 == 0:
+                bed.add(sbass(root * (2 if s16 % 8 == 6 else 1), step * 1.7, cutoff=1300), ts, 0.5)
+            if s16 in (2, 6, 10, 14):
+                st = supersaw(chord, step * 1.4, cutoff=5600, decay=0.08)
+                bed.add(st, ts, 0.24)
+                send.add(st, ts, 0.1)
+            if s16 % 2 == 0:
+                motif = [0, 1, 2, 1, 0, 2, 1, 2]
+                pl = pluck(chord[motif[(s16 // 2) % 8]] * 2, 0.32, bright=1.0)
+                bed.add(pl, ts, 0.13, -0.3 if (s16 // 2) % 2 else 0.3)
+                send.add(pl, ts, 0.08)
+        tb += bar
+        b += 1
+
+    # Akzent auf jedem Schnitt (mit kurzem Becken-Anlauf)
+    last = t_big
+    for x in beats[1:]:
+        c = x["start"]
+        if c <= t_big + 0.5 or c >= t_black - 0.05 or c - last < 0.6:
+            continue
+        acc.add(rev_cymbal(0.4), c - 0.4, 0.22)
+        hit(c, prog[int((c - t_big) // bar) % 4][0], 0.5)
+        last = c
+    if t_19:
+        hit(t_19, prog[0][0], 0.8)
+
+    # Schwarz: Musik bricht ab, großer Schlag, dunkle Fläche + Aufbau
+    hit(t_black, prog[2][0], 1.0, big=True)
+    dark = pad([123.5, 146.8, 185.0], t_end - t_black + 0.3, cutoff=900)
+    bed.add(dark, t_black, 0.5)
+    send.add(dark, t_black, 0.3)
+    bed.add(riser(max(0.4, t_end - t_black)), t_black, 0.35)
+
+    # Abschluss: Schlag + großer Akkord, sanftes Ausklingen
+    tail = max(2.0, dur - t_end + 0.6)
+    hit(t_end, prog[0][0], 1.0, big=True)
+    fin = supersaw([146.8, 185.0, 220.0, 293.7, 370.0], tail, cutoff=4800, attack=0.01, decay=1.6, sustain=0.32, release=0.8)
+    acc.add(fin, t_end, 0.5)
+    send.add(fin, t_end, 0.4)
+    for i, f in enumerate([587.3, 740.0, 880.0, 1174.7]):
+        acc.add(pluck(f, 1.4, 1.0), t_end + 0.12 + i * 0.09, 0.18, [-0.4, 0.4, -0.2, 0.2][i])
+    fb = sbass(73.4, min(tail, 3.0), cutoff=500)
+    acc.add(fb * np.linspace(1, 0, len(fb)) ** 1.6, t_end, 0.6)
+
+    n = len(bed.x)
+    duck = np.ones(n)
+    rel = int(0.2 * SR)
+    curve = 1 - 0.45 * np.exp(-np.arange(rel) / (0.05 * SR))
+    for h in np.nonzero(sc.x[:, 0])[0]:
+        e = min(n, h + rel)
+        duck[h:e] = np.minimum(duck[h:e], curve[: e - h])
+    bed.x *= duck[:, None]
+    ir = reverb_ir()
+    wet = np.stack([fftconvolve(send.x[:, c], ir[:, c])[:n] for c in range(2)], axis=1)
+    bed.x *= voice_duck(fassung, n, -7.0)[:, None]
+    acc.x *= voice_duck(fassung, n, -3.0)[:, None]
+    return bed.x * 0.85 + acc.x + wet * 0.32
+
+
 def reverb_ir(length=1.6):
     t = secs(length)
     ir = np.stack([rng.standard_normal(len(t)), rng.standard_normal(len(t))], axis=1)
@@ -566,9 +690,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("fassung")
     ap.add_argument("--bpm", type=float, default=None)
-    ap.add_argument("--stil", default="sanft", choices=["sanft", "kraftvoll", "nacht", "sport"])
+    ap.add_argument("--stil", default="sanft", choices=["sanft", "kraftvoll", "nacht", "sport", "motion"])
     args = ap.parse_args()
-    args.bpm = args.bpm or {"sanft": 96, "nacht": 100, "sport": 128}.get(args.stil, 120)
+    args.bpm = args.bpm or {"sanft": 96, "nacht": 100, "sport": 128, "motion": 118}.get(args.stil, 120)
     tl_path = ROOT / "src" / "data" / f"timeline-{args.fassung}.json"
     if not tl_path.exists():
         sys.exit(f"{tl_path} fehlt – erst: node tools/build-timeline.mjs {args.fassung}")
@@ -587,6 +711,9 @@ def main():
 
     if args.stil == "nacht":
         finish(build_nacht(beats, dur, t_hit, t_drop, t_lift, t_end, args.bpm, args.fassung), dur, args, t_hit, t_drop, t_lift, t_end)
+        return
+    if args.stil == "motion":
+        finish(build_motion(beats, dur, args.bpm, args.fassung), dur, args, t_hit, t_drop, t_lift, t_end)
         return
     if args.stil == "sport":
         finish(build_sport(beats, dur, t_hit, t_drop, t_lift, t_end, args.bpm, args.fassung), dur, args, t_hit, t_drop, t_lift, t_end)

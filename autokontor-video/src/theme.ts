@@ -89,3 +89,17 @@ export const SFONT = {
   head: "Barlow Condensed, Anton, sans-serif",
   ui: "Inter, Arial, sans-serif",
 };
+
+// Motion-Stil (nach Vorlage des Nutzers): fast weiß mit grauer Vignette, 3D-Einflüge, Lila-Akzent, schwarzer Abschluss
+export const M = {
+  ink: "#16171C",
+  grey: "#6A6D78",
+  light: "#9A9DA8",
+  accent: "#7C3AED",
+  accent2: "#2563EB",
+  red: "#DC2626",
+  neon: "#39FF88",
+  navy: "#070C1F",
+  cyan: "#25F4EE",
+  pink: "#FE2C55",
+};
