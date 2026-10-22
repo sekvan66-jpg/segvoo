@@ -1,7 +1,7 @@
 """
 Erzeugt die Sprecherstimme aus skript.txt OFFLINE mit Coqui-TTS (VITS, Deutsch):
   --modell thorsten   männlich (Standard)
-  --modell css10      weiblich, sehr gut verständlich (BSD-3, Daten gemeinfrei) – mit --klang werbung-w
+  --modell css10      weiblich, sehr gut verständlich (BSD-3, Daten gemeinfrei) – mit --klang natuerlich-w
 Alternative zu tools/voice.py (Chatterbox), wenn kein Chatterbox/Whisper verfügbar ist.
 
 - Jeder Satz wird am Stück gesprochen (natürliche Betonung), danach kurze Pause.
@@ -42,7 +42,7 @@ MODELS = {
         "url": "https://github.com/coqui-ai/TTS/releases/download/v0.8.0_models/tts_models--de--css10--vits.zip",
         "ckpt": "model_file.pth.tar",
         "lexikon": "aussprache-css10.txt",
-        "klang": "werbung-w",
+        "klang": "natuerlich-w",
         "rauschen": (0.5, 0.6),  # etwas lebendiger als das ruhige Hörbuch-Original (0.3/0.3)
     },
 }
@@ -106,7 +106,7 @@ def main():
     ap.add_argument("--seed", type=int, default=7)
     ap.add_argument("--fassung", default="", help="z. B. tiktok30 → skript-tiktok30.txt, public/tiktok30/")
     ap.add_argument("--modell", default="thorsten", choices=list(MODELS))
-    ap.add_argument("--klang", default=None, choices=list(VOICE_FX), help="Standard: roh (thorsten) / werbung-w (css10)")
+    ap.add_argument("--klang", default=None, choices=list(VOICE_FX), help="Standard: roh (thorsten) / natuerlich-w (css10)")
     args = ap.parse_args()
     out_dir = PUBLIC / args.fassung if args.fassung else PUBLIC
     m = MODELS[args.modell]

@@ -85,7 +85,7 @@ def main():
     ap.add_argument("--gefuehl", default="neutral", help="nur thorsten-emotional: amused, surprised, neutral, …")
     ap.add_argument("--tempo", type=float, default=0.95)
     ap.add_argument("--pause", type=float, default=0.3, help="Pause nach jedem Satz (nach Fragen 1,5×)")
-    ap.add_argument("--klang", default="werbung", choices=list(VOICE_FX))
+    ap.add_argument("--klang", default="natuerlich", choices=list(VOICE_FX))
     ap.add_argument("--ausdruck", type=float, default=0.62, help="Lebendigkeit 0.4 (klar) … 0.8 (lebendig, aber undeutlicher)")
     ap.add_argument("--takes", type=int, default=1, help="Takes pro Satz; der von Whisper am besten verstandene gewinnt (braucht models/asr)")
     ap.add_argument("--zeige", action="store_true")

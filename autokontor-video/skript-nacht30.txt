@@ -1,7 +1,7 @@
 # AutoKontor – 30 Sekunden im Nacht-Stil („AutoKontor bei Nacht“: Automobil-Look, Chrom, Cyan-Licht)
 # stil: nacht
 # musik: musik-nacht30.mp3   (python tools/musik.py nacht30 --stil nacht)
-# stimme: nacht30            (python tools/voice_piper.py --fassung nacht30 --klang trailer)
+# stimme: nacht30            (python tools/voice_piper.py --fassung nacht30 --klang tief --tempo 1.0 --pause 0.34 --takes 6)
 #
 # *Wort* = leuchtet cyan. Szenen stehen in src/nacht/scenes.tsx:
 #   strasse, stopp, zuendung, silhouetten, cockpit, schluessel, leuchten, rechner, wolke,

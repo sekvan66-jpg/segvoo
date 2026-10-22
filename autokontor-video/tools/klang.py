@@ -4,6 +4,18 @@ import subprocess
 VOICE_FX = {
     # unbearbeitet
     "roh": "anull",
+    # Standard: so wenig wie möglich – kein Tonhöhen-Trick, kein kurzer Hall, keine Verzerrung (die klingen
+    # metallisch/roboterhaft; DNSMOS-Gesamtnote 3,07 statt 2,90 „werbung“ / 2,76 „trailer“)
+    "natuerlich": "highpass=f=70,equalizer=f=140:t=q:w=0.9:g=2,equalizer=f=350:t=q:w=1:g=-1.5,"
+    "equalizer=f=4000:t=q:w=1.2:g=1.5,deesser=i=0.3,"
+    "acompressor=threshold=-22dB:ratio=2.5:attack=8:release=120:makeup=4:knee=6,alimiter=limit=0.89",
+    "natuerlich-w": "highpass=f=85,equalizer=f=220:t=q:w=0.9:g=1,equalizer=f=400:t=q:w=1:g=-1.5,"
+    "equalizer=f=4500:t=q:w=1.2:g=1.5,deesser=i=0.35,"
+    "acompressor=threshold=-22dB:ratio=2.5:attack=8:release=120:makeup=4:knee=6,alimiter=limit=0.89",
+    # tiefer (−1 Halbton, hohe Qualität, Klangfarbe erhalten), sonst wie „natuerlich“
+    "tief": "rubberband=pitch=0.944:formant=preserved:pitchq=quality:window=long,highpass=f=60,"
+    "equalizer=f=110:t=q:w=0.8:g=3,equalizer=f=320:t=q:w=1:g=-2,equalizer=f=3500:t=q:w=1.2:g=2,deesser=i=0.3,"
+    "acompressor=threshold=-22dB:ratio=3:attack=6:release=100:makeup=5:knee=6,alimiter=limit=0.89",
     # neutral: Brummen weg, etwas Wärme, Präsenz, Kompressor
     "studio": "highpass=f=75,equalizer=f=170:t=q:w=1:g=2,equalizer=f=3200:t=q:w=1.2:g=3,equalizer=f=9000:t=q:w=1:g=1.5,"
     "acompressor=threshold=-20dB:ratio=3:attack=4:release=90:makeup=5,alimiter=limit=0.89",
