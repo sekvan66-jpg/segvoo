@@ -1,47 +1,67 @@
 [
   {
+    "text": "Zettel, Excel, Ordner überall? Damit ist jetzt Schluss.",
+    "start": 0.035,
+    "end": 3.748
+  },
+  {
     "text": "Fahrzeuge. Kaufverträge. E-Rechnung.",
-    "start": 0.04,
-    "end": 2.61
+    "start": 4.109,
+    "end": 6.565
   },
   {
     "text": "Alles in einer Software.",
-    "start": 3.03,
-    "end": 4.133
+    "start": 6.95,
+    "end": 8.076
   },
   {
     "text": "AutoKontor, die Software für große und kleine Autohändler.",
-    "start": 4.553,
-    "end": 7.827
+    "start": 8.476,
+    "end": 11.878
   },
   {
     "text": "Kaufvertrag? Mit wenigen Klicks als PDF.",
-    "start": 8.247,
-    "end": 11.138
+    "start": 12.274,
+    "end": 14.926
   },
   {
     "text": "Fahrzeuge, Kunden, Rechnungen.",
-    "start": 11.526,
-    "end": 13.221
+    "start": 15.326,
+    "end": 16.975
   },
   {
-    "text": "Ab 19 € im Monat.",
-    "start": 13.591,
-    "end": 15.007
+    "text": "Auch als E-Rechnung, im Format ZUGFeRD oder XRechnung.",
+    "start": 17.359,
+    "end": 20.447
+  },
+  {
+    "text": "Rechnungen werden gesperrt und protokolliert, für die GoBD.",
+    "start": 20.847,
+    "end": 24.087
   },
   {
     "text": "Deine Daten bleiben auf deinem Rechner, jeden Tag gesichert.",
-    "start": 15.4,
-    "end": 18.279
+    "start": 24.487,
+    "end": 27.308
+  },
+  {
+    "text": "Für Windows, Mac und Linux, auf zwei Geräten.",
+    "start": 27.704,
+    "end": 30.479
+  },
+  {
+    "text": "Ab 19 € im Monat, monatlich kündbar.",
+    "start": 30.84,
+    "end": 33.348
   },
   {
     "text": "Jetzt 7 Tage kostenlos testen.",
-    "start": 18.649,
-    "end": 20.414
+    "start": 33.732,
+    "end": 35.334
   },
   {
     "text": "AutoKontor. Dein Handel. In deiner Hand.",
-    "start": 20.83,
-    "end": 23.659
+    "start": 35.734,
+    "end": 38.489
   }
 ]

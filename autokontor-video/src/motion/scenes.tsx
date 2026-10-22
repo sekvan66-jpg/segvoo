@@ -5,6 +5,7 @@ import { AbsoluteFill, interpolate, random } from "remotion";
 import { BeatProps, EASE, clamp } from "../lib";
 import { BRAND, FONT, M } from "../theme";
 import { at } from "../premium/kit";
+import { Excel, Ordner, Zettel } from "../premium/scenes";
 import { Glyph, Logo, Room, Tile, appear, fly, whipOut } from "./kit";
 
 const H: React.CSSProperties = { fontFamily: FONT.ui, letterSpacing: "-0.035em", lineHeight: 1 };
@@ -400,7 +401,189 @@ export const Abschluss: React.FC<BeatProps> = (p) => {
   );
 };
 
+
+/* ---------- 0. PROBLEM: Zettel, Excel, Ordner fliegen herein – bei „Schluss“ weggefegt ---------- */
+export const Problem: React.FC<BeatProps> = (p) => {
+  const { frame, width, height, words } = p;
+  const fz = at(words, "zettel", 0);
+  const fe = at(words, "excel", 8);
+  const fo = at(words, "ordner", 16);
+  const fu = at(words, "überall", 24);
+  const fd = at(words, "damit", 34);
+  const fs = at(words, "schluss", 46);
+  const gone = interpolate(frame, [fs - 4, fs + 4], [0, 1], { ...clamp, easing: (x) => x * x });
+  const shake = frame >= fd && frame < fs ? Math.sin(frame * 1.9) * 5 : 0;
+  const items = [
+    { El: Zettel, f: fz, x: 120, y: 150, r: -9, dir: -1, o: { x: -600, ry: 55, ry2: 12 } },
+    { El: Excel, f: fe, x: 560, y: 250, r: 6, dir: 1, o: { x: 640, ry: -55, ry2: -14 } },
+    { El: Ordner, f: fo, x: 200, y: 560, r: -5, dir: -1, o: { y: 400, x: 0, rx: 60, ry: 0, ry2: 8 } },
+  ];
+  const sch = appear(frame, fs, 10);
+  return (
+    <Room width={width} height={height}>
+      {items.map(({ El, f, x, y, r, dir, o }, k) => (
+        <div key={k} style={{ ...abs(x, y), ...fly(frame, f, { ...o, d: 14, drift: 0.05 }), translate: `${dir * gone * 1300 + shake}px ${-gone * 120}px`, scale: `${1 + gone * 0.25}` }}>
+          <div style={{ transform: `rotate(${r}deg) scale(1.15)`, filter: gone > 0.02 ? `blur(${gone * 30}px)` : undefined }}>
+            <El s={1} k={k} />
+          </div>
+        </div>
+      ))}
+      <div style={{ ...abs(0, 820), width: 1080, display: "flex", justifyContent: "center", perspective: 800, opacity: 1 - gone }}>
+        <Word text="überall?" at={fu} frame={frame} size={110} color="#2B2C33" weight={800} />
+      </div>
+      <div style={{ ...abs(0, 330), width: 1080, display: "flex", justifyContent: "center", gap: 22, perspective: 800, opacity: frame < fs ? 1 : 1 - gone * 0.0 }}>
+        {frame >= fd && frame < fs && ["Damit", "ist", "jetzt"].map((w, i) => <Word key={w} text={w} at={words.find((x) => x.w.toLowerCase().startsWith(w.toLowerCase()))?.f ?? fd + i * 4} frame={frame} size={96} />)}
+      </div>
+      {frame >= fs && (
+        <div style={{ ...abs(0, 380), width: 1080, display: "flex", justifyContent: "center", opacity: sch, transform: `translateZ(${(1 - sch) * -900}px) scale(${1 + (1 - sch) * 0.4})`, filter: sch < 0.98 ? `blur(${(1 - sch) * 30}px)` : undefined }}>
+          <span style={{ ...H, fontSize: 230, fontWeight: 900, letterSpacing: "-0.06em", backgroundImage: `linear-gradient(100deg, ${M.accent}, ${M.accent2})`, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>Schluss.</span>
+        </div>
+      )}
+    </Room>
+  );
+};
+
+/** Glas-Pille mit Haken. */
+const Badge: React.FC<{ label: string; p: number }> = ({ label, p }) => (
+  <div style={{ display: "flex", alignItems: "center", gap: 22, width: 440, padding: "26px 30px", boxSizing: "border-box", borderRadius: 34, background: "rgba(255,255,255,.88)", border: "1px solid #fff", boxShadow: "0 30px 60px -20px rgba(40,40,80,.3), 0 8px 16px rgba(40,40,80,.08)" }}>
+    <Tile size={74} c1="#4ADE9B" c2="#047857" glow="rgba(5,150,105,.45)">
+      <div style={{ opacity: p, transform: `scale(${0.4 + 0.6 * p})`, width: "100%", height: "100%" }}>
+        <Glyph name="check" w={8} />
+      </div>
+    </Tile>
+    <span style={{ ...H, fontSize: 48, fontWeight: 800 }}>{label}</span>
+  </div>
+);
+
+/* ---------- 7. E-RECHNUNG: Rechnung + Abzeichen E-Rechnung / ZUGFeRD / XRechnung ---------- */
+export const Erechnung: React.FC<BeatProps> = (p) => {
+  const { frame, width, height, words } = p;
+  const list = [
+    { label: "E-Rechnung", f: at(words, "e-rechnung", 4) },
+    { label: "ZUGFeRD", f: at(words, "zugferd", 20) },
+    { label: "XRechnung", f: at(words, "xrechnung", 32) },
+  ];
+  return (
+    <Room width={width} height={height}>
+      <div style={{ ...abs(90, 230), ...fly(frame, 0, { x: -600, ry: 55, ry2: 18, rx: 14, rx2: 4, d: 14, drift: 0.06 }) }}>
+        <div style={{ width: 400, height: 540, borderRadius: 40, background: "#fff", boxShadow: "0 50px 100px -30px rgba(40,40,80,.4), 0 10px 20px rgba(40,40,80,.08)", padding: 44, boxSizing: "border-box", display: "flex", flexDirection: "column", gap: 18 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+            <Logo size={64} />
+            <div style={{ ...H, fontSize: 34, fontWeight: 800 }}>Rechnung</div>
+          </div>
+          {[86, 64, 74, 52, 70, 46].map((w, i) => (
+            <div key={i} style={{ height: 14, width: `${w}%`, borderRadius: 7, background: i === 0 ? "#3A3B42" : "#D6D8DE" }} />
+          ))}
+          <div style={{ marginTop: "auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div style={{ ...H, fontSize: 26, fontWeight: 600, color: M.grey }}>XML + PDF</div>
+            <div style={{ ...H, fontSize: 26, fontWeight: 800, color: "#fff", background: "#059669", padding: "8px 14px", borderRadius: 10 }}>E</div>
+          </div>
+        </div>
+      </div>
+      {list.map((b, k) => (
+        <div key={b.label} style={{ ...abs(560, 260 + k * 190), ...fly(frame, b.f, { x: 600, ry: -50, ry2: -12, rx: 10, rx2: 2, d: 12, drift: 0.04 }) }}>
+          <Badge label={b.label} p={appear(frame, b.f + 6, 8)} />
+        </div>
+      ))}
+    </Room>
+  );
+};
+
+/* ---------- 8. GoBD: Rechnung wird gesperrt, Protokoll läuft mit ---------- */
+export const Gobd: React.FC<BeatProps> = (p) => {
+  const { frame, width, height, words } = p;
+  const fg = at(words, "gesperrt", 16);
+  const fp = at(words, "protokolliert", 28);
+  const fb = at(words, "gobd", 44);
+  const locked = frame >= fg;
+  const lk = appear(frame, fg, 8);
+  const log = [
+    { t: "09:41", txt: "Rechnung erstellt" },
+    { t: "09:42", txt: "als PDF gespeichert" },
+    { t: "09:42", txt: "Rechnung gesperrt" },
+  ];
+  return (
+    <Room width={width} height={height} persp={1500}>
+      <div style={{ ...abs(130, 170), width: 820, ...fly(frame, 0, { x: 700, ry: -52, ry2: 14, rx: 18, rx2: 7, d: 16, drift: -0.1 }) }}>
+        <div style={{ borderRadius: 56, padding: "52px 60px", background: "linear-gradient(155deg, #2D2F37 0%, #1C1D23 60%, #141519 100%)", border: "1px solid rgba(255,255,255,.09)", boxShadow: "0 70px 130px -30px rgba(20,20,40,.55), inset 0 1px 0 rgba(255,255,255,.12)", color: "#fff", display: "flex", flexDirection: "column", gap: 34 }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <div>
+              <div style={{ ...H, fontSize: 30, fontWeight: 600, color: "#9EA0AC", letterSpacing: "0" }}>RE-2026-0147</div>
+              <div style={{ ...H, fontSize: 58, fontWeight: 800, marginTop: 10 }}>Rechnung</div>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "16px 24px", borderRadius: 999, background: locked ? "rgba(220,38,38,.18)" : "rgba(255,255,255,.08)", border: `2px solid ${locked ? "rgba(248,113,113,.7)" : "rgba(255,255,255,.15)"}`, transform: `scale(${1 + Math.sin(Math.min(1, lk) * Math.PI) * 0.12})` }}>
+              <div style={{ width: 36, height: 36 }}>
+                <Glyph name="lock" color={locked ? "#F87171" : "#9EA0AC"} w={6} />
+              </div>
+              <span style={{ ...H, fontSize: 34, fontWeight: 700, color: locked ? "#FCA5A5" : "#C9CBD4", letterSpacing: "0" }}>{locked ? "Gesperrt" : "Entwurf"}</span>
+            </div>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            {log.map((l, i) => {
+              const a = appear(frame, fp + i * 5, 8);
+              return (
+                <div key={i} style={{ display: "flex", gap: 26, alignItems: "center", fontSize: 34, color: "#DCDDE3", opacity: a, transform: `translateX(${(1 - a) * -40}px)` }}>
+                  <span style={{ fontVariantNumeric: "tabular-nums", color: "#8E91A0", fontWeight: 600 }}>{l.t}</span>
+                  <span style={{ width: 12, height: 12, borderRadius: "50%", background: M.accent, boxShadow: "0 0 14px rgba(124,58,237,.9)" }} />
+                  <span style={{ fontWeight: 500 }}>{l.txt}</span>
+                </div>
+              );
+            })}
+          </div>
+          <div style={{ alignSelf: "flex-end", ...H, fontSize: 40, fontWeight: 800, padding: "18px 34px", borderRadius: 999, background: "linear-gradient(180deg, #9466FA, #7C3AED)", boxShadow: "0 18px 40px -8px rgba(124,58,237,.75)", opacity: appear(frame, fb, 8), transform: `scale(${0.5 + 0.5 * appear(frame, fb, 10)})`, letterSpacing: "0.02em" }}>
+            für die GoBD
+          </div>
+        </div>
+      </div>
+    </Room>
+  );
+};
+
+/* ---------- 10. GERÄTE: Windows, Mac, Linux – auf zwei Geräten ---------- */
+export const Geraete: React.FC<BeatProps> = (p) => {
+  const { frame, width, height, words } = p;
+  const os = [
+    { label: "Windows", f: at(words, "windows", 2) },
+    { label: "Mac", f: at(words, "mac", 10) },
+    { label: "Linux", f: at(words, "linux", 18) },
+  ];
+  const fz = at(words, "zwei", 28);
+  const screen = (w: number, h: number) => (
+    <div style={{ width: w, height: h, borderRadius: 26, background: "#1B1C22", padding: 14, boxSizing: "border-box", boxShadow: "0 40px 80px -24px rgba(40,40,80,.45)" }}>
+      <div style={{ width: "100%", height: "100%", borderRadius: 14, background: `radial-gradient(circle at 50% 40%, #A78BFA 0%, ${M.accent} 45%, #312E81 100%)`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <Logo size={Math.round(h * 0.42)} />
+      </div>
+    </div>
+  );
+  return (
+    <Room width={width} height={height}>
+      <div style={{ ...abs(0, 140), width: 1080, display: "flex", justifyContent: "center", gap: 24 }}>
+        {os.map((o) => (
+          <div key={o.label} style={{ ...fly(frame, o.f, { x: 0, y: -200, z: -600, rx: -60, rx2: 0, ry: 0, ry2: 0, d: 12, sx: 1, drift: 0 }) }}>
+            <div style={{ ...H, fontSize: 52, fontWeight: 800, padding: "22px 40px", borderRadius: 999, background: "rgba(255,255,255,.9)", border: "1px solid #fff", boxShadow: "0 24px 50px -18px rgba(40,40,80,.3)" }}>{o.label}</div>
+          </div>
+        ))}
+      </div>
+      <div style={{ ...abs(110, 380), ...fly(frame, fz - 2, { x: -500, ry: 50, ry2: 14, rx: 14, rx2: 4, d: 14, drift: 0.04 }) }}>
+        {screen(500, 330)}
+        <div style={{ width: 90, height: 70, margin: "0 auto", background: "linear-gradient(180deg,#C9CBD3,#9EA1AB)", clipPath: "polygon(30% 0,70% 0,100% 100%,0 100%)" }} />
+      </div>
+      <div style={{ ...abs(600, 470), ...fly(frame, fz + 3, { x: 500, ry: -50, ry2: -16, rx: 14, rx2: 4, d: 14, drift: -0.04 }) }}>
+        {screen(380, 250)}
+        <div style={{ width: 440, height: 22, marginLeft: -30, borderRadius: "0 0 18px 18px", background: "linear-gradient(180deg,#D8DAE0,#A7AAB4)" }} />
+      </div>
+      <div style={{ ...abs(0, 840), width: 1080, display: "flex", justifyContent: "center", perspective: 800 }}>
+        <Word text="2 Geräte" at={fz + 6} frame={frame} size={84} grad weight={900} />
+      </div>
+    </Room>
+  );
+};
+
 export const MOTION_EFFECTS: Record<string, React.FC<any>> = {
+  problem: Problem,
+  erechnung: Erechnung,
+  gobd: Gobd,
+  geraete: Geraete,
   icons: Icons,
   bigicon: Bigicon,
   infokarte: Infokarte,

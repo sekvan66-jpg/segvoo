@@ -21,7 +21,7 @@ const settings = Object.fromEntries(
   fs
     .readFileSync(path.join(root, skriptFile), "utf8")
     .split(/\r?\n/)
-    .map((l) => l.match(/^#\s*(stil|musik|stimme)\s*:\s*(\S+)/))
+    .map((l) => l.match(/^#\s*(stil|musik|stimme|laenge)\s*:\s*(\S+)/))
     .filter(Boolean)
     .map((m) => [m[1], m[2]]),
 );
@@ -35,7 +35,7 @@ const EFFECTS = ["slam", "glitch", "stretch", "flash", "morph", "type", "laptop"
   // Sport-Stil (src/sport/scenes.tsx)
   "fehlstart", "ampel", "teamlogo", "duell", "tabelle", "boxenstopp", "sektoren", "heimspiel", "rotekarte", "serie", "trikots", "startnummer", "flex", "zielflagge",
   // Motion-Stil (src/motion/scenes.tsx)
-  "icons", "bigicon", "infokarte", "suchfeld", "bildkarten", "zaehler", "chart", "logoglow", "abschluss"];
+  "icons", "bigicon", "infokarte", "suchfeld", "bildkarten", "zaehler", "chart", "logoglow", "abschluss", "problem", "erechnung", "gobd", "geraete"];
 
 // ---------- Skript lesen ----------
 const beats = fs
@@ -130,7 +130,9 @@ const timeline = beats.map((b, i) => ({
   start: i === 0 ? 0 : Math.max(0, timed[i][0].start - 0.06),
 }));
 for (let i = 0; i < timeline.length; i++) {
-  timeline[i].end = i < timeline.length - 1 ? timeline[i + 1].start : timeline[i].words.at(-1).end + 2.8;
+  // letztes Bild: 2,8 s Nachlauf – oder bis zur festen Gesamtlänge (# laenge: 40), mindestens 1,2 s
+  const lastEnd = timeline[i].words.at(-1).end;
+  timeline[i].end = i < timeline.length - 1 ? timeline[i + 1].start : settings.laenge ? Math.max(lastEnd + 1.2, Number(settings.laenge)) : lastEnd + 2.8;
 }
 
 const has = (f) => fs.existsSync(p("public", f));

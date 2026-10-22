@@ -1,7 +1,7 @@
 {
   "stil": "motion",
   "source": "whisper",
-  "duration": 26.459,
+  "duration": 40,
   "audio": {
     "voice": "motion/voice.wav",
     "music": "musik-motion.mp3",
@@ -24,27 +24,75 @@
   "screenshot": null,
   "beats": [
     {
+      "effect": "problem",
+      "text": "Zettel, Excel, Ordner überall? Damit ist jetzt Schluss.",
+      "words": [
+        {
+          "w": "Zettel,",
+          "start": 0.035,
+          "end": 0.476
+        },
+        {
+          "w": "Excel,",
+          "start": 0.697,
+          "end": 1.149
+        },
+        {
+          "w": "Ordner",
+          "start": 1.451,
+          "end": 1.765
+        },
+        {
+          "w": "überall?",
+          "start": 1.834,
+          "end": 2.252
+        },
+        {
+          "w": "Damit",
+          "start": 2.772,
+          "end": 3.005
+        },
+        {
+          "w": "ist",
+          "start": 3.039,
+          "end": 3.144
+        },
+        {
+          "w": "jetzt",
+          "start": 3.167,
+          "end": 3.422
+        },
+        {
+          "w": "Schluss.",
+          "start": 3.457,
+          "end": 3.748
+        }
+      ],
+      "start": 0,
+      "end": 4.049
+    },
+    {
       "effect": "icons",
       "text": "Fahrzeuge. Kaufverträge. E-Rechnung.",
       "words": [
         {
           "w": "Fahrzeuge.",
-          "start": 0.04,
-          "end": 0.586
+          "start": 4.109,
+          "end": 4.678
         },
         {
           "w": "Kaufverträge.",
-          "start": 1.006,
-          "end": 1.679
+          "start": 5.051,
+          "end": 5.585
         },
         {
           "w": "E-Rechnung.",
-          "start": 2.099,
-          "end": 2.61
+          "start": 5.985,
+          "end": 6.565
         }
       ],
-      "start": 0,
-      "end": 2.9699999999999998
+      "start": 4.049,
+      "end": 6.890000000000001
     },
     {
       "effect": "bigicon",
@@ -52,27 +100,27 @@
       "words": [
         {
           "w": "Alles",
-          "start": 3.03,
-          "end": 3.297
+          "start": 6.95,
+          "end": 7.205
         },
         {
           "w": "in",
-          "start": 3.32,
-          "end": 3.401
+          "start": 7.228,
+          "end": 7.321
         },
         {
           "w": "einer",
-          "start": 3.425,
-          "end": 3.622
+          "start": 7.356,
+          "end": 7.542
         },
         {
           "w": "Software.",
-          "start": 3.668,
-          "end": 4.133
+          "start": 7.588,
+          "end": 8.076
         }
       ],
-      "start": 2.9699999999999998,
-      "end": 4.493
+      "start": 6.890000000000001,
+      "end": 8.416
     },
     {
       "effect": "infokarte",
@@ -80,47 +128,47 @@
       "words": [
         {
           "w": "AutoKontor,",
-          "start": 4.553,
-          "end": 5.307
+          "start": 8.476,
+          "end": 9.254
         },
         {
           "w": "die",
-          "start": 5.493,
-          "end": 5.598
+          "start": 9.474,
+          "end": 9.556
         },
         {
           "w": "Software",
-          "start": 5.633,
-          "end": 6.027
+          "start": 9.579,
+          "end": 10.055
         },
         {
           "w": "für",
-          "start": 6.062,
-          "end": 6.201
+          "start": 10.078,
+          "end": 10.217
         },
         {
           "w": "große",
-          "start": 6.248,
-          "end": 6.724
+          "start": 10.241,
+          "end": 10.693
         },
         {
           "w": "und",
-          "start": 6.794,
-          "end": 6.956
+          "start": 10.833,
+          "end": 10.972
         },
         {
           "w": "kleine",
-          "start": 7.026,
-          "end": 7.235
+          "start": 11.018,
+          "end": 11.262
         },
         {
           "w": "Autohändler.",
-          "start": 7.281,
-          "end": 7.827
+          "start": 11.297,
+          "end": 11.878
         }
       ],
-      "start": 4.493,
-      "end": 8.187
+      "start": 8.416,
+      "end": 12.213999999999999
     },
     {
       "effect": "suchfeld",
@@ -128,37 +176,37 @@
       "words": [
         {
           "w": "Kaufvertrag?",
-          "start": 8.247,
-          "end": 8.92
+          "start": 12.274,
+          "end": 12.866
         },
         {
           "w": "Mit",
-          "start": 9.455,
-          "end": 9.606
+          "start": 13.382,
+          "end": 13.544
         },
         {
           "w": "wenigen",
-          "start": 9.629,
-          "end": 10.07
+          "start": 13.579,
+          "end": 13.997
         },
         {
           "w": "Klicks",
-          "start": 10.117,
-          "end": 10.36
+          "start": 14.044,
+          "end": 14.264
         },
         {
           "w": "als",
-          "start": 10.465,
-          "end": 10.569
+          "start": 14.287,
+          "end": 14.438
         },
         {
           "w": "PDF.",
-          "start": 10.616,
-          "end": 11.138
+          "start": 14.485,
+          "end": 14.926
         }
       ],
-      "start": 8.187,
-      "end": 11.466
+      "start": 12.213999999999999,
+      "end": 15.266
     },
     {
       "effect": "bildkarten",
@@ -166,55 +214,118 @@
       "words": [
         {
           "w": "Fahrzeuge,",
-          "start": 11.526,
-          "end": 12.014
+          "start": 15.326,
+          "end": 15.825
         },
         {
           "w": "Kunden,",
-          "start": 12.176,
-          "end": 12.582
+          "start": 15.988,
+          "end": 16.406
         },
         {
           "w": "Rechnungen.",
-          "start": 12.699,
-          "end": 13.221
+          "start": 16.568,
+          "end": 16.975
         }
       ],
-      "start": 11.466,
-      "end": 13.530999999999999
+      "start": 15.266,
+      "end": 17.299000000000003
     },
     {
-      "effect": "zaehler",
-      "text": "Ab 19 € im Monat.",
+      "effect": "erechnung",
+      "text": "Auch als E-Rechnung, im Format ZUGFeRD oder XRechnung.",
       "words": [
         {
-          "w": "Ab",
-          "start": 13.591,
-          "end": 13.718
+          "w": "Auch",
+          "start": 17.359,
+          "end": 17.568
         },
         {
-          "w": "19",
-          "start": 13.765,
-          "end": 14.183
+          "w": "als",
+          "start": 17.626,
+          "end": 17.719
         },
         {
-          "w": "€",
-          "start": 14.183,
-          "end": 14.531
+          "w": "E-Rechnung,",
+          "start": 17.754,
+          "end": 18.311
         },
         {
           "w": "im",
-          "start": 14.531,
-          "end": 14.636
+          "start": 18.52,
+          "end": 18.625
         },
         {
-          "w": "Monat.",
-          "start": 14.659,
-          "end": 15.007
+          "w": "Format",
+          "start": 18.659,
+          "end": 19.077
+        },
+        {
+          "w": "ZUGFeRD",
+          "start": 19.124,
+          "end": 19.588
+        },
+        {
+          "w": "oder",
+          "start": 19.611,
+          "end": 19.844
+        },
+        {
+          "w": "XRechnung.",
+          "start": 19.867,
+          "end": 20.447
         }
       ],
-      "start": 13.530999999999999,
-      "end": 15.34
+      "start": 17.299000000000003,
+      "end": 20.787000000000003
+    },
+    {
+      "effect": "gobd",
+      "text": "Rechnungen werden gesperrt und protokolliert, für die GoBD.",
+      "words": [
+        {
+          "w": "Rechnungen",
+          "start": 20.847,
+          "end": 21.393
+        },
+        {
+          "w": "werden",
+          "start": 21.439,
+          "end": 21.695
+        },
+        {
+          "w": "gesperrt",
+          "start": 21.73,
+          "end": 22.194
+        },
+        {
+          "w": "und",
+          "start": 22.241,
+          "end": 22.333
+        },
+        {
+          "w": "protokolliert,",
+          "start": 22.38,
+          "end": 23.042
+        },
+        {
+          "w": "für",
+          "start": 23.135,
+          "end": 23.239
+        },
+        {
+          "w": "die",
+          "start": 23.274,
+          "end": 23.367
+        },
+        {
+          "w": "GoBD.",
+          "start": 23.402,
+          "end": 24.087
+        }
+      ],
+      "start": 20.787000000000003,
+      "end": 24.427
     },
     {
       "effect": "chart",
@@ -222,52 +333,143 @@
       "words": [
         {
           "w": "Deine",
-          "start": 15.4,
-          "end": 15.609
+          "start": 24.487,
+          "end": 24.707
         },
         {
           "w": "Daten",
-          "start": 15.667,
-          "end": 16.004
+          "start": 24.754,
+          "end": 25.113
         },
         {
           "w": "bleiben",
-          "start": 16.039,
-          "end": 16.387
+          "start": 25.137,
+          "end": 25.473
         },
         {
           "w": "auf",
-          "start": 16.422,
-          "end": 16.503
+          "start": 25.508,
+          "end": 25.601
         },
         {
           "w": "deinem",
-          "start": 16.526,
-          "end": 16.724
+          "start": 25.636,
+          "end": 25.857
         },
         {
           "w": "Rechner,",
-          "start": 16.758,
-          "end": 17.107
+          "start": 25.88,
+          "end": 26.216
         },
         {
           "w": "jeden",
-          "start": 17.35,
-          "end": 17.606
+          "start": 26.391,
+          "end": 26.611
         },
         {
           "w": "Tag",
-          "start": 17.652,
-          "end": 17.803
+          "start": 26.669,
+          "end": 26.843
         },
         {
           "w": "gesichert.",
-          "start": 17.838,
-          "end": 18.279
+          "start": 26.878,
+          "end": 27.308
         }
       ],
-      "start": 15.34,
-      "end": 18.589000000000002
+      "start": 24.427,
+      "end": 27.644000000000002
+    },
+    {
+      "effect": "geraete",
+      "text": "Für Windows, Mac und Linux, auf zwei Geräten.",
+      "words": [
+        {
+          "w": "Für",
+          "start": 27.704,
+          "end": 27.89
+        },
+        {
+          "w": "Windows,",
+          "start": 27.924,
+          "end": 28.424
+        },
+        {
+          "w": "Mac",
+          "start": 28.621,
+          "end": 28.865
+        },
+        {
+          "w": "und",
+          "start": 28.923,
+          "end": 29.085
+        },
+        {
+          "w": "Linux,",
+          "start": 29.109,
+          "end": 29.503
+        },
+        {
+          "w": "auf",
+          "start": 29.666,
+          "end": 29.794
+        },
+        {
+          "w": "zwei",
+          "start": 29.84,
+          "end": 30.026
+        },
+        {
+          "w": "Geräten.",
+          "start": 30.061,
+          "end": 30.479
+        }
+      ],
+      "start": 27.644000000000002,
+      "end": 30.78
+    },
+    {
+      "effect": "zaehler",
+      "text": "Ab 19 € im Monat, monatlich kündbar.",
+      "words": [
+        {
+          "w": "Ab",
+          "start": 30.84,
+          "end": 30.991
+        },
+        {
+          "w": "19",
+          "start": 31.026,
+          "end": 31.432
+        },
+        {
+          "w": "€",
+          "start": 31.432,
+          "end": 31.815
+        },
+        {
+          "w": "im",
+          "start": 31.815,
+          "end": 31.885
+        },
+        {
+          "w": "Monat,",
+          "start": 31.931,
+          "end": 32.28
+        },
+        {
+          "w": "monatlich",
+          "start": 32.419,
+          "end": 32.895
+        },
+        {
+          "w": "kündbar.",
+          "start": 32.918,
+          "end": 33.348
+        }
+      ],
+      "start": 30.78,
+      "end": 33.672
     },
     {
       "effect": "logoglow",
@@ -275,32 +477,32 @@
       "words": [
         {
           "w": "Jetzt",
-          "start": 18.649,
-          "end": 18.87
+          "start": 33.732,
+          "end": 33.941
         },
         {
           "w": "7",
-          "start": 18.916,
-          "end": 19.137
+          "start": 33.964,
+          "end": 34.185
         },
         {
           "w": "Tage",
-          "start": 19.183,
-          "end": 19.438
+          "start": 34.208,
+          "end": 34.429
         },
         {
           "w": "kostenlos",
-          "start": 19.496,
-          "end": 19.996
+          "start": 34.475,
+          "end": 34.916
         },
         {
           "w": "testen.",
-          "start": 20.054,
-          "end": 20.414
+          "start": 34.963,
+          "end": 35.334
         }
       ],
-      "start": 18.589000000000002,
-      "end": 20.77
+      "start": 33.672,
+      "end": 35.674
     },
     {
       "effect": "abschluss",
@@ -308,37 +510,37 @@
       "words": [
         {
           "w": "AutoKontor.",
-          "start": 20.83,
-          "end": 21.55
+          "start": 35.734,
+          "end": 36.477
         },
         {
           "w": "Dein",
-          "start": 21.931,
-          "end": 22.128
+          "start": 36.874,
+          "end": 37.059
         },
         {
           "w": "Handel.",
-          "start": 22.186,
-          "end": 22.535
+          "start": 37.094,
+          "end": 37.431
         },
         {
           "w": "In",
-          "start": 22.951,
-          "end": 23.044
+          "start": 37.827,
+          "end": 37.931
         },
         {
           "w": "deiner",
-          "start": 23.09,
-          "end": 23.369
+          "start": 37.989,
+          "end": 38.233
         },
         {
           "w": "Hand.",
-          "start": 23.415,
-          "end": 23.659
+          "start": 38.268,
+          "end": 38.489
         }
       ],
-      "start": 20.77,
-      "end": 26.459
+      "start": 35.674,
+      "end": 40
     }
   ]
 }

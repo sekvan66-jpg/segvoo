@@ -404,6 +404,10 @@ const ticks = (from: number, to: number, step = 0.085, vol = 0.22): Sfx[] => {
   return out;
 };
 const SFX_MOTION: Record<string, (b: Beat) => Sfx[]> = {
+  problem: (b) => [...b.words.slice(0, 3).map((w) => ({ at: w.start - 0.05, file: "ui-swish" as const, vol: 0.45 })), { at: wordStart(b, /überall/i), file: "ui-pop", vol: 0.45 }, { at: wordStart(b, /schluss/i) - 0.12, file: "whoosh", vol: 0.5 }, { at: wordStart(b, /schluss/i), file: "impact", vol: 0.6 }],
+  erechnung: (b) => [{ at: b.start, file: "ui-swish", vol: 0.4 }, ...b.words.filter((w) => /rechnung|zugferd/i.test(w.w)).map((w) => ({ at: w.start + 0.2, file: "ui-toggle" as const, vol: 0.5 }))],
+  gobd: (b) => [{ at: b.start, file: "whoosh", vol: 0.45 }, { at: wordStart(b, /gesperrt/i), file: "ui-click", vol: 0.8 }, ...[0, 1, 2].map((i) => ({ at: wordStart(b, /protokolliert/i) + (i * 5) / FPS, file: "ui-tick" as const, vol: 0.4 })), { at: wordStart(b, /gobd/i), file: "ui-ding", vol: 0.45 }],
+  geraete: (b) => [...b.words.filter((w) => /windows|mac|linux/i.test(w.w)).map((w) => ({ at: w.start, file: "ui-pop" as const, vol: 0.45 })), { at: wordStart(b, /zwei/i) - 0.05, file: "ui-swish", vol: 0.5 }],
   icons: (b) => b.words.flatMap((w) => [{ at: w.start - 0.06, file: "ui-swish" as const, vol: 0.4 }, { at: w.start + 0.12, file: "ui-pop" as const, vol: 0.4 }]),
   bigicon: (b) => [{ at: b.start, file: "whoosh", vol: 0.45 }, { at: b.start + 0.5, file: "ui-ding", vol: 0.35 }],
   infokarte: (b) => [{ at: b.start, file: "whoosh", vol: 0.5 }, { at: wordStart(b, /autohändler/i), file: "ui-pop", vol: 0.5 }],

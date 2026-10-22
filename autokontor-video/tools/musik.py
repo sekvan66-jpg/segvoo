@@ -566,7 +566,10 @@ def build_motion(beats, dur, bpm, fassung):
         ([293.7, 392.0, 493.9], 49.0),
     ]
     by = {b["effect"]: b for b in beats}
-    t_big = by["bigicon"]["start"] if "bigicon" in by else beats[min(1, len(beats) - 1)]["start"]
+    pb = by.get("problem")
+    t_big = next((w["start"] for w in pb["words"] if "schluss" in w["w"].lower()), None) if pb else None
+    if t_big is None:  # ohne Problem-Einstieg: Groove ab dem großen Icon
+        t_big = by["bigicon"]["start"] if "bigicon" in by else beats[min(1, len(beats) - 1)]["start"]
     t_black = by["logoglow"]["start"] if "logoglow" in by else dur - 7
     t_end = by["abschluss"]["start"] if "abschluss" in by else dur - 4
     zb = by.get("zaehler")
