@@ -13,3 +13,4 @@ GoBD-Anforderungen    = Ge O Be De Anforderungen
 Mac                   = Mäck
 Cloud                 = Klaud
 Laptop                = Läptop
+Autohändler           = Auto-Händler

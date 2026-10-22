@@ -12,10 +12,12 @@ Aufruf:
   python tools/voice_piper.py                               (skript.txt → public/)
 Optionen: --tempo 0.95   (kleiner = schneller)    --pause 0.3 (Sekunden nach jedem Satz)
           --klang werbung (Werbesprecher: tiefer, voller, Kompressor) | studio (neutral)
+          --takes 5      (mehrere Takes pro Satz, der klarste gewinnt – braucht Whisper unter models/asr)
           --zeige        (nur Lautschrift jedes Worts anzeigen)
 Aussprache schwieriger Wörter: aussprache-piper.txt
 """
 import argparse
+import difflib
 import json
 import re
 import sys
@@ -84,6 +86,8 @@ def main():
     ap.add_argument("--tempo", type=float, default=0.95)
     ap.add_argument("--pause", type=float, default=0.3, help="Pause nach jedem Satz (nach Fragen 1,5×)")
     ap.add_argument("--klang", default="werbung", choices=list(VOICE_FX))
+    ap.add_argument("--ausdruck", type=float, default=0.62, help="Lebendigkeit 0.4 (klar) … 0.8 (lebendig, aber undeutlicher)")
+    ap.add_argument("--takes", type=int, default=1, help="Takes pro Satz; der von Whisper am besten verstandene gewinnt (braucht models/asr)")
     ap.add_argument("--zeige", action="store_true")
     args = ap.parse_args()
 
@@ -152,7 +156,7 @@ def main():
     speaker = None
     if voice.config.num_speakers > 1:
         speaker = (voice.config.speaker_id_map or {}).get(args.gefuehl, 0)
-    syn = SynthesisConfig(speaker_id=speaker, length_scale=args.tempo, noise_scale=0.7, noise_w_scale=0.85, normalize_audio=False)
+    syn = SynthesisConfig(speaker_id=speaker, length_scale=args.tempo, noise_scale=args.ausdruck, noise_w_scale=0.8, normalize_audio=False)
     sr = voice.config.sample_rate
     pad, bos, eos = idmap["_"][0], idmap["^"][0], idmap["$"][0]
 
@@ -162,6 +166,36 @@ def main():
         if w.replace("*", "")[-1] in ".!?" or i == len(flat) - 1:
             sentences.append(cur)
             cur = []
+
+    # Mehrere Takes pro Satz: Whisper hört jeden ab, der am klarsten verstandene gewinnt (wie im Tonstudio)
+    rec = None
+    if args.takes > 1:
+        import sherpa_onnx
+
+        A = next((ROOT / "models" / "asr").glob("sherpa-onnx-whisper-*"))
+        size = A.name.split("-")[-1]
+        rec = sherpa_onnx.OfflineRecognizer.from_whisper(
+            encoder=str(A / f"{size}-encoder.int8.onnx"), decoder=str(A / f"{size}-decoder.int8.onnx"), tokens=str(A / f"{size}-tokens.txt"), language="de", task="transcribe"
+        )
+    zahlen = {"19": " neunzehn ", "7": " sieben ", "€": " euro "}
+
+    def norm_text(text):
+        text = text.lower()
+        for k, v in zahlen.items():
+            text = text.replace(k, v)
+        return re.sub(r"[^a-zäöüß]", "", text)
+
+    def verstanden(seg, expected):
+        tmp_in, tmp_out = ROOT / "out" / "take-raw.wav", ROOT / "out" / "take.wav"
+        sf.write(tmp_in, seg / max(1e-6, np.abs(seg).max()) * 0.8, sr)
+        apply_klang(tmp_in, tmp_out, args.klang, 16000)
+        x, _ = sf.read(tmp_out, dtype="float32")
+        if x.ndim > 1:
+            x = x.mean(1)
+        st = rec.create_stream()
+        st.accept_waveform(16000, np.concatenate([np.zeros(3200, np.float32), x, np.zeros(3200, np.float32)]))
+        rec.decode_stream(st)
+        return difflib.SequenceMatcher(None, norm_text(expected), norm_text(st.result.text)).ratio(), st.result.text
 
     out, words_out, t = [], [], 0.0
     for si, idxs in enumerate(sentences, 1):
@@ -178,19 +212,28 @@ def main():
                 own += [None, None]
         ids.append(eos)
         own.append(None)
-        print(f"[{si}/{len(sentences)}] " + " ".join(flat[i][1] for i in idxs))
-        audio, samples = voice.phoneme_ids_to_audio(ids, syn, include_alignments=True)
-        if samples is None:
-            sys.exit("Diese Stimme liefert kein Timing (onnx-Paket fehlt?): pip install onnx")
-        audio = np.asarray(audio, dtype=np.float32)
-        edges = np.concatenate([[0], np.cumsum(samples)]) / sr
-        first = min(k for k, o in enumerate(own) if o is not None)
-        last = max(k for k, o in enumerate(own) if o is not None)
-        cut = max(0.0, edges[first] - 0.04)
+        text = " ".join(flat[i][1] for i in idxs).replace("*", "").replace("~", "")
+        best = None
+        for take in range(max(1, args.takes)):
+            audio, samples = voice.phoneme_ids_to_audio(ids, syn, include_alignments=True)
+            if samples is None:
+                sys.exit("Diese Stimme liefert kein Timing (onnx-Paket fehlt?): pip install onnx")
+            audio = np.asarray(audio, dtype=np.float32)
+            edges = np.concatenate([[0], np.cumsum(samples)]) / sr
+            first = min(k for k, o in enumerate(own) if o is not None)
+            last = max(k for k, o in enumerate(own) if o is not None)
+            cut = max(0.0, edges[first] - 0.04)
+            seg = audio[int(cut * sr) : int((edges[last + 1] + 0.12) * sr)]
+            score, heard = verstanden(seg, text) if rec else (1.0, "")
+            if best is None or score > best[0]:
+                best = (score, heard, seg, edges, cut)
+            if score >= 0.97:
+                break
+        score, heard, seg, edges, cut = best
+        print(f"[{si}/{len(sentences)}] {text}" + (f"   → bester Take {score:.0%}: {heard}" if rec else ""))
         for i in idxs:
             ks = [k for k, o in enumerate(own) if o == i]
             words_out.append({"word": flat[i][1].replace("*", "").replace("~", ""), "start": round(t + edges[ks[0]] - cut, 3), "end": round(t + edges[ks[-1] + 1] - cut, 3)})
-        seg = audio[int(cut * sr) : int((edges[last + 1] + 0.12) * sr)]
         # dramatische Pausen: nach Fragen länger
         pause = args.pause * (1.5 if flat[idxs[-1]][1].replace("*", "").endswith("?") else 1.0)
         out += [seg, np.zeros(int(pause * sr), dtype=np.float32)]

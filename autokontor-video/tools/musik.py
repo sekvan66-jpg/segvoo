@@ -276,6 +276,77 @@ def build_sanft(beats, dur, t_hit, t_drop, t_lift, t_end, bpm, fassung):
     return mix
 
 
+def braam(freqs, length=2.6, open_=1.0):
+    """Tiefer Kino-Akzent: verstimmte Sägezähne, Filter öffnet sich und schließt wieder."""
+    t = secs(length)
+    x = np.zeros(len(t))
+    for f in freqs:
+        for det in (-0.3, 0.0, 0.3):
+            x += saw(f * (1 + det / 100), t)
+    x /= len(freqs) * 3
+    out = np.zeros(len(t))
+    steps = 40
+    for k in range(steps):  # Filterkurve in Stücken
+        a, b = k * len(t) // steps, (k + 1) * len(t) // steps
+        pos = k / steps
+        fc = 200 + 2200 * open_ * np.exp(-((pos - 0.12) ** 2) / 0.02)
+        out[a:b] = lp(x, fc)[a:b]
+    env = np.minimum(1, t / 0.03) * np.exp(-t / (length / 2.2))
+    return np.tanh(2.0 * out * env) * 0.8
+
+
+def build_nacht(beats, dur, t_hit, t_drop, t_lift, t_end, bpm, fassung):
+    """Dunkler Kino-Puls (d-Moll): pulsierender Bass, Flächen, leises Arpeggio, Ticken, Kino-Akzente."""
+    step = 60 / bpm / 4
+    bar = 16 * step
+    music, accents, send = Track(dur), Track(dur), Track(dur)
+    prog = [  # Dm – B – F – C
+        ([146.8, 174.6, 220.0], 36.7, [293.7, 349.2, 440.0, 349.2]),
+        ([116.5, 146.8, 174.6], 29.1, [233.1, 293.7, 349.2, 293.7]),
+        ([174.6, 220.0, 261.6], 43.7, [349.2, 440.0, 523.3, 440.0]),
+        ([130.8, 164.8, 196.0], 32.7, [261.6, 329.6, 392.0, 329.6]),
+    ]
+    tb, b = 0.0, 0
+    while tb < t_end - 0.01:
+        chord, root, arp = prog[b % 4]
+        bl = min(bar, t_end - tb)
+        intro = tb < t_drop
+        p_ = pad(chord, bl + 0.4, cutoff=700 if intro else 1100)
+        music.add(p_, tb, 0.4)
+        send.add(p_, tb, 0.25)
+        for s16 in range(16):
+            ts = tb + s16 * step
+            if ts >= t_end - 0.01:
+                break
+            if s16 % 2 == 0:  # pulsierender Bass auf Achteln
+                music.add(bass(root * 2, step * 1.6) * (0.5 if intro else 0.8), ts, 0.5)
+            if not intro:  # leises Arpeggio
+                pl = pluck(arp[s16 % 4] * (2 if s16 % 8 == 7 else 1), 0.4, bright=0.35)
+                music.add(pl, ts, 0.12, -0.3 if s16 % 2 else 0.3)
+                send.add(pl, ts, 0.1)
+            music.add(hat() * 0.5, ts, 0.05 if s16 % 4 else 0.09)  # Ticken
+        tb += bar
+        b += 1
+    # Akzente
+    r_len = min(1.8, t_hit)
+    accents.add(riser(r_len) * 0.5, t_hit - r_len, 0.3)
+    accents.add(boom(), t_hit, 0.55)
+    accents.add(braam([36.7, 73.4, 110.0]), t_drop, 0.7)
+    send.add(braam([36.7, 73.4, 110.0]), t_drop, 0.3)
+    send.add(bell(880.0, 2.4), t_lift, 0.25)
+    accents.add(bell(880.0, 2.4), t_lift, 0.15)
+    tail = max(1.5, dur - t_end + 0.5)
+    accents.add(braam([36.7, 73.4, 146.8], 3.2), t_end, 0.75)
+    final = pad([146.8, 220.0, 293.7, 349.2], tail, cutoff=1400)
+    music.add(final, t_end, 0.5)
+    send.add(final, t_end, 0.35)
+    n = len(music.x)
+    ir = reverb_ir(2.6)
+    wet = np.stack([fftconvolve(send.x[:, c], ir[:, c])[:n] for c in range(2)], axis=1)
+    duck = voice_duck(fassung, n)[:, None]
+    return (music.x + wet * 0.5) * duck + accents.x
+
+
 def reverb_ir(length=1.6):
     t = secs(length)
     ir = np.stack([rng.standard_normal(len(t)), rng.standard_normal(len(t))], axis=1)
@@ -289,24 +360,28 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("fassung")
     ap.add_argument("--bpm", type=float, default=None)
-    ap.add_argument("--stil", default="sanft", choices=["sanft", "kraftvoll"])
+    ap.add_argument("--stil", default="sanft", choices=["sanft", "kraftvoll", "nacht"])
     args = ap.parse_args()
-    args.bpm = args.bpm or (96 if args.stil == "sanft" else 120)
+    args.bpm = args.bpm or {"sanft": 96, "nacht": 100}.get(args.stil, 120)
     tl_path = ROOT / "src" / "data" / f"timeline-{args.fassung}.json"
     if not tl_path.exists():
         sys.exit(f"{tl_path} fehlt – erst: node tools/build-timeline.mjs {args.fassung}")
     tl = json.loads(tl_path.read_text(encoding="utf-8"))
     beats, dur = tl["beats"], tl["duration"]
 
-    def beat(effect):
-        return next((b for b in beats if b["effect"] == effect), None)
+    def beat(*effects):
+        return next((b for b in beats if b["effect"] in effects), None)
 
-    b_schluss, b_logo, b_preis, b_end = beat("schluss"), beat("logo"), beat("preis"), beat("end")
+    # Schlüsselstellen (Namen aus den verschiedenen Stilen)
+    b_schluss, b_logo, b_preis, b_end = beat("schluss", "stopp"), beat("logo", "zuendung"), beat("preis", "preisschild"), beat("end", "finale")
     t_hit = b_schluss["words"][-1]["start"] if b_schluss else beats[1]["start"]
     t_drop = b_logo["start"] if b_logo else beats[min(2, len(beats) - 1)]["start"]
     t_lift = b_preis["start"] if b_preis else dur * 0.7
     t_end = b_end["start"] if b_end else dur - 3
 
+    if args.stil == "nacht":
+        finish(build_nacht(beats, dur, t_hit, t_drop, t_lift, t_end, args.bpm, args.fassung), dur, args, t_hit, t_drop, t_lift, t_end)
+        return
     if args.stil == "sanft":
         finish(build_sanft(beats, dur, t_hit, t_drop, t_lift, t_end, args.bpm, args.fassung), dur, args, t_hit, t_drop, t_lift, t_end)
         return

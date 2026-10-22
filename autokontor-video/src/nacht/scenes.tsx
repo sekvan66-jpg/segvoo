@@ -12,7 +12,7 @@ const n = (w: string) => clean(w).toLowerCase().replace(/[^a-zäöüß0-9-]/g, "
 /** Inhalt als Spalte; im Querformat etwas kleiner. */
 const Col: React.FC<{ children: React.ReactNode; gap?: number; top?: boolean; style?: React.CSSProperties }> = ({ children, gap = 0, top, style }) => {
   const { width, height } = useVideoConfig();
-  const zoom = height > width ? 1 : 0.86;
+  const zoom = height > width ? 1 : 1.04;
   return (
     <AbsoluteFill style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: top ? "flex-start" : "center", gap, transform: `scale(${zoom})`, ...style }}>{children}</AbsoluteFill>
   );
@@ -502,7 +502,7 @@ export const Kennzeichen: React.FC<BeatProps> = (p) => {
   const names = ["windows", "mac", "linux", "büro", "laptop"];
   const plates = p.words.filter((w) => names.includes(n(w.w).replace(/[.,]/g, "")));
   const lead = p.words.filter((w) => w.f < (plates[0]?.f ?? 1e9));
-  const pw = p.vertical ? 760 : 560;
+  const pw = p.vertical ? 760 : 460;
   return (
     <NightStage frame={p.frame} seed="kennz">
       <Beams frame={p.frame} on={0.45} />
@@ -553,7 +553,7 @@ export const Preisschild: React.FC<BeatProps> = (p) => {
               <div style={{ fontFamily: NFONT.hud, fontWeight: 700, fontSize: sw * 0.08, letterSpacing: "0.06em", marginTop: sw * 0.02 }}>
                 {after.map((w) => clean(w.w).replace(/[.,]$/, "")).join(" ").toUpperCase() || "PRO MONAT"}
               </div>
-              <div style={{ fontFamily: NFONT.hud, fontWeight: 500, fontSize: sw * 0.05, color: "#666", marginTop: sw * 0.02 }}>{BRAND.priceNote}</div>
+              <div style={{ fontFamily: NFONT.hud, fontWeight: 700, fontSize: sw * 0.07, color: "#333", marginTop: sw * 0.02, letterSpacing: "0.04em" }}>{BRAND.priceNote}</div>
             </div>
           </div>
         </div>

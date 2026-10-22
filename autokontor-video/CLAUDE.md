@@ -23,6 +23,11 @@ Python immer aus der venv: Windows `.venv\Scripts\python`, Mac/Linux `.venv/bin/
 - Skript-Kopf steuert pro Fassung: `# stil: premium` (sonst TikTok-Glitch-Stil), `# musik: musik-hell.mp3`, `# stimme: tiktok30` (Stimme einer anderen Fassung mit gleichem Text übernehmen).
 - **Premium-Stil** (`src/premium/`): heller Look nach Referenzvideo – glänzende orange Kugeln (`Orb`), Bokeh-Hintergrund (`Stage`), Schlagzeile mit kursiven Akzentwörtern (`Headline`, `*Wort*`), 3D-Karten. Eine Szene pro Effekt-Name (`PREMIUM_EFFECTS`), Sounds in `SFX_PREMIUM` (Spot.tsx), weiche SFX aus `tools/sounds.py`, Musik `tools/beat.py --stil hell`.
 
+- **Nacht-Stil** (`src/nacht/`, `# stil: nacht`): „AutoKontor bei Nacht“ – Automobil-Look (tiefschwarz, Chrom, Cyan/Bernstein), Schriften Sora + Saira Condensed. Szenen: strasse, stopp, zuendung, silhouetten, cockpit, schluessel, leuchten, rechner, wolke, tacho, kennzeichen, preisschild, kuendbar, finale (`NACHT_EFFECTS`, Sounds `SFX_NACHT`). Scheinwerfer-Aufblitzen beim Schnitt, Vignette + Filmkorn, blaue Light Leaks. Kompositionen `AutoKontorNacht30` (9:16) / `AutoKontorNacht30Wide`.
+  Stimme: `voice_piper.py --fassung nacht30 --klang trailer --tempo 1.0 --pause 0.34 --takes 6` (tief, rau – bewusst keine Nachbildung einer echten Person), Musik: `musik.py nacht30 --stil nacht`.
+- `--takes N` (voice_piper.py): erzeugt jeden Satz N-mal, Whisper hört ab, der klarste Take gewinnt.
+- Keine Stimmen echter Personen nachbilden (z. B. bekannte Synchronsprecher) – nur mit deren Erlaubnis/Lizenz.
+
 ## Code-Struktur
 - `src/theme.ts` – Markenname, Slogan, Button-Text, Preis + „zzgl. MwSt.“, Farben, Schriften. Texte im Endbild hier ändern.
 - `src/Spot.tsx` – Zusammenbau: Bilder, Kamera-Punch, Filmkorn/Vignette, Sound (Stimme, Musik, SFX).

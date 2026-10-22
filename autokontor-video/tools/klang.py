@@ -14,13 +14,13 @@ VOICE_FX = {
     "equalizer=f=11000:t=q:w=0.8:g=2.5,deesser=i=0.4,"
     "acompressor=threshold=-24dB:ratio=4:attack=3:release=70:makeup=7:knee=4,"
     "aecho=0.92:0.9:19|31:0.07|0.05,alimiter=limit=0.89",
-    # Trailer-Stimme (männlich, tief und rau – kein Abbild einer bestimmten Person): −2,3 Halbtöne mit erhaltener
+    # Trailer-Stimme (männlich, tief und rau – kein Abbild einer bestimmten Person): −1,8 Halbtöne mit erhaltener
     # Klangfarbe, viel Tiefe, sanfte Sättigung für Rauheit, starker Kompressor, etwas Raum
-    "trailer": "rubberband=pitch=0.875:formant=preserved:transients=crisp,highpass=f=55,"
-    "equalizer=f=95:t=q:w=0.8:g=5,equalizer=f=300:t=q:w=1:g=-3,equalizer=f=2800:t=q:w=1:g=3,"
-    "equalizer=f=10000:t=q:w=0.8:g=1.5,asoftclip=type=tanh:threshold=0.6:output=1,deesser=i=0.4,"
-    "acompressor=threshold=-26dB:ratio=5:attack=2:release=60:makeup=8:knee=3,"
-    "aecho=0.9:0.85:28|47:0.1|0.07,alimiter=limit=0.89",
+    "trailer": "rubberband=pitch=0.9:formant=preserved:transients=crisp,highpass=f=55,"
+    "equalizer=f=100:t=q:w=0.8:g=4.5,equalizer=f=300:t=q:w=1:g=-3,equalizer=f=3200:t=q:w=1:g=4,"
+    "equalizer=f=10000:t=q:w=0.8:g=2,asoftclip=type=tanh:threshold=0.85:output=1,deesser=i=0.4,"
+    "acompressor=threshold=-25dB:ratio=4.5:attack=3:release=60:makeup=7:knee=3,"
+    "aecho=0.92:0.88:24|41:0.08|0.05,alimiter=limit=0.89",
     # Werbesprecherin (weiblich): klar und nah – etwas Körper, weniger Mulm, Präsenz, Luft,
     # De-Esser, Kompressor, ganz kleiner Raum
     "werbung-w": "highpass=f=90,equalizer=f=210:t=q:w=0.9:g=1.5,equalizer=f=380:t=q:w=1:g=-2.5,"

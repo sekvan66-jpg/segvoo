@@ -116,7 +116,7 @@ const LeakOverlay: React.FC<{ seed: number; nacht: boolean }> = ({ seed, nacht }
   const frame = useCurrentFrame();
   const { width, height, durationInFrames } = useVideoConfig();
   return (
-    <AbsoluteFill style={{ mixBlendMode: nacht ? "screen" : "soft-light", opacity: nacht ? 0.75 : 1, pointerEvents: "none" }}>
+    <AbsoluteFill style={{ mixBlendMode: nacht ? "screen" : "soft-light", opacity: nacht ? 0.5 : 1, pointerEvents: "none" }}>
       <Solid width={width} height={height} effects={[lightLeak({ seed, hueShift: nacht ? 195 : 0, progress: interpolate(frame, [0, durationInFrames - 1], [0, 1], clamp) })]} />
     </AbsoluteFill>
   );
