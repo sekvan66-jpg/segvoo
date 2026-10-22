@@ -14,6 +14,7 @@ import timelineSp30MJson from "./data/timeline-sport30m.json";
 import timelineSp30WJson from "./data/timeline-sport30w.json";
 import timelineMoJson from "./data/timeline-motion.json";
 import { Studio } from "./studio/Studio";
+import { LAUNCH_FRAMES, Launch } from "./launch/Launch";
 import "./fonts";
 
 // Fassungen: timeline.json = Erklärvideo (skript.txt), timeline-tiktok30.json = 30-s-TikTok (skript-tiktok30.txt),
@@ -52,6 +53,8 @@ export const Root: React.FC = () => (
     <Composition id="AutoKontorSport30MWide" component={Spot} durationInFrames={frames(timelineSp30M)} fps={FPS} width={1920} height={1080} defaultProps={{ timeline: timelineSp30M }} />
     <Composition id="AutoKontorSport30W" component={Spot} durationInFrames={frames(timelineSp30W)} fps={FPS} width={1080} height={1920} defaultProps={{ timeline: timelineSp30W }} />
     <Composition id="AutoKontorSport30WWide" component={Spot} durationInFrames={frames(timelineSp30W)} fps={FPS} width={1920} height={1080} defaultProps={{ timeline: timelineSp30W }} />
+    {/* Launch-Film 60 s, 120 BPM: „Vom Zettelchaos zum sauberen Dashboard“ (src/launch/Launch.tsx) */}
+    <Composition id="AutoKontorLaunch" component={Launch} durationInFrames={LAUNCH_FRAMES} fps={30} width={1920} height={1080} />
     {/* Motion-Stil nach Vorlage des Nutzers (skript-motion.txt): 1:1 wie die Vorlage, dazu 9:16 */}
     <Composition id="AutoKontorMotion" component={Spot} durationInFrames={frames(timelineMo)} fps={FPS} width={1080} height={1080} defaultProps={{ timeline: timelineMo }} />
     <Composition id="AutoKontorMotionTikTok" component={Spot} durationInFrames={frames(timelineMo)} fps={FPS} width={1080} height={1920} defaultProps={{ timeline: timelineMo }} />
