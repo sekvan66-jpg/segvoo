@@ -69,7 +69,7 @@ export const Ampel: React.FC<BeatProps> = (p) => {
   const w = words.map((x) => x.f);
   const onAt = [w[0] ?? 0, w[1] ?? 4, w[2] ?? 8, Math.round(((w[2] ?? 8) + fOut) / 2), fOut - 5];
   const out = frame >= fOut;
-  const flash = interpolate(frame, [fOut, fOut + 8], [0.75, 0], clamp);
+  const flash = frame < fOut ? 0 : interpolate(frame, [fOut, fOut + 8], [0.75, 0], clamp);
   const pod = (p.vertical ? 150 : 128) * u;
   const sx = shake(frame, fOut, 18 * u);
   return (
