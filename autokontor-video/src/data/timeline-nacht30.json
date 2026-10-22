@@ -1,7 +1,7 @@
 {
   "stil": "nacht",
   "source": "whisper",
-  "duration": 32.381,
+  "duration": 32.105,
   "audio": {
     "voice": "nacht30/voice.wav",
     "music": "musik-nacht30.mp3",
@@ -30,26 +30,26 @@
         {
           "w": "Zettel,",
           "start": 0.023,
-          "end": 0.395
+          "end": 0.499
         },
         {
           "w": "Excel,",
-          "start": 0.58,
-          "end": 1.08
+          "start": 0.789,
+          "end": 1.207
         },
         {
           "w": "Ordner",
-          "start": 1.37,
-          "end": 1.707
+          "start": 1.451,
+          "end": 1.776
         },
         {
           "w": "*überall?*",
-          "start": 1.753,
-          "end": 2.218
+          "start": 1.811,
+          "end": 2.264
         }
       ],
       "start": 0,
-      "end": 2.828
+      "end": 2.874
     },
     {
       "effect": "stopp",
@@ -57,27 +57,27 @@
       "words": [
         {
           "w": "Damit",
-          "start": 2.888,
-          "end": 3.143
+          "start": 2.934,
+          "end": 3.201
         },
         {
           "w": "ist",
-          "start": 3.178,
-          "end": 3.305
+          "start": 3.247,
+          "end": 3.352
         },
         {
           "w": "jetzt",
-          "start": 3.34,
-          "end": 3.596
+          "start": 3.398,
+          "end": 3.631
         },
         {
           "w": "Schluss.",
-          "start": 3.642,
-          "end": 3.944
+          "start": 3.654,
+          "end": 3.979
         }
       ],
-      "start": 2.828,
-      "end": 4.384
+      "start": 2.874,
+      "end": 4.4190000000000005
     },
     {
       "effect": "zuendung",
@@ -85,22 +85,22 @@
       "words": [
         {
           "w": "Das",
-          "start": 4.444,
-          "end": 4.56
+          "start": 4.479,
+          "end": 4.618
         },
         {
           "w": "ist",
-          "start": 4.595,
-          "end": 4.723
+          "start": 4.653,
+          "end": 4.769
         },
         {
           "w": "AutoKontor,",
-          "start": 4.769,
-          "end": 5.57
+          "start": 4.804,
+          "end": 5.512
         }
       ],
-      "start": 4.384,
-      "end": 5.847
+      "start": 4.4190000000000005,
+      "end": 5.812
     },
     {
       "effect": "silhouetten",
@@ -108,42 +108,42 @@
       "words": [
         {
           "w": "die",
-          "start": 5.907,
-          "end": 6.023
+          "start": 5.872,
+          "end": 5.965
         },
         {
           "w": "Software",
-          "start": 6.046,
-          "end": 6.453
+          "start": 6,
+          "end": 6.429
         },
         {
           "w": "für",
-          "start": 6.476,
-          "end": 6.615
+          "start": 6.464,
+          "end": 6.58
         },
         {
           "w": "große",
-          "start": 6.65,
-          "end": 7.149
+          "start": 6.603,
+          "end": 7.045
         },
         {
           "w": "und",
-          "start": 7.219,
-          "end": 7.358
+          "start": 7.103,
+          "end": 7.254
         },
         {
           "w": "kleine",
-          "start": 7.405,
-          "end": 7.66
+          "start": 7.288,
+          "end": 7.544
         },
         {
           "w": "*Autohändler.*",
-          "start": 7.683,
-          "end": 8.264
+          "start": 7.567,
+          "end": 8.206
         }
       ],
-      "start": 5.847,
-      "end": 8.7
+      "start": 5.812,
+      "end": 8.629
     },
     {
       "effect": "cockpit",
@@ -151,42 +151,42 @@
       "words": [
         {
           "w": "Fahrzeuge,",
-          "start": 8.76,
-          "end": 9.445
+          "start": 8.689,
+          "end": 9.223
         },
         {
           "w": "Kunden,",
-          "start": 9.654,
-          "end": 10.153
+          "start": 9.467,
+          "end": 9.978
         },
         {
           "w": "Kaufverträge",
-          "start": 10.362,
-          "end": 11.14
+          "start": 10.14,
+          "end": 10.837
         },
         {
           "w": "und",
-          "start": 11.233,
-          "end": 11.43
+          "start": 10.93,
+          "end": 11.115
         },
         {
           "w": "Rechnungen",
-          "start": 11.477,
-          "end": 11.929
+          "start": 11.139,
+          "end": 11.58
         },
         {
           "w": "als",
-          "start": 11.987,
-          "end": 12.104
+          "start": 11.603,
+          "end": 11.766
         },
         {
           "w": "PDF,",
-          "start": 12.15,
-          "end": 12.672
+          "start": 11.8,
+          "end": 12.276
         }
       ],
-      "start": 8.7,
-      "end": 12.775
+      "start": 8.629,
+      "end": 12.424999999999999
     },
     {
       "effect": "schluessel",
@@ -194,22 +194,22 @@
       "words": [
         {
           "w": "mit",
-          "start": 12.835,
-          "end": 12.928
+          "start": 12.485,
+          "end": 12.601
         },
         {
           "w": "wenigen",
-          "start": 12.951,
-          "end": 13.299
+          "start": 12.625,
+          "end": 12.996
         },
         {
           "w": "*Klicks.*",
-          "start": 13.346,
-          "end": 13.601
+          "start": 13.031,
+          "end": 13.333
         }
       ],
-      "start": 12.775,
-      "end": 13.991
+      "start": 12.424999999999999,
+      "end": 13.699
     },
     {
       "effect": "leuchten",
@@ -217,37 +217,37 @@
       "words": [
         {
           "w": "Auch",
-          "start": 14.051,
-          "end": 14.283
+          "start": 13.759,
+          "end": 13.957
         },
         {
           "w": "als",
-          "start": 14.33,
-          "end": 14.457
+          "start": 14.015,
+          "end": 14.096
         },
         {
           "w": "E-Rechnung,",
-          "start": 14.504,
-          "end": 15.026
+          "start": 14.154,
+          "end": 14.665
         },
         {
           "w": "ZUGFeRD",
-          "start": 15.27,
-          "end": 15.792
+          "start": 14.897,
+          "end": 15.408
         },
         {
           "w": "und",
-          "start": 15.862,
-          "end": 16.025
+          "start": 15.512,
+          "end": 15.663
         },
         {
           "w": "XRechnung.",
-          "start": 16.048,
-          "end": 16.605
+          "start": 15.71,
+          "end": 16.255
         }
       ],
-      "start": 13.991,
-      "end": 17.040000000000003
+      "start": 13.699,
+      "end": 16.695
     },
     {
       "effect": "rechner",
@@ -255,37 +255,37 @@
       "words": [
         {
           "w": "Deine",
-          "start": 17.1,
-          "end": 17.309
+          "start": 16.755,
+          "end": 16.976
         },
         {
           "w": "Daten",
-          "start": 17.367,
-          "end": 17.727
+          "start": 17.034,
+          "end": 17.336
         },
         {
           "w": "bleiben",
-          "start": 17.75,
-          "end": 18.098
+          "start": 17.359,
+          "end": 17.696
         },
         {
           "w": "auf",
-          "start": 18.122,
-          "end": 18.214
+          "start": 17.731,
+          "end": 17.835
         },
         {
           "w": "*deinem*",
-          "start": 18.238,
-          "end": 18.458
+          "start": 17.858,
+          "end": 18.044
         },
         {
           "w": "*Rechner,*",
-          "start": 18.481,
-          "end": 18.876
+          "start": 18.067,
+          "end": 18.427
         }
       ],
-      "start": 17.040000000000003,
-      "end": 19.014000000000003
+      "start": 16.695,
+      "end": 18.646
     },
     {
       "effect": "wolke",
@@ -293,27 +293,27 @@
       "words": [
         {
           "w": "nicht",
-          "start": 19.074,
-          "end": 19.306
+          "start": 18.706,
+          "end": 18.927
         },
         {
           "w": "in",
-          "start": 19.329,
-          "end": 19.399
+          "start": 18.95,
+          "end": 19.019
         },
         {
           "w": "der",
-          "start": 19.433,
-          "end": 19.538
+          "start": 19.043,
+          "end": 19.17
         },
         {
           "w": "*Cloud.*",
-          "start": 19.573,
-          "end": 19.921
+          "start": 19.194,
+          "end": 19.484
         }
       ],
-      "start": 19.014000000000003,
-      "end": 20.306
+      "start": 18.646,
+      "end": 19.897000000000002
     },
     {
       "effect": "tacho",
@@ -321,27 +321,27 @@
       "words": [
         {
           "w": "Automatische",
-          "start": 20.366,
-          "end": 21.074
+          "start": 19.957,
+          "end": 20.735
         },
         {
           "w": "Sicherung",
-          "start": 21.109,
-          "end": 21.48
+          "start": 20.769,
+          "end": 21.118
         },
         {
           "w": "*jeden*",
-          "start": 21.503,
-          "end": 21.724
+          "start": 21.164,
+          "end": 21.35
         },
         {
           "w": "*Tag.*",
-          "start": 21.759,
-          "end": 21.991
+          "start": 21.385,
+          "end": 21.629
         }
       ],
-      "start": 20.306,
-      "end": 22.41
+      "start": 19.897000000000002,
+      "end": 22.053
     },
     {
       "effect": "kennzeichen",
@@ -349,32 +349,32 @@
       "words": [
         {
           "w": "Für",
-          "start": 22.47,
-          "end": 22.668
+          "start": 22.113,
+          "end": 22.276
         },
         {
           "w": "Windows,",
-          "start": 22.691,
-          "end": 23.144
+          "start": 22.31,
+          "end": 22.821
         },
         {
           "w": "Mac",
-          "start": 23.341,
-          "end": 23.573
+          "start": 23.007,
+          "end": 23.204
         },
         {
           "w": "und",
-          "start": 23.701,
-          "end": 23.852
+          "start": 23.367,
+          "end": 23.564
         },
         {
           "w": "Linux.",
-          "start": 23.875,
-          "end": 24.293
+          "start": 23.599,
+          "end": 23.994
         }
       ],
-      "start": 22.41,
-      "end": 24.729000000000003
+      "start": 22.053,
+      "end": 24.395
     },
     {
       "effect": "preisschild",
@@ -382,32 +382,32 @@
       "words": [
         {
           "w": "Ab",
-          "start": 24.789,
-          "end": 24.929
+          "start": 24.455,
+          "end": 24.548
         },
         {
           "w": "19",
-          "start": 24.998,
-          "end": 25.428
+          "start": 24.618,
+          "end": 25.059
         },
         {
           "w": "€",
-          "start": 25.428,
-          "end": 25.811
+          "start": 25.059,
+          "end": 25.5
         },
         {
           "w": "*im*",
-          "start": 25.811,
-          "end": 25.892
+          "start": 25.5,
+          "end": 25.57
         },
         {
           "w": "*Monat,*",
-          "start": 25.927,
-          "end": 26.31
+          "start": 25.593,
+          "end": 25.988
         }
       ],
-      "start": 24.729000000000003,
-      "end": 26.436
+      "start": 24.395,
+      "end": 26.183
     },
     {
       "effect": "kuendbar",
@@ -415,17 +415,17 @@
       "words": [
         {
           "w": "monatlich",
-          "start": 26.496,
-          "end": 26.983
+          "start": 26.243,
+          "end": 26.684
         },
         {
           "w": "*kündbar.*",
-          "start": 27.007,
-          "end": 27.39
+          "start": 26.719,
+          "end": 27.091
         }
       ],
-      "start": 26.436,
-      "end": 27.826
+      "start": 26.183,
+      "end": 27.469
     },
     {
       "effect": "finale",
@@ -433,32 +433,32 @@
       "words": [
         {
           "w": "Jetzt",
-          "start": 27.886,
-          "end": 28.141
+          "start": 27.529,
+          "end": 27.784
         },
         {
           "w": "7",
-          "start": 28.199,
-          "end": 28.408
+          "start": 27.807,
+          "end": 28.051
         },
         {
           "w": "Tage",
-          "start": 28.443,
-          "end": 28.699
+          "start": 28.086,
+          "end": 28.365
         },
         {
           "w": "kostenlos",
-          "start": 28.757,
-          "end": 29.198
+          "start": 28.411,
+          "end": 28.875
         },
         {
           "w": "testen!",
-          "start": 29.244,
-          "end": 29.581
+          "start": 28.922,
+          "end": 29.305
         }
       ],
-      "start": 27.826,
-      "end": 32.381
+      "start": 27.469,
+      "end": 32.105
     }
   ]
 }
