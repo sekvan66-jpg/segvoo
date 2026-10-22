@@ -350,6 +350,209 @@ def build_nacht(beats, dur, t_hit, t_drop, t_lift, t_end, bpm, fassung):
     return (music.x + wet * 0.5) * duck + accents.x
 
 
+
+# ---------- Sport: e-Moll, 128 BPM, Startpiepser, Drop bei „Lichter aus“, Treffer auf jedem Schnitt ----------
+def supersaw(freqs, length, cutoff=4000, attack=0.004, decay=0.3, sustain=0.0, release=0.08):
+    t = secs(length)
+    left, right = np.zeros(len(t)), np.zeros(len(t))
+    for f in freqs:
+        for k, det in enumerate((-0.35, -0.2, -0.08, 0.0, 0.08, 0.2, 0.35)):
+            v = saw(f * (1 + det / 100), t, phase=(k * 0.137) % 1)
+            if k % 2:
+                left += v
+            else:
+                right += v
+    env = adsr(len(t), attack, decay, sustain, release)
+    return np.stack([lp(left, cutoff) * env, lp(right, cutoff) * env], axis=1) / (len(freqs) * 3.5)
+
+
+def snare():
+    t = secs(0.3)
+    body = np.sin(2 * np.pi * np.cumsum(185 + 60 * np.exp(-t / 0.01)) / SR) * np.exp(-t / 0.06)
+    noise = bp(rng.standard_normal(len(t)), 1800, 9000) * np.exp(-t / 0.09)
+    return np.tanh(1.5 * (body * 0.7 + noise * 0.9)) * 0.7
+
+
+def sbass(f, length, cutoff=1100):
+    """Kerniger Sport-Bass: Säge + Sinus, gefiltert, angezerrt."""
+    t = secs(length)
+    x = lp(saw(f, t) * 0.6 + np.sin(2 * np.pi * f * t), cutoff)
+    return np.tanh(2.0 * x) * adsr(len(t), 0.003, 0.06, 0.7, 0.03) * 0.55
+
+
+def beep(f, length=0.17):
+    """Start-Piepser (wie beim Rennstart)."""
+    t = secs(length)
+    x = np.sign(np.sin(2 * np.pi * f * t)) * 0.3 + np.sin(2 * np.pi * f * t) * 0.7
+    return lp(x, 6000) * adsr(len(t), 0.003, 0.02, 0.85, 0.04) * 0.5
+
+
+def rev_cymbal(length=0.5):
+    c = crash(length * 1.8)[: int(length * SR)]
+    return c[::-1] * np.linspace(0, 1, len(c)) ** 1.5
+
+
+def gate(n, windows, fade=0.012):
+    """Stummschalten in Zeitfenstern (für Stopps), mit kurzen Blenden."""
+    g = np.ones(n)
+    f = int(fade * SR)
+    for a, b in windows:
+        ia, ib = max(0, int(a * SR)), min(n, int(b * SR))
+        if ib <= ia:
+            continue
+        g[ia:ib] = 0
+        lo, hi = max(0, ia - f), min(n, ib + f)
+        g[lo:ia] = np.minimum(g[lo:ia], np.linspace(1, 0, ia - lo))
+        g[ib:hi] = np.minimum(g[ib:hi], np.linspace(0, 1, hi - ib))
+    return g
+
+
+def build_sport(beats, dur, t_hit, t_drop, t_lift, t_end, bpm, fassung):
+    step = 60 / bpm / 4
+    bar = 16 * step
+    bed, acc, send = Track(dur), Track(dur), Track(dur)
+    sc = Track(dur)  # Kick-Zeitpunkte für Sidechain
+    prog = [  # Em – C – G – D
+        ([329.6, 392.0, 493.9], 41.2),
+        ([329.6, 392.0, 523.3], 65.4),
+        ([293.7, 392.0, 493.9], 49.0),
+        ([293.7, 370.0, 440.0], 73.4),
+    ]
+    by = {b["effect"]: b for b in beats}
+    amp = by.get("ampel")
+    t_amp = amp["start"] if amp else max(0.0, t_hit - 1.2)
+    if amp:
+        w = [x["start"] for x in amp["words"]]
+        lights = [w[0], w[1], w[2], (w[2] + t_hit) / 2, t_hit - 5 / 30] if len(w) >= 4 else []
+    else:
+        lights = []
+    sn = by.get("startnummer")
+    t_19 = next((x["start"] for x in sn["words"] if "19" in x["w"]), t_lift) if sn else t_lift
+
+    def hit(t, big=False, chord=None, gain=1.0):
+        acc.add(kick(big=True), t, 0.95 * gain)
+        acc.add(snare(), t, 0.55 * gain)
+        acc.add(crash(2.4 if big else 1.4), t, (0.55 if big else 0.3) * gain)
+        send.add(crash(2.4 if big else 1.4), t, 0.25 * gain)
+        if big:
+            acc.add(boom(), t, 0.75 * gain)
+        if chord:
+            st = supersaw([f * 0.5 for f in chord] + chord, 1.2 if big else 0.5, cutoff=5000, decay=0.5 if big else 0.18)
+            acc.add(st, t, 0.5 * gain)
+            send.add(st, t, 0.3 * gain)
+
+    # ---------- Intro: gefilterter Puls, Akzente auf Zettel / Excel / Ordner / überall ----------
+    t = 0.0
+    while t < t_amp - 0.02:
+        s = int(round(t / step)) % 16
+        if s % 4 == 0:
+            bed.add(kick() * 0.8, t, 0.7)
+            sc.add(np.ones(1), t, 1.0)
+        if s % 2 == 0:
+            bed.add(hat(), t, 0.16)
+        if s % 2 == 1:
+            bed.add(sbass(41.2 * (2 if s % 4 == 3 else 1), step * 0.9, cutoff=420), t, 0.6)
+        t += step
+    bed.add(riser(min(2.0, t_amp)), t_amp - min(2.0, t_amp), 0.35)
+    fs = by.get("fehlstart")
+    if fs:
+        for k, x in enumerate(fs["words"]):
+            if k < 3:
+                acc.add(supersaw([164.8, 196.0, 246.9], 0.35, cutoff=2600, decay=0.12), x["start"], 0.35)
+                acc.add(snare(), x["start"], 0.35)
+            elif "überall" in x["w"].lower():
+                hit(x["start"], chord=[329.6, 392.0, 493.9], gain=0.7)
+
+    # ---------- Startampel: Musik steht, Piepser bei jeder Lampe, kurze Stille ----------
+    drone = pad([82.4, 123.5, 164.8], t_hit - t_amp + 0.2, cutoff=500)
+    bed.add(drone, t_amp, 0.45)
+    for k, tl in enumerate(lights):
+        acc.add(beep(880.0), tl, 0.55)
+        acc.add(hat(), tl, 0.3)
+    if lights:
+        acc.add(riser(max(0.3, t_hit - lights[0])), lights[0], 0.3)
+
+    # ---------- Lichter aus: Schlag + hoher Piepser + Drop ----------
+    acc.add(beep(1760.0, 0.32), t_hit, 0.5)
+    hit(t_hit, big=True, chord=prog[0][0], gain=1.0)
+
+    tb, b = t_hit, 0
+    while tb < t_end - 0.01:
+        chord, root = prog[b % 4]
+        lifted = tb >= t_lift - 0.01
+        for s in range(16):
+            ts = tb + s * step
+            if ts >= t_end - 0.01:
+                break
+            if s % 4 == 0:
+                bed.add(kick(), ts, 0.9)
+                sc.add(np.ones(1), ts, 1.0)
+            if s in (4, 12):
+                bed.add(snare(), ts, 0.6)
+                bed.add(clap(), ts, 0.35)
+                send.add(snare(), ts, 0.15)
+            bed.add(hat(), ts, 0.2 if s % 2 else 0.1)
+            if s % 4 == 2:
+                bed.add(hat(True), ts, 0.3)
+            if s % 4 != 0:  # rollender Bass zwischen den Kicks
+                bed.add(sbass(root * (2 if s % 4 == 2 else 1), step * 0.85, cutoff=1500 if lifted else 1100), ts, 0.62)
+            if s in (2, 6, 10, 14):  # Akkord-Stöße auf den Offbeats
+                st = supersaw(chord, step * 1.5, cutoff=5200 if lifted else 3400, decay=0.09)
+                bed.add(st, ts, 0.3)
+                send.add(st, ts, 0.12)
+            if tb >= t_drop - 0.01 and s % 2 == 0:  # kurze Hookline
+                motif = [0, 2, 1, 2, 0, 2, 1, 0]
+                note = chord[motif[(s // 2) % 8]] * 2
+                pl = pluck(note, 0.35, bright=1.0 if lifted else 0.7)
+                bed.add(pl, ts, 0.16, -0.3 if (s // 2) % 2 else 0.3)
+                send.add(pl, ts, 0.1)
+        tb += bar
+        b += 1
+
+    # ---------- Treffer auf jedem Schnitt (mit kurzem Becken-Anlauf) ----------
+    cuts = [x["start"] for x in beats[1:]]
+    last = t_hit
+    for c in cuts:
+        if c <= t_hit + 0.6 or c >= t_end - 0.05 or c - last < 0.6:
+            continue
+        acc.add(rev_cymbal(0.45), c - 0.45, 0.28)
+        pc = prog[int((c - t_hit) // bar) % 4][0]
+        hit(c, chord=pc, gain=0.55)
+        last = c
+
+    # ---------- Preis: Stopp, dann Schlag genau auf „19“ ----------
+    stops = [(t_19 - 3 * step, t_19 - 0.01)]
+    acc.add(rev_cymbal(3 * step), t_19 - 3 * step, 0.4)
+    hit(t_19, big=True, chord=prog[0][0], gain=0.9)
+
+    # ---------- Finale ----------
+    tail = max(2.0, dur - t_end + 0.6)
+    hit(t_end, big=True, chord=None, gain=1.0)
+    fin = supersaw([164.8, 196.0, 246.9, 293.7, 370.0], tail, cutoff=4200, attack=0.01, decay=1.4, sustain=0.35, release=0.6)
+    acc.add(fin, t_end, 0.55)
+    send.add(fin, t_end, 0.35)
+    fb = sbass(41.2, min(tail, 3.0), cutoff=600)
+    acc.add(fb * np.linspace(1, 0, len(fb)) ** 1.6, t_end, 0.7)  # Schluss-Bass klingt weich aus
+
+    # ---------- Mischen ----------
+    n = len(bed.x)
+    duck = np.ones(n)
+    rel = int(0.2 * SR)
+    curve = 1 - 0.5 * np.exp(-np.arange(rel) / (0.05 * SR))
+    for h in np.nonzero(sc.x[:, 0])[0]:
+        e = min(n, h + rel)
+        duck[h:e] = np.minimum(duck[h:e], curve[: e - h])
+    bed.x *= duck[:, None]
+    # Stille vor „Lichter aus“, Stopp vor dem Preis, nach dem Finale nur noch der Schlussakkord
+    quiet = [(lights[-1] + 0.12 if lights else t_hit - 0.2, t_hit - 0.005), *stops, (t_end, dur + 3)]
+    bed.x *= gate(n, quiet)[:, None]
+    ir = reverb_ir()
+    wet = np.stack([fftconvolve(send.x[:, c], ir[:, c])[:n] for c in range(2)], axis=1)
+    bed.x *= voice_duck(fassung, n, -6.0)[:, None]
+    acc.x *= voice_duck(fassung, n, -2.5)[:, None]
+    return bed.x * 0.85 + acc.x + wet * 0.3
+
+
 def reverb_ir(length=1.6):
     t = secs(length)
     ir = np.stack([rng.standard_normal(len(t)), rng.standard_normal(len(t))], axis=1)
@@ -384,6 +587,9 @@ def main():
 
     if args.stil == "nacht":
         finish(build_nacht(beats, dur, t_hit, t_drop, t_lift, t_end, args.bpm, args.fassung), dur, args, t_hit, t_drop, t_lift, t_end)
+        return
+    if args.stil == "sport":
+        finish(build_sport(beats, dur, t_hit, t_drop, t_lift, t_end, args.bpm, args.fassung), dur, args, t_hit, t_drop, t_lift, t_end)
         return
     if args.stil == "sanft":
         finish(build_sanft(beats, dur, t_hit, t_drop, t_lift, t_end, args.bpm, args.fassung), dur, args, t_hit, t_drop, t_lift, t_end)
@@ -494,8 +700,6 @@ def main():
     ir = reverb_ir()
     wet = np.stack([fftconvolve(send.x[:, c], ir[:, c])[:n] for c in range(2)], axis=1)
     mix = drums.x * 0.9 + music.x + wet * 0.35
-    if args.stil == "sport":  # treibend, aber unter der Stimme automatisch leiser
-        mix *= voice_duck(args.fassung, len(mix), -7.0)[:, None]
     finish(mix, dur, args, t_hit, t_drop, t_lift, t_end)
 
 

@@ -10,6 +10,8 @@ import timelineP30Json from "./data/timeline-premium30.json";
 import timelineN30Json from "./data/timeline-nacht30.json";
 import timelineS30MJson from "./data/timeline-studio30m.json";
 import timelineSp30Json from "./data/timeline-sport30.json";
+import timelineSp30MJson from "./data/timeline-sport30m.json";
+import timelineSp30WJson from "./data/timeline-sport30w.json";
 import { Studio } from "./studio/Studio";
 import "./fonts";
 
@@ -21,6 +23,8 @@ const timelineP30 = timelineP30Json as Timeline;
 const timelineN30 = timelineN30Json as Timeline;
 const timelineS30M = timelineS30MJson as Timeline;
 const timelineSp30 = timelineSp30Json as Timeline;
+const timelineSp30M = timelineSp30MJson as Timeline;
+const timelineSp30W = timelineSp30WJson as Timeline;
 const frames = (t: Timeline) => Math.ceil(t.duration * FPS);
 
 export const Root: React.FC = () => (
@@ -41,6 +45,11 @@ export const Root: React.FC = () => (
     {/* „AutoKontor Sport“ – Motorsport-/Sportwerbungs-Look (skript-sport30.txt) */}
     <Composition id="AutoKontorSport30" component={Spot} durationInFrames={frames(timelineSp30)} fps={FPS} width={1080} height={1920} defaultProps={{ timeline: timelineSp30 }} />
     <Composition id="AutoKontorSport30Wide" component={Spot} durationInFrames={frames(timelineSp30)} fps={FPS} width={1920} height={1080} defaultProps={{ timeline: timelineSp30 }} />
+    {/* Sport mit anderer Stimme: M = Thorsten „gut gelaunt“, W = Frauenstimme */}
+    <Composition id="AutoKontorSport30M" component={Spot} durationInFrames={frames(timelineSp30M)} fps={FPS} width={1080} height={1920} defaultProps={{ timeline: timelineSp30M }} />
+    <Composition id="AutoKontorSport30MWide" component={Spot} durationInFrames={frames(timelineSp30M)} fps={FPS} width={1920} height={1080} defaultProps={{ timeline: timelineSp30M }} />
+    <Composition id="AutoKontorSport30W" component={Spot} durationInFrames={frames(timelineSp30W)} fps={FPS} width={1080} height={1920} defaultProps={{ timeline: timelineSp30W }} />
+    <Composition id="AutoKontorSport30WWide" component={Spot} durationInFrames={frames(timelineSp30W)} fps={FPS} width={1920} height={1080} defaultProps={{ timeline: timelineSp30W }} />
     {/* „Studio“-Hochformat: Rahmen mit Schlagzeile, Karte mit dem Premium-Spot, Chips, Button (src/studio/Studio.tsx) */}
     <Composition id="AutoKontorStudio" component={Studio} durationInFrames={frames(timelineP30)} fps={FPS} width={1080} height={1920} defaultProps={{ timeline: timelineP30 }} />
     <Composition id="AutoKontorStudioM" component={Studio} durationInFrames={frames(timelineS30M)} fps={FPS} width={1080} height={1920} defaultProps={{ timeline: timelineS30M }} />

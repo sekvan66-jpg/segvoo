@@ -394,7 +394,7 @@ const Sound: React.FC<{ total: number; timeline: Timeline }> = ({ total, timelin
   const sport = timeline.stil === "sport";
   const sfxMap = sport ? SFX_SPORT : timeline.stil === "nacht" ? SFX_NACHT : premium ? SFX_PREMIUM : SFX_FOR;
   // Premium: Musik ist schon unter der Stimme abgesenkt (tools/musik.py --stil sanft) und bleibt dezent im Hintergrund
-  const musicVol = a.voice ? (premium ? 0.3 : sport ? 0.26 : 0.14) : 0.6;
+  const musicVol = a.voice ? (premium ? 0.3 : sport ? 0.3 : 0.14) : 0.6;
   const sfxVol = a.voice ? 0.55 : 1;
   return (
     <>
