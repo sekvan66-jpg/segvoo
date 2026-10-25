@@ -18,11 +18,11 @@ const ORDER: [SceneId, React.FC<{d: number}>, Cam][] = [
 	['s2b', S2bProblem, {enter: true, exit: true, push: 0.05, vignette: 0.6}],
 	['s2c', S2cMehmet, {enter: true, exit: false, push: 0.1, vignette: 0.7}],
 	['s3', S3Tiefpunkt, {enter: false, exit: false, push: 0.12, vignette: 0.85}],
-	['s4a', S4aWende, {enter: false, exit: true, push: 0.03, vignette: 0.2}],
-	['s4b', S4bFunktionen, {enter: true, exit: true, push: 0.03, vignette: 0.2}],
-	['s4c', S4cSicherheit, {enter: true, exit: true, push: 0.03, vignette: 0.2}],
-	['s5', S5HappyEnd, {enter: true, exit: true, push: 0.04, vignette: 0.25}],
-	['s6', S6Ehrlich, {enter: true, exit: true, push: 0.03, vignette: 0.2}],
+	['s4a', S4aWende, {enter: false, exit: true, push: 0.03, vignette: 0.45}],
+	['s4b', S4bFunktionen, {enter: true, exit: true, push: 0.03, vignette: 0.45}],
+	['s4c', S4cSicherheit, {enter: true, exit: true, push: 0.03, vignette: 0.45}],
+	['s5', S5HappyEnd, {enter: true, exit: true, push: 0.04, vignette: 0.45}],
+	['s6', S6Ehrlich, {enter: true, exit: true, push: 0.03, vignette: 0.45}],
 	['end', SEnd, {enter: true, exit: false, push: 0.04, vignette: 0.45}],
 ];
 

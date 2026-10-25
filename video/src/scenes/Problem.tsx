@@ -1,306 +1,277 @@
 import React from 'react';
-import {interpolate, useCurrentFrame} from 'remotion';
-import {Abs, Coffee, Desk, Fill, Laptop, PaperPile, Sheet, Window} from '../components/Props';
-import {Mehmet} from '../components/Mehmet';
+import {Easing, interpolate, random, useCurrentFrame} from 'remotion';
+import {DocCard, Glass, IconRing, Line, Stage, Tag} from '../components/Stage';
 import {Keyword} from '../components/Captions';
-import {CarIcon, MailboxIcon} from '../components/Icons';
+import {RevealText, Ripple} from '../components/fx';
 import {clamp, pop, ramp} from '../components/anim';
-import {LightCone, Particles} from '../components/fx';
-import {CUES} from '../cues';
+import {CUES, rel} from '../cues';
 import {C, font, sec} from '../theme';
 
-const NIGHT = `linear-gradient(180deg, ${C.nightDeep} 0%, ${C.night} 55%, ${C.violetDark} 140%)`;
+const RED = '#ff4d5e';
+const LAVENDER = '#b9a6ff';
 
-const Moon: React.FC = () => (
-	<div style={{position: 'absolute', left: 70, top: 70, width: 90, height: 90, borderRadius: 99, background: '#f4f1d0', boxShadow: '0 0 60px rgba(244,241,208,0.6)'}} />
-);
-
-// Unscharfe Blätter ganz nah an der Kamera, bewegen sich schneller als der Rest (Parallaxe).
-const ForegroundSheets: React.FC<{seed?: number}> = ({seed = 0}) => {
+// Riesiger Hintergrund-Schriftzug als Kontur, wandert langsam.
+const Outline: React.FC<{text: string; y: number; size?: number; drift?: number; opacity?: number}> = ({text, y, size = 260, drift = 0.6, opacity = 0.14}) => {
 	const f = useCurrentFrame();
 	return (
-		<>
-			{[
-				[-90, 1500, 22],
-				[820, 1600, -18],
-				[880, 120, 30],
-			].map(([x, y, r], i) => (
-				<Abs key={i} x={x + Math.sin((f + seed * 40) / 50 + i) * 30} y={y + Math.cos((f + seed * 30) / 60 + i) * 25 - f * 0.6} style={{filter: 'blur(10px)', opacity: 0.85}}>
-					<Sheet w={300} rot={r + Math.sin(f / 40 + i) * 6} />
-				</Abs>
-			))}
-		</>
+		<div
+			style={{
+				position: 'absolute',
+				top: y,
+				left: -200 - f * drift,
+				whiteSpace: 'nowrap',
+				fontFamily: font,
+				fontWeight: 800,
+				fontSize: size,
+				letterSpacing: -size * 0.03,
+				color: 'transparent',
+				WebkitTextStroke: `2px rgba(255,255,255,${opacity})`,
+			}}
+		>
+			{`${text} ${text} ${text}`}
+		</div>
 	);
 };
 
-const DeskLamp: React.FC = () => (
-	<div style={{position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, background: 'radial-gradient(circle at 50% 62%, rgba(255,214,140,0.22) 0%, rgba(0,0,0,0) 45%)'}} />
-);
-
-// Szene 1: Mehmet nachts zwischen wachsenden Zettelbergen, Angst vor dem Briefkasten.
+// Szene 1: „Mehmet“ als Typo, um ihn herum vermehren sich Belege; dann der Briefkasten: Angst.
 export const S1Hook: React.FC<{d: number}> = ({d}) => {
 	const f = useCurrentFrame();
-	const grow = interpolate(f, [0, d * 0.7], [4, 26], clamp);
 	const tMail = sec(CUES.mailbox());
-	const mail = pop(f, tMail);
-	const flap = interpolate(f, [tMail + 4, tMail + 8, tMail + 12], [0, 1, 0], clamp);
+	const count = Math.floor(interpolate(f, [8, d * 0.75], [0, 16], clamp));
+	const dim = ramp(f, tMail - 4, tMail + 6);
 	return (
-		<Fill bg={NIGHT}>
-			<Abs x={70} y={140}>
-				<Window w={300} h={420}>
-					<Moon />
-				</Window>
-			</Abs>
-			<DeskLamp />
-			<LightCone x={540} top={380} />
-			<Abs x={290} y={470} style={{filter: 'drop-shadow(0 30px 40px rgba(0,0,0,0.45))'}}>
-				<Mehmet pose="rub" />
-			</Abs>
-			<Desk y={1050} />
-			<PaperPile count={grow} x={60} bottom={1040} />
-			<PaperPile count={grow * 0.8} x={790} bottom={1040} />
-			<PaperPile count={grow * 0.5} x={600} bottom={1040} w={160} />
-			<Particles seed="s1" />
-			<Abs x={630} y={150} style={{transform: `scale(${mail}) translateX(${f > tMail + 4 && f < tMail + 16 ? Math.sin(f * 2.3) * 9 : 0}px)`, transformOrigin: 'center'}}>
-				<div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, filter: 'drop-shadow(0 0 40px rgba(59,91,219,0.5))'}}>
-					<MailboxIcon open={flap} size={300} />
-					{f > tMail + 4 && <Keyword text="Angst" color={C.warn} size={140} delay={tMail + 4} />}
-				</div>
-			</Abs>
-			<ForegroundSheets />
-		</Fill>
-	);
-};
-
-const Envelope: React.FC = () => (
-	<div style={{width: 420, height: 260, background: '#fffaf0', borderRadius: 12, position: 'relative', boxShadow: '0 16px 40px rgba(0,0,0,0.4)', fontFamily: font}}>
-		<svg width={420} height={130} viewBox="0 0 420 130" style={{position: 'absolute', top: 0}}>
-			<path d="M0 0 L210 120 L420 0" fill="none" stroke="#d8cfb8" strokeWidth={4} />
-		</svg>
-		<div style={{position: 'absolute', bottom: 40, left: 40, fontSize: 44, fontWeight: 800, color: C.ink}}>Finanzamt</div>
-		<div style={{position: 'absolute', top: 24, right: 26, width: 60, height: 70, border: '3px dashed #c9b88f', borderRadius: 6}} />
-	</div>
-);
-
-const Panel: React.FC<{label: string; show: number; children: React.ReactNode}> = ({label, show, children}) => (
-	<div
-		style={{
-			width: 300,
-			height: 360,
-			background: 'linear-gradient(160deg, rgba(48,60,130,0.85), rgba(22,28,70,0.9))',
-			borderRadius: 32,
-			border: '2px solid rgba(160,175,255,0.35)',
-			boxShadow: '0 30px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.15), 0 0 60px rgba(123,77,255,0.25)',
-			display: 'flex',
-			flexDirection: 'column',
-			alignItems: 'center',
-			justifyContent: 'space-between',
-			padding: 22,
-			boxSizing: 'border-box',
-			transform: `scale(${show}) rotate(${(1 - show) * -8}deg)`,
-			opacity: Math.min(1, show * 2),
-		}}
-	>
-		<div style={{flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{children}</div>
-		<div style={{color: C.white, fontWeight: 800, fontSize: 32, fontFamily: font}}>{label}</div>
-	</div>
-);
-
-// Szene 2a: Brief vom Finanzamt, wirbelnde Blätter, dann Schublade, Handschuhfach, Kopf.
-export const S2aProblem: React.FC<{d: number}> = () => {
-	const f = useCurrentFrame();
-	const drop = interpolate(f, [sec(CUES.letterDrop()), sec(CUES.letterDrop()) + 12], [-500, 0], clamp);
-	const tPanels = sec(CUES.panels());
-	const swirl = (i: number) => {
-		const t = Math.max(0, f - 14 - i * 2);
-		return {
-			x: 540 + Math.cos(i * 1.7 + t / 14) * (120 + t * 6) - 90,
-			y: 900 - t * 9 + Math.sin(i * 2.3) * 80,
-			rot: t * (i % 2 ? 6 : -5),
-			o: interpolate(t, [0, 5, 60, 80], [0, 1, 1, 0], clamp),
-		};
-	};
-	const pull = interpolate(f, [tPanels - 8, tPanels], [0, -640], clamp);
-	return (
-		<Fill bg={NIGHT}>
-			<DeskLamp />
-			<LightCone x={540} top={420} />
-			<div style={{position: 'absolute', inset: 0, transform: `translateY(${pull}px)`}}>
-				<Abs x={330} y={560}>
-					<Mehmet pose="sit" size={420} />
-				</Abs>
-				<Desk y={1050} />
-				<Abs x={330} y={830 + drop} style={{transform: `rotate(${-4 + drop / 60}deg)`}}>
-					<Envelope />
-				</Abs>
-				{Array.from({length: 9}).map((_, i) => {
-					const s = swirl(i);
+		<Stage tone="cold">
+			<Outline text="MEHMET" y={130} />
+			<div style={{position: 'absolute', inset: 0, opacity: 1 - dim * 0.65, filter: dim > 0.05 ? `blur(${dim * 6}px)` : undefined}}>
+				{Array.from({length: count}).map((_, i) => {
+					const r = (k: string) => random(`s1${k}${i}`);
+					const s = pop(f, 8 + i * ((d * 0.75 - 8) / 16), 14);
+					// Belege links und rechts vom Schriftzug, damit „Mehmet“ lesbar bleibt.
+					const x = i % 2 ? 730 + r('x') * 180 : -60 + r('x') * 200;
+					const y = 300 + r('y') * 1050;
 					return (
-						<Abs key={i} x={s.x} y={s.y} style={{opacity: s.o}}>
-							<Sheet w={140} rot={s.rot} />
-						</Abs>
+						<div key={i} style={{position: 'absolute', left: x, top: y, transform: `perspective(1200px) rotateY(${(r('ry') - 0.5) * 50}deg) rotate(${(r('r') - 0.5) * 40 + Math.sin(f / 30 + i) * 3}deg) scale(${s * (0.55 + r('s') * 0.4)})`, opacity: 0.92}}>
+							<DocCard title={['Rechnung', 'Kaufvertrag', 'Beleg', 'Quittung'][i % 4]} w={240} />
+						</div>
 					);
 				})}
+				<div style={{position: 'absolute', top: 560, left: 0, right: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 30}}>
+					<RevealText text="Mehmet" size={190} color={C.white} delay={2} />
+					<div style={{opacity: ramp(f, 12, 22), transform: `translateY(${(1 - ramp(f, 12, 22)) * 20}px)`}}>
+						<Tag>Autohändler</Tag>
+					</div>
+				</div>
 			</div>
-			{f >= tPanels - 4 && (
-				<div style={{position: 'absolute', left: 0, right: 0, top: 640, display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 30, padding: '0 40px'}}>
-					<Panel label="Schublade" show={pop(f, tPanels)}>
-						<svg width={220} height={180} viewBox="0 0 220 180">
-							<rect x={10} y={60} width={200} height={110} rx={10} fill="#8a6446" />
-							<rect x={80} y={100} width={60} height={14} rx={7} fill="#5a3f2b" />
-							{[0, 1, 2].map((i) => (
-								<rect key={i} x={30 + i * 50} y={20 - i * 8} width={70} height={60} rx={4} fill={C.paper} transform={`rotate(${i * 8 - 8} ${65 + i * 50} 50)`} />
-							))}
-						</svg>
-					</Panel>
-					<Panel label="Handschuhfach" show={pop(f, sec(CUES.glovebox()))}>
-						<svg width={220} height={180} viewBox="0 0 220 180">
-							<path d="M10 40 Q110 0 210 40 V90 H10 Z" fill="#30364f" />
-							<rect x={40} y={90} width={140} height={70} rx={8} fill="#3d4463" />
-							<rect x={60} y={60} width={100} height={50} rx={4} fill={C.paper} transform="rotate(-6 110 85)" />
-							<rect x={70} y={70} width={60} height={6} rx={3} fill={C.paperLine} transform="rotate(-6 110 85)" />
-						</svg>
-					</Panel>
-					<Panel label="im Kopf" show={pop(f, sec(CUES.head()))}>
-						<svg width={220} height={200} viewBox="0 0 220 200">
-							<circle cx={40} cy={185} r={8} fill="#c9d1f0" />
-							<circle cx={62} cy={160} r={13} fill="#c9d1f0" />
-							<ellipse cx={130} cy={80} rx={88} ry={66} fill="#c9d1f0" />
-							{[0, 1, 2, 3].map((i) => (
-								<rect key={i} x={80 + (i % 2) * 50} y={45 + Math.floor(i / 2) * 40} width={40} height={30} rx={3} fill={C.paper} transform={`rotate(${i * 13 - 15} ${100 + (i % 2) * 50} ${60 + Math.floor(i / 2) * 40})`} />
-							))}
-						</svg>
-					</Panel>
+			{f >= tMail - 4 && (
+				<div style={{position: 'absolute', top: 470, left: 0, right: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 50}}>
+					<div style={{transform: `scale(${pop(f, tMail - 4, 11)}) translateX(${f > tMail && f < tMail + 14 ? Math.sin(f * 2.6) * 10 : 0}px)`}}>
+						<IconRing color={RED} size={260}>
+							<Line.Mail size={140} color="#fff" stroke={5} />
+						</IconRing>
+					</div>
+					<Ripple at={tMail} x={540} y={130} color={RED} size={300} />
+					{f >= tMail + 2 && <Keyword text="Angst." color={RED} size={210} delay={tMail + 2} />}
 				</div>
 			)}
-			<Particles seed="s2a" count={22} />
-		</Fill>
+		</Stage>
 	);
 };
 
-const Person: React.FC<{color: string; size?: number}> = ({color, size = 260}) => (
-	<svg width={size * 0.6} height={size} viewBox="0 0 120 200">
-		<circle cx={60} cy={40} r={28} fill="#e0b08a" />
-		<path d="M32 32 Q60 0 88 32 Q78 18 60 18 Q42 18 32 32 Z" fill="#5a4030" />
-		<path d="M20 200 Q20 80 60 78 Q100 80 100 200 Z" fill={color} />
+// Szene 2a: Benachrichtigung vom Finanzamt, Suche ohne Treffer, dann drei Orte, an denen die Belege liegen.
+export const S2aProblem: React.FC<{d: number}> = () => {
+	const f = useCurrentFrame();
+	const tDrop = sec(CUES.letterDrop());
+	const tPanels = sec(CUES.panels());
+	const notif = pop(f, tDrop, 15);
+	const query = 'Beleg Kaufvertrag';
+	const typed = Math.floor(interpolate(f, [tDrop + 24, tPanels - 26], [0, query.length], clamp));
+	const none = f > tPanels - 22;
+	const out = ramp(f, tPanels - 8, tPanels + 4);
+	const places: [string, (p: {size?: number; color?: string; stroke?: number}) => React.ReactElement, number][] = [
+		['Schublade', Line.Drawer, sec(CUES.panels())],
+		['Handschuhfach', Line.Car, sec(CUES.glovebox())],
+		['Im Kopf', Line.Brain, sec(CUES.head())],
+	];
+	return (
+		<Stage tone="cold">
+			<Outline text="BELEGE?" y={1500} drift={-0.7} />
+			<div style={{position: 'absolute', inset: 0, opacity: 1 - out, transform: `translateY(${-out * 160}px)`}}>
+				<div style={{position: 'absolute', top: 300, left: 70, right: 70, transform: `translateY(${(1 - notif) * -500}px)`}}>
+					<Glass style={{display: 'flex', alignItems: 'center', gap: 34, padding: '34px 40px'}} glow="rgba(255,77,94,0.18)">
+						<IconRing color={RED} size={120}>
+							<Line.Mail size={64} />
+						</IconRing>
+						<div>
+							<div style={{fontSize: 28, letterSpacing: 3, textTransform: 'uppercase', opacity: 0.6, fontWeight: 600}}>Brief · Finanzamt</div>
+							<div style={{fontSize: 52, fontWeight: 800, marginTop: 6}}>Belege vorlegen</div>
+						</div>
+					</Glass>
+				</div>
+				<div style={{position: 'absolute', top: 720, left: 70, right: 70, opacity: ramp(f, tDrop + 16, tDrop + 26)}}>
+					<Glass style={{padding: '30px 36px', display: 'flex', alignItems: 'center', gap: 26}}>
+						<Line.Search size={70} color="rgba(255,255,255,0.7)" />
+						<div style={{fontSize: 50, fontWeight: 600}}>
+							{query.slice(0, typed)}
+							<span style={{opacity: Math.floor(f / 8) % 2 ? 0 : 0.8}}>|</span>
+						</div>
+					</Glass>
+					{none && (
+						<div style={{marginTop: 30, display: 'flex', alignItems: 'center', gap: 18, color: RED, fontSize: 46, fontWeight: 800, transform: `scale(${pop(f, tPanels - 22)})`, transformOrigin: 'left center'}}>
+							<Line.X size={60} color={RED} stroke={8} />
+							Keine Treffer
+						</div>
+					)}
+				</div>
+			</div>
+			{f >= tPanels - 6 && (
+				<div style={{position: 'absolute', top: 250, left: 70, right: 70, display: 'flex', flexDirection: 'column', gap: 40}}>
+					{places.map(([label, Icon, t], i) => {
+						const s = pop(f, t - 2, 15);
+						return (
+							<div key={label} style={{transform: `perspective(1400px) translateX(${(1 - s) * (i % 2 ? -700 : 700)}px) rotateY(${(1 - s) * (i % 2 ? 40 : -40)}deg)`, opacity: Math.min(1, s * 1.5)}}>
+								<Glass style={{display: 'flex', alignItems: 'center', gap: 40, padding: '40px 46px'}}>
+									<IconRing color={i === 2 ? LAVENDER : '#6f8cff'} size={170}>
+										<Icon size={100} />
+									</IconRing>
+									<div style={{fontSize: 76, fontWeight: 800, letterSpacing: -2}}>{label}</div>
+								</Glass>
+							</div>
+						);
+					})}
+				</div>
+			)}
+		</Stage>
+	);
+};
+
+// Linien-Silhouette eines Autos (Seitenansicht), sauber statt comichaft.
+const CarLine: React.FC<{w?: number; color?: string}> = ({w = 760, color = '#cfd8ff'}) => (
+	<svg width={w} height={w * 0.36} viewBox="0 0 400 144" fill="none" stroke={color} strokeWidth={3.5} strokeLinecap="round" strokeLinejoin="round">
+		<path d="M20 104 C20 88 30 84 52 80 L104 72 C126 50 150 36 196 34 C246 32 280 44 312 70 L360 78 C378 82 386 90 386 104" />
+		<path d="M20 104 H62 M118 104 H286 M342 104 H386" />
+		<circle cx={90} cy={104} r={26} />
+		<circle cx={314} cy={104} r={26} />
+		<circle cx={90} cy={104} r={10} />
+		<circle cx={314} cy={104} r={10} />
+		<path d="M124 70 C140 54 160 46 196 45 V70 Z" />
+		<path d="M208 45 C244 45 268 52 292 70 H208 Z" />
 	</svg>
 );
 
-// Szene 2b: Vertrag von Hand, der andere Händler fährt mit dem Auto davon, Bestand verschwommen.
-export const S2bProblem: React.FC<{d: number}> = ({d}) => {
+// Szene 2b: Einkauf dauert, Vertrag von Hand, das Auto ist weg; danach der Bestand nur ungefähr.
+export const S2bProblem: React.FC<{d: number}> = () => {
 	const f = useCurrentFrame();
 	const tOff = sec(CUES.carOff());
 	const tBlur = sec(CUES.blurry());
-	const carX = interpolate(f, [tOff + 10, tOff + 40], [560, 1300], clamp);
-	const rival = interpolate(f, [tOff - 6, tOff + 8], [-400, 360], clamp);
+	const leave = interpolate(f, [tOff + 6, tOff + 26], [0, 1], {...clamp, easing: Easing.in(Easing.cubic)});
 	const blurIn = ramp(f, tBlur - 6, tBlur + 6);
-	const ink = interpolate(f, [0, tOff], [0, 1], clamp);
+	const ink = interpolate(f, [4, tOff], [0, 1], clamp);
+	const timer = Math.floor(interpolate(f, [0, tOff + 10], [0, 47], clamp));
 	return (
-		<Fill bg={NIGHT}>
-			<div style={{opacity: 1 - blurIn}}>
-				{/* Hof mit Auto, Kunde wartet */}
-				<div style={{position: 'absolute', left: 0, right: 0, top: 120, height: 560, background: 'linear-gradient(180deg, #1a2350, #26306a)'}} />
-				<div style={{position: 'absolute', left: 0, right: 0, top: 600, height: 80, background: '#2c3256'}} />
-				<Abs x={carX} y={420} style={{filter: carX > 570 ? `blur(${Math.min(6, (carX - 560) / 60)}px)` : undefined}}>
-					<CarIcon size={420} color="#5b8cff" />
-				</Abs>
-				{carX > 570 &&
-					[0, 1, 2, 3].map((i) => (
-						<div key={i} style={{position: 'absolute', left: carX - 380 + i * 30, top: 470 + i * 38, width: 360, height: 6, borderRadius: 3, background: 'linear-gradient(90deg, rgba(160,190,255,0), rgba(160,190,255,0.6))', opacity: interpolate(carX, [570, 700, 1300], [0, 1, 0], clamp)}} />
+		<Stage tone="warn">
+			<div style={{position: 'absolute', inset: 0, opacity: 1 - blurIn}}>
+				<div style={{position: 'absolute', top: 220, left: 0, right: 0, display: 'flex', justifyContent: 'center'}}>
+					<Tag color="#ffb4bb">Einkauf</Tag>
+				</div>
+				<div style={{position: 'absolute', top: 400, left: 160 + leave * 1100, filter: leave > 0.02 ? `blur(${leave * 10}px)` : undefined}}>
+					<CarLine />
+					<div style={{position: 'absolute', left: 230, top: -70}}>
+						<Glass style={{padding: '12px 26px', fontSize: 34, fontWeight: 700, borderRadius: 18}}>VW Golf · 14.900 €</Glass>
+					</div>
+				</div>
+				{leave > 0 &&
+					[0, 1, 2, 3, 4].map((i) => (
+						<div key={i} style={{position: 'absolute', left: 100 + leave * 700 - i * 40, top: 430 + i * 42, width: 520, height: 4, borderRadius: 2, background: 'linear-gradient(90deg, rgba(255,120,130,0), rgba(255,120,130,0.8))', opacity: interpolate(leave, [0, 0.3, 1], [0, 1, 0], clamp)}} />
 					))}
-				<Abs x={rival} y={360} style={{opacity: f > tOff - 6 && carX < 1200 ? 1 : 0}}>
-					<Person color={C.violet} size={240} />
-				</Abs>
-				<Abs x={90} y={340} style={{opacity: interpolate(f, [tOff + 10, tOff + 20], [1, 0.4], clamp)}}>
-					<Person color="#3f7a5a" size={300} />
-				</Abs>
-				{/* Mehmet schreibt von Hand */}
-				<Abs x={80} y={760}>
-					<Mehmet pose="write" size={380} />
-				</Abs>
-				<Desk y={1150} />
-				<Abs x={560} y={830} style={{transform: 'rotate(-3deg)'}}>
-					<div style={{width: 400, height: 300, background: C.paper, borderRadius: 10, padding: 24, boxSizing: 'border-box', fontFamily: font, boxShadow: '0 10px 30px rgba(0,0,0,0.35)'}}>
-						<div style={{fontSize: 34, fontWeight: 800, color: C.ink, marginBottom: 14}}>Kaufvertrag</div>
-						<svg width={350} height={180} viewBox="0 0 350 180">
+				{f >= tOff + 14 && (
+					<div style={{position: 'absolute', top: 440, left: 0, right: 0}}>
+						<Keyword text="Zu langsam." color="#ff6b78" size={150} delay={tOff + 14} />
+					</div>
+				)}
+				<div style={{position: 'absolute', top: 820, left: 70, right: 70, display: 'flex', gap: 30}}>
+					<Glass style={{flex: 1, padding: 36}}>
+						<div style={{display: 'flex', alignItems: 'center', gap: 18, opacity: 0.7, fontSize: 30, fontWeight: 600, letterSpacing: 2, textTransform: 'uppercase'}}>
+							<Line.Pen size={44} color="#fff" />
+							Vertrag von Hand
+						</div>
+						<svg width={520} height={220} viewBox="0 0 520 220" style={{marginTop: 20}}>
 							{[0, 1, 2, 3].map((i) => (
 								<path
 									key={i}
-									d={`M0 ${20 + i * 40} q20 -14 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0`}
-									stroke="#33417a"
+									d={`M0 ${30 + i * 52} q26 -18 52 0 t52 0 t52 0 t52 0 t52 0 t52 0 t52 0 t52 0 t52 0`}
+									stroke="rgba(255,255,255,0.75)"
 									strokeWidth={4}
 									fill="none"
-									strokeDasharray={360}
-									strokeDashoffset={360 - Math.max(0, Math.min(1, ink * 4 - i)) * 360}
+									strokeDasharray={480}
+									strokeDashoffset={480 - Math.max(0, Math.min(1, ink * 4 - i)) * 480}
 								/>
 							))}
 						</svg>
-					</div>
-				</Abs>
+					</Glass>
+					<Glass style={{width: 260, padding: 30, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16}}>
+						<Line.Clock size={110} color="#ff8a94" />
+						<div style={{fontSize: 64, fontWeight: 800, fontVariantNumeric: 'tabular-nums'}}>{`00:${String(timer).padStart(2, '0')}`}</div>
+						<div style={{fontSize: 26, opacity: 0.6}}>Wartezeit</div>
+					</Glass>
+				</div>
 			</div>
 			{blurIn > 0 && (
 				<div style={{position: 'absolute', inset: 0, opacity: blurIn}}>
-					<div style={{position: 'absolute', top: 220, width: '100%'}}>
-						<Keyword text="Bestand?" color={C.warn} size={120} delay={tBlur - 6} />
+					<div style={{position: 'absolute', top: 200, left: 0, right: 0}}>
+						<Keyword text="Bestand?" color={C.white} size={170} delay={tBlur - 6} />
 					</div>
-					{Array.from({length: 6}).map((_, i) => (
-						<Abs key={i} x={90 + (i % 2) * 470} y={420 + Math.floor(i / 2) * 300}>
-							<div style={{filter: 'blur(9px)', opacity: 0.8}}>
-								<CarIcon size={400} color={['#5b8cff', '#8a6bff', '#4ab0c9'][i % 3]} />
-							</div>
-							<div style={{position: 'absolute', left: 150, top: 10, fontSize: 130, fontWeight: 800, color: C.warn, fontFamily: font, transform: `rotate(${Math.sin(f / 8 + i) * 10}deg)`}}>?</div>
-						</Abs>
-					))}
+					<div style={{position: 'absolute', top: 480, left: 70, right: 70, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 28}}>
+						{Array.from({length: 6}).map((_, i) => (
+							<Glass key={i} style={{height: 250, position: 'relative', overflow: 'hidden', transform: `scale(${pop(f, tBlur + i * 3)})`}}>
+								<div style={{position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', filter: 'blur(10px)', opacity: 0.8}}>
+									<CarLine w={380} />
+								</div>
+								<div style={{position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 130, fontWeight: 800, color: '#ff6b78', textShadow: '0 0 40px rgba(255,80,100,0.6)', transform: `rotate(${Math.sin(f / 9 + i) * 8}deg)`}}>?</div>
+							</Glass>
+						))}
+					</div>
 				</div>
 			)}
-			<Particles seed="s2b" count={16} opacity={0.35} />
-		</Fill>
+		</Stage>
 	);
 };
 
-// Szene 2c: Nahaufnahme, Kopf in den Händen, Zettel fallen langsam.
+// Szene 2c: Mehmets Satz als große Typo-Zitat.
 export const S2cMehmet: React.FC<{d: number}> = () => {
 	const f = useCurrentFrame();
-	const zoom = interpolate(f, [0, 150], [1, 1.08], clamp);
+	const t1 = sec(rel('s2c', 'Ich arbeite', 0.05));
+	const t2 = sec(rel('s2c', 'und habe', 0.5));
 	return (
-		<Fill bg={`radial-gradient(circle at 50% 45%, #232c63 0%, ${C.nightDeep} 75%)`}>
-			<div style={{position: 'absolute', inset: 0, transform: `scale(${zoom})`}}>
-				<div style={{position: 'absolute', left: 140, top: 250, width: 800, height: 800, borderRadius: '50%', background: 'radial-gradient(circle, rgba(123,77,255,0.35) 0%, rgba(123,77,255,0) 65%)'}} />
-				<Abs x={140} y={330} style={{filter: 'drop-shadow(0 0 30px rgba(140,120,255,0.35))'}}>
-					<Mehmet pose="headInHands" size={800} />
-				</Abs>
-				<Desk y={1230} />
+		<Stage tone="violet" grid={false}>
+			<div style={{position: 'absolute', top: 260, left: 70, fontSize: 300, fontWeight: 800, color: LAVENDER, opacity: 0.25 * ramp(f, 0, 10), fontFamily: 'Georgia, serif', lineHeight: 1}}>„</div>
+			<div style={{position: 'absolute', top: 520, left: 80, right: 80, fontStyle: 'italic'}}>
+				<RevealText text="Ich arbeite mehr als alle" size={112} color={C.white} align="left" delay={t1} stagger={4} />
+				<div style={{height: 30}} />
+				{f >= t2 - 2 && <RevealText text="und habe trotzdem nichts im Griff." size={112} align="left" delay={t2} stagger={4} gradient={`linear-gradient(90deg, #ffffff 0%, ${LAVENDER} 60%, #7b4dff 100%)`} />}
 			</div>
-			{Array.from({length: 7}).map((_, i) => {
-				const y = -300 + ((f * 3 + i * 230) % 1700);
-				const x = 60 + ((i * 157) % 900) + Math.sin((f + i * 30) / 20) * 40;
-				return (
-					<Abs key={i} x={x} y={y} style={{opacity: 0.85, filter: i % 3 === 0 ? 'blur(6px)' : undefined}}>
-						<Sheet w={i % 3 === 0 ? 200 : 120} rot={Math.sin((f + i * 20) / 15) * 30} />
-					</Abs>
-				);
-			})}
-			<Particles seed="s2c" count={18} color="rgba(190,170,255,1)" opacity={0.4} />
-		</Fill>
+			<div style={{position: 'absolute', top: 1220, left: 80, opacity: ramp(f, t1 + 10, t1 + 22)}}>
+				<Tag color={LAVENDER}>Mehmet</Tag>
+			</div>
+		</Stage>
 	);
 };
 
-// Szene 3: Dunkel, nur der Laptop leuchtet, Kaffee dampft nicht mehr.
-export const S3Tiefpunkt: React.FC<{d: number}> = () => {
+// Szene 3: Schwarz. Ein Satz, Buchstabe für Buchstabe, die Musik bricht ab.
+export const S3Tiefpunkt: React.FC<{d: number}> = ({d}) => {
 	const f = useCurrentFrame();
-	const flicker = 0.25 + Math.sin(f / 4) * 0.03;
+	const text = 'So kann es nicht weitergehen.';
+	const n = Math.floor(interpolate(f, [4, d * 0.6], [0, text.length], clamp));
+	const line = interpolate(f, [0, d * 0.8], [0, 1], {...clamp, easing: Easing.out(Easing.cubic)});
 	return (
-		<Fill bg="#04050d">
-			<div style={{position: 'absolute', inset: 0, background: 'radial-gradient(circle at 50% 62%, rgba(90,110,200,0.25) 0%, rgba(0,0,0,0) 40%)'}} />
-			<Desk y={1150} />
-			<div style={{position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.55)'}} />
-			<Abs x={280} y={850}>
-				<Laptop glow={flicker} />
-			</Abs>
-			<Abs x={830} y={980} style={{opacity: 0.6}}>
-				<Coffee steam={false} frame={f} />
-			</Abs>
-			<Particles seed="s3" count={14} color="rgba(150,170,255,1)" opacity={0.25} speed={0.25} />
-		</Fill>
+		<Stage tone="black" grid={false} dust={10}>
+			<div style={{position: 'absolute', top: 860, left: 70, right: 70, fontFamily: font, fontWeight: 600, fontSize: 76, color: 'rgba(255,255,255,0.9)', letterSpacing: -1, textAlign: 'center'}}>
+				{text.split('').map((ch, i) => (
+					<span key={i} style={{opacity: i < n ? 1 : 0, filter: i < n && i > n - 3 ? 'blur(2px)' : undefined}}>
+						{ch}
+					</span>
+				))}
+			</div>
+			<div style={{position: 'absolute', top: 1010, left: 540 - 300 * line, width: 600 * line, height: 2, background: 'linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.6), rgba(255,255,255,0))', opacity: 0.6 + Math.sin(f / 2) * 0.2}} />
+		</Stage>
 	);
 };

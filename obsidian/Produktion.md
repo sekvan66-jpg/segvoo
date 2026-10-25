@@ -59,14 +59,14 @@ Ablauf in der neuen Sitzung:
 - Rendern: `cd video && npm install && npm run render` → `video/out/mehmet_und_der_zettelberg.mp4` (nicht im Repo). Ohne heruntergeladenen Browser: `REMOTION_BROWSER=<Pfad zu chrome-headless-shell>` setzen.
 - Die Vorschau ist nicht veröffentlicht.
 
-## Schritt 6: Qualitätsschub (2026-10-25)
-Wunsch: Qualität wie das revid.ai-Beispiel „Claude Motion Graphics“. Die Seite war aus der Umgebung nicht erreichbar, umgesetzt sind die typischen Merkmale solcher Clips:
-- Kamera: langsamer Push-in mit leichtem Schweben je Szene, Szenenwechsel als Zoom-Blur statt harter Schnitte, Lichtblitz zur Wende (`video/src/Video.tsx`).
-- Licht und Tiefe: Lampen-Lichtkegel, Staub- und Bokeh-Partikel, unscharfe Vordergrund-Blätter, Vignette, Filmkorn, wandernde Farbflächen in den App-Szenen (`video/src/components/fx.tsx`).
-- Schrift: Überschriften gleiten wortweise aus einer Maske, im Markenverlauf Blau–Violett.
-- Untertitel im TikTok-Stil: Wort für Wort, das gesprochene Wort leuchtet gelb (Mehmet: lila).
-- App-Teile fliegen in 3D herein (Kippen aus der Tiefe), Klick-Wellen, Lichtschimmer über Logo und PDFs.
-- Schluss: Logo mit Glow, pulsierenden Ringen und Lichtschimmer.
+## Schritt 6: neuer Look (2026-10-25)
+Rückmeldung: Qualität wie die Beispiele (revid.ai „Claude Motion Graphics“, zwei TikToks), „Motion Graphics, nicht so ein Kindergarten“. Die Links waren aus der Umgebung nicht erreichbar. Umgesetzt:
+- Keine Comicfigur und keine Bastel-Illustration mehr. Mehmet erscheint nur als Typo und mit seinen zwei Sätzen als großes Zitat.
+- Dunkle Bühne mit Licht je Stimmung (kalt, rot, violett, schwarz, Marke, warm), feines Raster in Perspektive, Partikel, Vignette, Filmkorn (`video/src/components/Stage.tsx`, `fx.tsx`).
+- Große kinetische Typo als Hauptelement: Wörter gleiten aus einer Maske, Überschriften im Verlauf Weiß–Blau–Violett, Kontur-Schriftzüge im Hintergrund.
+- Glas-Karten, Linien-Icons und saubere Dokumente statt Comic-Papier; die App schwebt in 3D herein, mit Klick-Wellen und Lichtschimmer.
+- Kamera: langsamer Push-in je Szene, Szenenwechsel als Zoom-Blur, Lichtblitz zur Wende (`video/src/Video.tsx`).
+- Untertitel ohne Kasten, Wort für Wort mit leuchtendem aktuellem Wort. Wo das Bild den Satz schon groß zeigt (Mehmet, Szene 3), entfallen sie.
 
 ## Datenschutz
 Die Screenshots der App dienen nur als Vorlage und kommen nicht ins Repo (es ist öffentlich). Im Video stehen nur erfundene Beispieldaten.

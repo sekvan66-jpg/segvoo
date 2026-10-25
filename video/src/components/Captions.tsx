@@ -1,18 +1,18 @@
 import React from 'react';
 import {interpolate, spring, useCurrentFrame} from 'remotion';
-import {CAPTIONS} from '../timing';
+import {CAPTIONS, SCENES} from '../timing';
 import {C, FPS, font} from '../theme';
 import {clamp} from './anim';
 import {RevealText} from './fx';
 
-// Untertitel im TikTok-Stil: Wort für Wort, das gerade gesprochene Wort leuchtet.
+// Untertitel ohne Kasten: Wort für Wort, das gerade gesprochene Wort leuchtet.
 // Die Wortzeiten innerhalb eines Häppchens werden nach Zeichenlänge verteilt.
 export const Captions: React.FC = () => {
 	const f = useCurrentFrame();
 	const t = f / FPS;
 	const cap = CAPTIONS.find((c) => t >= c.from && t < c.to);
-	if (!cap) return null;
-	const isMehmet = cap.speaker === 'M';
+	// Mehmets Sätze und Szene 3 stehen schon als große Typo im Bild.
+	if (!cap || cap.speaker === 'M' || (t >= SCENES.s3[0] && t < SCENES.s3[1])) return null;
 	const words = cap.text.split(' ');
 	const total = words.reduce((n, w) => n + w.length + 1, 0);
 	// Sprechdauer ohne den Nachlauf am Ende des Häppchens.
@@ -25,27 +25,19 @@ export const Captions: React.FC = () => {
 	});
 	const local = (t - cap.from) * FPS;
 	const boxIn = spring({frame: local, fps: FPS, config: {damping: 18, stiffness: 220, mass: 0.6}});
-	const accent = isMehmet ? '#c9b6ff' : '#ffd84d';
+	const accent = '#a9c1ff';
 	return (
 		<div style={{position: 'absolute', left: 50, right: 50, top: 1390, display: 'flex', justifyContent: 'center', transform: `translateY(${(1 - boxIn) * 30}px) scale(${0.94 + boxIn * 0.06})`}}>
 			<div
 				style={{
 					fontFamily: font,
-					fontSize: 66,
-					fontWeight: 800,
-					lineHeight: 1.18,
+					fontSize: 62,
+					fontWeight: 700,
+					lineHeight: 1.2,
 					letterSpacing: -1,
 					textAlign: 'center',
-					fontStyle: isMehmet ? 'italic' : 'normal',
-					padding: '18px 30px',
-					borderRadius: 28,
-					background: isMehmet ? 'rgba(80,45,190,0.78)' : 'rgba(8,10,30,0.7)',
-					backdropFilter: 'blur(14px)',
-					boxShadow: '0 20px 60px rgba(0,0,0,0.35)',
-					border: '1.5px solid rgba(255,255,255,0.14)',
 				}}
 			>
-				{isMehmet && <span style={{color: accent}}>„</span>}
 				{words.map((w, i) => {
 					const wf = (t - starts[i]) * FPS;
 					const next = i + 1 < words.length ? starts[i + 1] : cap.to;
@@ -60,9 +52,9 @@ export const Captions: React.FC = () => {
 									display: 'inline-block',
 									margin: '0 0.07em',
 									color: active ? accent : C.white,
-									opacity: seen ? interpolate(wf, [0, 3], [0.55, 1], clamp) : 0.55,
-									transform: `translateY(${seen ? (1 - s) * 14 : 0}px) scale(${active ? 1 + 0.06 * s : 1})`,
-									textShadow: active ? `0 0 28px ${accent}88, 0 4px 14px rgba(0,0,0,0.5)` : '0 4px 14px rgba(0,0,0,0.5)',
+									opacity: seen ? interpolate(wf, [0, 3], [0.45, 1], clamp) : 0.45,
+									transform: `translateY(${seen ? (1 - s) * 14 : 0}px)`,
+									textShadow: active ? `0 0 30px ${accent}aa, 0 4px 18px rgba(0,0,0,0.8)` : '0 4px 18px rgba(0,0,0,0.8)',
 								}}
 							>
 								{w}
@@ -70,20 +62,26 @@ export const Captions: React.FC = () => {
 						</React.Fragment>
 					);
 				})}
-				{isMehmet && <span style={{color: accent}}>“</span>}
 			</div>
 		</div>
 	);
 };
 
 // Kinetisches Stichwort: Wörter gleiten aus einer Maske, danach leichtes Atmen.
-export const Keyword: React.FC<{text: string; color?: string; size?: number; delay?: number; gradient?: string}> = ({text, color = C.white, size = 90, delay = 0, gradient}) => {
+export const Keyword: React.FC<{text: string; color?: string; size?: number; delay?: number; gradient?: string; align?: 'left' | 'center'}> = ({
+	text,
+	color = C.white,
+	size = 90,
+	delay = 0,
+	gradient,
+	align = 'center',
+}) => {
 	const f = useCurrentFrame() - delay;
 	const breathe = 1 + Math.sin(f / 14) * 0.008;
 	const glow = color !== C.ink && !gradient ? `drop-shadow(0 0 ${size * 0.35}px ${color}66)` : undefined;
 	return (
-		<div style={{transform: `scale(${breathe})`, filter: glow}}>
-			<RevealText text={text} delay={delay} size={size} color={color} gradient={gradient} />
+		<div style={{transform: `scale(${breathe})`, transformOrigin: align === 'left' ? 'left center' : 'center', filter: glow}}>
+			<RevealText text={text} delay={delay} size={size} color={color} gradient={gradient} align={align} />
 		</div>
 	);
 };
