@@ -67,7 +67,7 @@ Abschluss-Text: „DB-Automobile. Ordnung im Autohandel.“
 - Kein Ersatz für einen Steuerberater
 - Der Fahrzeug-Check zeigt bei europäischen Fahrzeugen oft nur Hersteller und Basisdaten
 - Rückrufdaten stammen nur aus den USA
-- Kein kostenloser Vollbericht (ein voller Verlaufsbericht, z. B. bei carVertical, kostet dort Geld)
+- Kein kostenloser Vollbericht (ein voller Verlaufsbericht, z. B. bei carVertical, kostet dort Geld). **carVertical wird im Video namentlich genannt**, entschieden
 - Nicht im Video: Windows-Warnung beim Setup (nicht signiert), entschieden
 - Der mobile.de-Knopf ist noch nicht mit dem echten Händlerbereich getestet. **Er wird in Szene 4 nur gezeigt, wenn er bis zur Veröffentlichung getestet ist, sonst wird er gestrichen.**
 
@@ -81,5 +81,4 @@ Abschluss-Text: „DB-Automobile. Ordnung im Autohandel.“
 Claude Code (Planung, Code) · ElevenLabs (Stimme, Musik) · Whisper (Wortzeiten) · Remotion (Video) · Ausgabe als MP4 in 9:16
 
 ## Offene Punkte (für Schritt 2)
-- Darf carVertical namentlich genannt werden?
 - Gibt es eine Webadresse oder einen Download-Hinweis für den Schluss?
