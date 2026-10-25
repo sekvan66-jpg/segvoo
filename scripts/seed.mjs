@@ -6,7 +6,7 @@ import path from "node:path";
 
 const DATA_DIR = path.join(process.cwd(), "data");
 const DB_PATH = process.env.SEGVOO_DB ?? path.join(DATA_DIR, "segvoo.sqlite");
-mkdirSync(DATA_DIR, { recursive: true });
+mkdirSync(path.dirname(DB_PATH), { recursive: true });
 
 const db = new DatabaseSync(DB_PATH);
 db.exec("PRAGMA foreign_keys = ON;");

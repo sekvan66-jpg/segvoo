@@ -21,7 +21,9 @@ const DB_PATH = process.env.SEGVOO_DB ?? path.join(DATA_DIR, "segvoo.sqlite");
 const g = globalThis as unknown as { __segvooDb?: DB };
 
 function createDb(): DB {
-  mkdirSync(DATA_DIR, { recursive: true });
+  // Verzeichnis der tatsächlichen DB-Datei anlegen (unterstützt SEGVOO_DB,
+  // z.B. eine gemountete Disk unter /data).
+  mkdirSync(path.dirname(DB_PATH), { recursive: true });
   const db = new DatabaseSync(DB_PATH);
   db.exec("PRAGMA journal_mode = WAL;");
   db.exec("PRAGMA foreign_keys = ON;");

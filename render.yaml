@@ -1,24 +1,25 @@
 # Render Blueprint für cek mobile
 # Deploy: https://render.com -> New -> Blueprint -> dieses Repo auswählen.
 # Render liest diese Datei automatisch und legt den Web-Service an.
+#
+# Diese Variante speichert die Datenbank DAUERHAFT auf einer Disk
+# (bleibt über Neustarts/Deploys erhalten). Dafür ist ein kostenpflichtiger
+# Instance-Typ nötig (plan: starter). Für eine kostenlose, aber flüchtige
+# Variante: plan auf "free" setzen und die disk-Sektion + SEGVOO_DB entfernen.
 services:
   - type: web
     name: cek-mobile
     runtime: node
-    plan: free # kostenlos (Daten sind hier flüchtig, Reset bei Neustart)
+    plan: starter # nötig für persistente Disk (~7 $/Monat)
     buildCommand: npm install --include=dev && npm run build
     startCommand: npm start
     autoDeploy: true
     envVars:
       - key: NODE_VERSION
         value: 22.22.0
-      # Für dauerhafte Daten: Plan auf "starter" setzen, die disk-Sektion unten
-      # aktivieren und SEGVOO_DB einschalten:
-      # - key: SEGVOO_DB
-      #   value: /data/cek.sqlite
-
-    # ---- Dauerhafte Datenbank (nur auf kostenpflichtigem Plan) ----
-    # disk:
-    #   name: cek-data
-    #   mountPath: /data
-    #   sizeGB: 1
+      - key: SEGVOO_DB
+        value: /data/cek.sqlite # liegt auf der persistenten Disk
+    disk:
+      name: cek-data
+      mountPath: /data
+      sizeGB: 1
