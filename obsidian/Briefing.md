@@ -38,7 +38,7 @@ Kleine Autohändler in Deutschland, die Bestand, Verträge und Rechnungen heute 
 
 ## Ziel
 Kleine Autohändler sollen DB-Automobile kennenlernen und verstehen, dass das Programm Bestand, Verträge und Rechnungen an einem Ort bündelt. Ehrliche Angaben zu den Grenzen sollen Vertrauen schaffen.
-Abschluss-Text: „DB-Automobile. Ordnung im Autohandel.“
+Abschluss-Text: „DB-Automobile. Ordnung im Autohandel.“ Nur Logo und Slogan, es gibt noch keine Webadresse. „Link in Bio“ kann später ergänzt werden.
 
 ## Ablauf (aus deinem Skript)
 | Szene | Zeit | Inhalt |
@@ -81,4 +81,3 @@ Abschluss-Text: „DB-Automobile. Ordnung im Autohandel.“
 Claude Code (Planung, Code) · ElevenLabs (Stimme, Musik) · Whisper (Wortzeiten) · Remotion (Video) · Ausgabe als MP4 in 9:16
 
 ## Offene Punkte (für Schritt 2)
-- Gibt es eine Webadresse oder einen Download-Hinweis für den Schluss?
