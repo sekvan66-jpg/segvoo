@@ -21,3 +21,5 @@ rad.json
 *.flf
 #Test results file
 TestResults.xml
+# Local secrets written by `elevenlabs onboard`
+/.env.local
