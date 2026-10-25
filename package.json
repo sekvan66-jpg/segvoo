@@ -1,0 +1,30 @@
+{
+  "name": "cek-mobile",
+  "version": "0.1.0",
+  "private": true,
+  "description": "cek mobile – Nebenkostenabrechnung & Hausverwaltung (Web-App)",
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "seed": "node --no-warnings scripts/seed.mjs"
+  },
+  "dependencies": {
+    "next": "15.5.4",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "server-only": "0.0.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "4.1.14",
+    "@types/node": "22.10.5",
+    "@types/react": "19.1.0",
+    "@types/react-dom": "19.1.0",
+    "tailwindcss": "4.1.14",
+    "typescript": "5.7.3"
+  }
+}
