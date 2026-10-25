@@ -6,11 +6,20 @@ import {Keyword} from '../components/Captions';
 import {Button, Card, Dashboard, Logo} from '../components/Brand';
 import {CalendarIcon, CarIcon, CheckIcon, InfoIcon, LockIcon, PdfIcon} from '../components/Icons';
 import {clamp, pop, ramp} from '../components/anim';
+import {Flash, GlowBlobs, Particles, RevealText, Ripple, Shine, Tilt3D} from '../components/fx';
 import {CUES} from '../cues';
 import {SHOW_MOBILEDE} from '../timing';
 import {C, font, sec} from '../theme';
 
 const LAUNCH = `linear-gradient(170deg, #0d1240 0%, #2a1f78 60%, #5b3bc7 100%)`;
+
+// Heller App-Hintergrund mit wandernden Farbflächen und feinen Lichtpunkten.
+const AppGlow: React.FC = () => (
+	<>
+		<GlowBlobs colors={['#b9a6ff', '#9cc0ff', '#d6c8ff']} opacity={0.45} />
+		<Particles seed="app" count={18} color="rgba(255,255,255,1)" size={[3, 7]} speed={0.4} opacity={0.7} />
+	</>
+);
 
 // Hochkant-Gerät, in dem der App-Nachbau läuft.
 const Device: React.FC<{children: React.ReactNode; scale?: number; y?: number}> = ({children, scale = 1, y = 150}) => (
@@ -26,7 +35,7 @@ const Device: React.FC<{children: React.ReactNode; scale?: number; y?: number}> 
 			padding: 18,
 			boxSizing: 'border-box',
 			transform: `scale(${scale})`,
-			boxShadow: '0 40px 100px rgba(10,10,40,0.45)',
+			boxShadow: '0 60px 140px rgba(30,20,90,0.45), 0 0 0 2px rgba(255,255,255,0.08), inset 0 1px 0 rgba(255,255,255,0.2)',
 		}}
 	>
 		<div style={{width: '100%', height: '100%', borderRadius: 30, overflow: 'hidden', position: 'relative', background: C.appBg}}>{children}</div>
@@ -62,19 +71,24 @@ const Login: React.FC<{pressed: boolean}> = ({pressed}) => (
 export const S4aWende: React.FC<{d: number}> = () => {
 	const f = useCurrentFrame();
 	const tClick = sec(CUES.loginClick());
-	const enter = pop(f, 0, 14);
 	const toDash = ramp(f, tClick + 4, tClick + 14);
 	return (
 		<Fill bg={`linear-gradient(180deg, #dfe7ff 0%, #efe9ff 100%)`}>
+			<AppGlow />
 			<div style={{position: 'absolute', inset: 0, background: 'rgba(4,5,13,1)', opacity: 1 - ramp(f, 0, 10)}} />
-			<Device scale={0.6 + enter * 0.4}>
-				<div style={{position: 'absolute', inset: 0, transform: `translateX(${toDash * -100}%)`}}>
-					<Login pressed={f >= tClick && f < tClick + 5} />
-				</div>
-				<div style={{position: 'absolute', inset: 0, transform: `translateX(${100 - toDash * 100}%)`}}>
-					<Dashboard grow={ramp(f, tClick + 10, tClick + 30)} />
-				</div>
-			</Device>
+			<Tilt3D style={{position: 'absolute', inset: 0}}>
+				<Device>
+					<div style={{position: 'absolute', inset: 0, transform: `translateX(${toDash * -100}%)`}}>
+						<Login pressed={f >= tClick && f < tClick + 5} />
+						<Shine at={12} dur={26} />
+					</div>
+					<div style={{position: 'absolute', inset: 0, transform: `translateX(${100 - toDash * 100}%)`}}>
+						<Dashboard grow={ramp(f, tClick + 10, tClick + 30)} />
+					</div>
+				</Device>
+			</Tilt3D>
+			<Ripple at={tClick} x={540} y={975} color={C.white} size={260} />
+			<Flash at={0} dur={16} />
 		</Fill>
 	);
 };
@@ -83,13 +97,16 @@ const Beat: React.FC<{title: string; children: React.ReactNode; from: number; to
 	const f = useCurrentFrame();
 	if (f < from || f >= to) return null;
 	const local = f - from;
-	const slide = interpolate(local, [0, 8], [120, 0], clamp);
+	const slide = interpolate(local, [0, 8], [80, 0], clamp);
+	const blur = interpolate(local, [0, 6], [12, 0], clamp);
 	return (
-		<div style={{position: 'absolute', inset: 0, transform: `translateX(${slide}px)`, opacity: interpolate(local, [0, 5], [0, 1], clamp)}}>
-			<div style={{position: 'absolute', top: 120, left: 40, right: 40}}>
-				<Keyword text={title} color={C.ink} size={88} delay={from} />
+		<div style={{position: 'absolute', inset: 0, transform: `translateX(${slide}px)`, opacity: interpolate(local, [0, 4], [0, 1], clamp), filter: blur > 0.3 ? `blur(${blur}px)` : undefined}}>
+			<div style={{position: 'absolute', top: 110, left: 30, right: 30}}>
+				<Keyword text={title} size={96} delay={from} gradient="linear-gradient(90deg, #1b1f3b 0%, #2f6bff 60%, #7b4dff 100%)" />
 			</div>
-			<div style={{position: 'absolute', top: 330, left: 60, right: 60, height: 1000}}>{children}</div>
+			<Tilt3D delay={from + 2} style={{position: 'absolute', top: 330, left: 60, right: 60, height: 1000}}>
+				{children}
+			</Tilt3D>
 		</div>
 	);
 };
@@ -105,9 +122,12 @@ const BestandBeat: React.FC<{local: number}> = ({local}) => (
 	<Card style={{height: 960, padding: 28}}>
 		<div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24}}>
 			<div style={{fontSize: 40, fontWeight: 800, color: C.ink}}>Bestand</div>
-			<Button pressed={local > 6 && local < 12} style={{fontSize: 30}}>
-				+ Fahrzeug
-			</Button>
+			<div style={{position: 'relative'}}>
+				<Button pressed={local > 6 && local < 12} style={{fontSize: 30}}>
+					+ Fahrzeug
+				</Button>
+				<Ripple at={sec(CUES.b4Vehicle()) + 6} x={110} y={36} size={180} />
+			</div>
 		</div>
 		<div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20}}>
 			{VEHICLES.map(([name, info, color], i) => {
@@ -133,8 +153,13 @@ const Doc: React.FC<{local: number; title: string; badge?: string; label?: strin
 	return (
 		<div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 30}}>
 			<div style={{transform: `scale(${s}) rotate(${(1 - s) * 10}deg)`, position: 'relative'}}>
-				<PdfIcon size={440} label={label} />
+				<div style={{filter: 'drop-shadow(0 40px 60px rgba(40,40,120,0.3))'}}>
+					<PdfIcon size={440} label={label} />
+				</div>
 				<div style={{position: 'absolute', top: 90, left: 70, fontSize: 44, fontWeight: 800, color: C.ink, fontFamily: font}}>{title}</div>
+				<div style={{position: 'absolute', left: 0, top: 0, width: 440, height: 550, clipPath: 'polygon(4% 4%, 65% 4%, 90% 24%, 90% 98%, 4% 98%)'}}>
+					<Shine at={10} dur={20} />
+				</div>
 				{badge && (
 					<div
 						style={{
@@ -208,6 +233,7 @@ export const S4bFunktionen: React.FC<{d: number}> = ({d}) => {
 	];
 	return (
 		<Fill bg={C.appBg}>
+			<AppGlow />
 			{beats.map(([title, from, render], i) => {
 				const to = i + 1 < beats.length ? beats[i + 1][1] : d;
 				return (
@@ -229,6 +255,7 @@ export const S4cSicherheit: React.FC<{d: number}> = ({d}) => {
 	const tP = sec(CUES.c4Phone());
 	return (
 		<Fill bg={C.appBg}>
+			<AppGlow />
 			<Beat title="Gesperrt & protokolliert" from={0} to={tB}>
 				<div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 30}}>
 					<div style={{position: 'relative'}}>
@@ -298,7 +325,8 @@ export const S5HappyEnd: React.FC<{d: number}> = () => {
 	return (
 		<Fill bg={DAY}>
 			<div style={{position: 'absolute', inset: 0, transform: `scale(${smileZoom})`, transformOrigin: '55% 40%'}}>
-				<div style={{position: 'absolute', left: 80, top: 110, width: 120, height: 120, borderRadius: 99, background: '#ffd76a', boxShadow: '0 0 80px rgba(255,200,80,0.7)'}} />
+				<div style={{position: 'absolute', left: 140 - 700, top: 170 - 700, width: 1400, height: 1400, transform: `rotate(${f * 0.15}deg)`, background: 'repeating-conic-gradient(from 0deg, rgba(255,230,160,0.22) 0deg 6deg, rgba(255,230,160,0) 6deg 18deg)', WebkitMaskImage: 'radial-gradient(circle, #000 0%, rgba(0,0,0,0) 60%)'}} />
+				<div style={{position: 'absolute', left: 80, top: 110, width: 120, height: 120, borderRadius: 99, background: '#ffd76a', boxShadow: '0 0 80px rgba(255,200,80,0.7), 0 0 200px rgba(255,200,80,0.4)'}} />
 				{/* Ordentliches Regal */}
 				<div style={{position: 'absolute', left: 560, top: 180, width: 440, height: 22, background: '#c08a5a', borderRadius: 6}} />
 				<div style={{position: 'absolute', left: 580, top: 40, display: 'flex', gap: 10}}>
@@ -308,7 +336,7 @@ export const S5HappyEnd: React.FC<{d: number}> = () => {
 						</div>
 					))}
 				</div>
-				<Abs x={330} y={490}>
+				<Abs x={330} y={490} style={{filter: 'drop-shadow(0 30px 40px rgba(120,80,30,0.25))'}}>
 					<Mehmet pose={f >= tL && f < tPdf + 10 ? 'tap' : 'happy'} day />
 				</Abs>
 				<Desk y={1070} day />
@@ -334,6 +362,7 @@ export const S5HappyEnd: React.FC<{d: number}> = () => {
 							Brief
 						</div>
 					</Abs>
+					<Ripple at={tPdf} x={690} y={1040} color={C.green} size={320} />
 					{f >= tPdf && (
 						<Abs x={560} y={880} style={{transform: `scale(${pop(f, tPdf)})`}}>
 							<div style={{position: 'relative'}}>
@@ -346,11 +375,12 @@ export const S5HappyEnd: React.FC<{d: number}> = () => {
 					)}
 					{f >= tPdf + 6 && (
 						<div style={{position: 'absolute', top: 290, left: 40, right: 40}}>
-							<Keyword text="Unterlagen sofort griffbereit" color={C.ink} size={60} delay={tPdf + 6} />
+							<Keyword text="Unterlagen sofort griffbereit" size={78} delay={tPdf + 6} gradient="linear-gradient(90deg, #1b1f3b 0%, #2f6bff 70%, #7b4dff 100%)" />
 						</div>
 					)}
 				</>
 			)}
+			<Particles seed="s5" count={20} color="rgba(255,225,150,1)" opacity={0.55} speed={0.35} />
 		</Fill>
 	);
 };
@@ -370,12 +400,15 @@ export const S6Ehrlich: React.FC<{d: number}> = () => {
 	const shrink = ramp(f, tC - 6, tC + 6);
 	return (
 		<Fill bg={C.appBg}>
-			<div style={{position: 'absolute', top: 120, left: 60, right: 60, fontSize: 84, fontWeight: 800, color: C.ink, opacity: ramp(f, 0, 10)}}>Fair gesagt</div>
+			<AppGlow />
+			<div style={{position: 'absolute', top: 110, left: 50, right: 60}}>
+				<RevealText text="Fair gesagt" size={100} align="left" gradient="linear-gradient(90deg, #1b1f3b 0%, #2f6bff 70%, #7b4dff 100%)" />
+			</div>
 			<div style={{position: 'absolute', top: 280, left: 60, right: 60, display: 'flex', flexDirection: 'column', gap: 22, transform: `scale(${1 - shrink * 0.12})`, transformOrigin: 'top center', opacity: 1 - shrink * 0.35}}>
 				{LIMITS.map((t, i) => {
-					const s = ramp(f, times[i], times[i] + 10);
+					const s = pop(f, times[i], 16);
 					return (
-						<Card key={t} style={{display: 'flex', alignItems: 'center', gap: 24, padding: 28, opacity: s, transform: `translateY(${(1 - s) * 30}px)`}}>
+						<Card key={t} style={{display: 'flex', alignItems: 'center', gap: 24, padding: 28, opacity: Math.min(1, s * 1.5), transform: `perspective(1400px) translateX(${(1 - s) * 260}px) rotateY(${(1 - s) * -35}deg)`, boxShadow: '0 20px 50px rgba(60,70,140,0.16)', border: '1px solid rgba(255,255,255,0.8)'}}>
 							<InfoIcon size={70} color={i === 0 ? C.violet : C.blue} />
 							<div style={{fontSize: 40, fontWeight: 600, color: C.ink, lineHeight: 1.2}}>{t}</div>
 						</Card>
@@ -385,8 +418,10 @@ export const S6Ehrlich: React.FC<{d: number}> = () => {
 			{f >= tC && (
 				<div style={{position: 'absolute', top: 1020, left: 40, right: 40, display: 'flex', justifyContent: 'space-around'}}>
 					{['einfach', 'deutsch', 'für kleine Händler'].map((t, i) => (
-						<div key={t} style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14, transform: `scale(${pop(f, tC + i * 8)})`}}>
-							<CheckIcon size={110} />
+						<div key={t} style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14, transform: `scale(${pop(f, tC + i * 8)})`, position: 'relative'}}>
+							<div style={{filter: 'drop-shadow(0 10px 24px rgba(34,181,115,0.45))'}}>
+								<CheckIcon size={110} />
+							</div>
 							<div style={{fontSize: 38, fontWeight: 800, color: C.ink, textAlign: 'center', maxWidth: 300}}>{t}</div>
 						</div>
 					))}
@@ -400,15 +435,25 @@ export const S6Ehrlich: React.FC<{d: number}> = () => {
 export const SEnd: React.FC<{d: number}> = () => {
 	const f = useCurrentFrame();
 	const s = pop(f, 4, 11);
+	const ring = (k: number) => ((f + k * 20) % 60) / 60;
 	return (
 		<Fill bg={LAUNCH}>
-			<div style={{position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 60}}>
-				<div style={{transform: `scale(${s})`}}>
-					<Logo size={340} />
+			<GlowBlobs colors={['#7b4dff', '#2f6bff', '#b06bff']} opacity={0.5} />
+			<Particles seed="end" count={36} color="rgba(200,190,255,1)" opacity={0.6} speed={0.5} />
+			<div style={{position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 70}}>
+				<div style={{position: 'relative', transform: `scale(${s}) rotate(${(1 - s) * -12}deg)`}}>
+					{[0, 1, 2].map((k) => (
+						<div key={k} style={{position: 'absolute', left: 170 - 220, top: 170 - 220, width: 440, height: 440, borderRadius: '50%', border: '3px solid rgba(190,170,255,0.6)', transform: `scale(${0.8 + ring(k) * 1.1})`, opacity: f > 8 ? 1 - ring(k) : 0}} />
+					))}
+					<div style={{position: 'absolute', inset: -120, borderRadius: '50%', background: 'radial-gradient(circle, rgba(140,110,255,0.55) 0%, rgba(140,110,255,0) 65%)'}} />
+					<div style={{position: 'relative'}}>
+						<Logo size={340} />
+						<Shine at={18} dur={24} radius={340 * 0.22} />
+					</div>
 				</div>
-				<div style={{textAlign: 'center', color: C.white, opacity: ramp(f, 16, 30), transform: `translateY(${(1 - ramp(f, 16, 30)) * 30}px)`}}>
-					<div style={{fontSize: 80, fontWeight: 800}}>DB-Automobile.</div>
-					<div style={{fontSize: 60, fontWeight: 600, opacity: 0.9}}>Ordnung im Autohandel.</div>
+				<div style={{textAlign: 'center'}}>
+					<RevealText text="DB-Automobile." delay={14} size={92} color={C.white} />
+					<RevealText text="Ordnung im Autohandel." delay={22} size={62} weight={600} color="rgba(255,255,255,0.9)" />
 				</div>
 			</div>
 		</Fill>

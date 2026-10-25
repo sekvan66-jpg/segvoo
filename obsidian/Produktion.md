@@ -54,5 +54,14 @@ Ablauf in der neuen Sitzung:
 - Rendern: `cd video && npm install && npm run render` → `video/out/mehmet_und_der_zettelberg.mp4` (nicht im Repo). Ohne heruntergeladenen Browser: `REMOTION_BROWSER=<Pfad zu chrome-headless-shell>` setzen.
 - Die Vorschau ist nicht veröffentlicht.
 
+## Schritt 6: Qualitätsschub (2026-10-25)
+Wunsch: Qualität wie das revid.ai-Beispiel „Claude Motion Graphics“. Die Seite war aus der Umgebung nicht erreichbar, umgesetzt sind die typischen Merkmale solcher Clips:
+- Kamera: langsamer Push-in mit leichtem Schweben je Szene, Szenenwechsel als Zoom-Blur statt harter Schnitte, Lichtblitz zur Wende (`video/src/Video.tsx`).
+- Licht und Tiefe: Lampen-Lichtkegel, Staub- und Bokeh-Partikel, unscharfe Vordergrund-Blätter, Vignette, Filmkorn, wandernde Farbflächen in den App-Szenen (`video/src/components/fx.tsx`).
+- Schrift: Überschriften gleiten wortweise aus einer Maske, im Markenverlauf Blau–Violett.
+- Untertitel im TikTok-Stil: Wort für Wort, das gesprochene Wort leuchtet gelb (Mehmet: lila).
+- App-Teile fliegen in 3D herein (Kippen aus der Tiefe), Klick-Wellen, Lichtschimmer über Logo und PDFs.
+- Schluss: Logo mit Glow, pulsierenden Ringen und Lichtschimmer.
+
 ## Datenschutz
 Die Screenshots der App dienen nur als Vorlage und kommen nicht ins Repo (es ist öffentlich). Im Video stehen nur erfundene Beispieldaten.

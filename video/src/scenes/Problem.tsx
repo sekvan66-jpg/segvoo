@@ -5,6 +5,7 @@ import {Mehmet} from '../components/Mehmet';
 import {Keyword} from '../components/Captions';
 import {CarIcon, MailboxIcon} from '../components/Icons';
 import {clamp, pop, ramp} from '../components/anim';
+import {LightCone, Particles} from '../components/fx';
 import {CUES} from '../cues';
 import {C, font, sec} from '../theme';
 
@@ -13,6 +14,24 @@ const NIGHT = `linear-gradient(180deg, ${C.nightDeep} 0%, ${C.night} 55%, ${C.vi
 const Moon: React.FC = () => (
 	<div style={{position: 'absolute', left: 70, top: 70, width: 90, height: 90, borderRadius: 99, background: '#f4f1d0', boxShadow: '0 0 60px rgba(244,241,208,0.6)'}} />
 );
+
+// Unscharfe Blätter ganz nah an der Kamera, bewegen sich schneller als der Rest (Parallaxe).
+const ForegroundSheets: React.FC<{seed?: number}> = ({seed = 0}) => {
+	const f = useCurrentFrame();
+	return (
+		<>
+			{[
+				[-90, 1500, 22],
+				[820, 1600, -18],
+				[880, 120, 30],
+			].map(([x, y, r], i) => (
+				<Abs key={i} x={x + Math.sin((f + seed * 40) / 50 + i) * 30} y={y + Math.cos((f + seed * 30) / 60 + i) * 25 - f * 0.6} style={{filter: 'blur(10px)', opacity: 0.85}}>
+					<Sheet w={300} rot={r + Math.sin(f / 40 + i) * 6} />
+				</Abs>
+			))}
+		</>
+	);
+};
 
 const DeskLamp: React.FC = () => (
 	<div style={{position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, background: 'radial-gradient(circle at 50% 62%, rgba(255,214,140,0.22) 0%, rgba(0,0,0,0) 45%)'}} />
@@ -33,19 +52,22 @@ export const S1Hook: React.FC<{d: number}> = ({d}) => {
 				</Window>
 			</Abs>
 			<DeskLamp />
-			<Abs x={290} y={470}>
+			<LightCone x={540} top={380} />
+			<Abs x={290} y={470} style={{filter: 'drop-shadow(0 30px 40px rgba(0,0,0,0.45))'}}>
 				<Mehmet pose="rub" />
 			</Abs>
 			<Desk y={1050} />
 			<PaperPile count={grow} x={60} bottom={1040} />
 			<PaperPile count={grow * 0.8} x={790} bottom={1040} />
 			<PaperPile count={grow * 0.5} x={600} bottom={1040} w={160} />
-			<Abs x={650} y={170} style={{transform: `scale(${mail})`, transformOrigin: 'center'}}>
-				<div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6}}>
-					<MailboxIcon open={flap} size={260} />
-					{f > tMail + 4 && <Keyword text="Angst" color={C.warn} size={100} delay={tMail + 4} />}
+			<Particles seed="s1" />
+			<Abs x={630} y={150} style={{transform: `scale(${mail}) translateX(${f > tMail + 4 && f < tMail + 16 ? Math.sin(f * 2.3) * 9 : 0}px)`, transformOrigin: 'center'}}>
+				<div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, filter: 'drop-shadow(0 0 40px rgba(59,91,219,0.5))'}}>
+					<MailboxIcon open={flap} size={300} />
+					{f > tMail + 4 && <Keyword text="Angst" color={C.warn} size={140} delay={tMail + 4} />}
 				</div>
 			</Abs>
+			<ForegroundSheets />
 		</Fill>
 	);
 };
@@ -65,9 +87,10 @@ const Panel: React.FC<{label: string; show: number; children: React.ReactNode}> 
 		style={{
 			width: 300,
 			height: 360,
-			background: '#1d2550',
-			borderRadius: 26,
-			border: '3px solid #3a4785',
+			background: 'linear-gradient(160deg, rgba(48,60,130,0.85), rgba(22,28,70,0.9))',
+			borderRadius: 32,
+			border: '2px solid rgba(160,175,255,0.35)',
+			boxShadow: '0 30px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.15), 0 0 60px rgba(123,77,255,0.25)',
 			display: 'flex',
 			flexDirection: 'column',
 			alignItems: 'center',
@@ -101,6 +124,7 @@ export const S2aProblem: React.FC<{d: number}> = () => {
 	return (
 		<Fill bg={NIGHT}>
 			<DeskLamp />
+			<LightCone x={540} top={420} />
 			<div style={{position: 'absolute', inset: 0, transform: `translateY(${pull}px)`}}>
 				<Abs x={330} y={560}>
 					<Mehmet pose="sit" size={420} />
@@ -149,6 +173,7 @@ export const S2aProblem: React.FC<{d: number}> = () => {
 					</Panel>
 				</div>
 			)}
+			<Particles seed="s2a" count={22} />
 		</Fill>
 	);
 };
@@ -176,9 +201,13 @@ export const S2bProblem: React.FC<{d: number}> = ({d}) => {
 				{/* Hof mit Auto, Kunde wartet */}
 				<div style={{position: 'absolute', left: 0, right: 0, top: 120, height: 560, background: 'linear-gradient(180deg, #1a2350, #26306a)'}} />
 				<div style={{position: 'absolute', left: 0, right: 0, top: 600, height: 80, background: '#2c3256'}} />
-				<Abs x={carX} y={420}>
+				<Abs x={carX} y={420} style={{filter: carX > 570 ? `blur(${Math.min(6, (carX - 560) / 60)}px)` : undefined}}>
 					<CarIcon size={420} color="#5b8cff" />
 				</Abs>
+				{carX > 570 &&
+					[0, 1, 2, 3].map((i) => (
+						<div key={i} style={{position: 'absolute', left: carX - 380 + i * 30, top: 470 + i * 38, width: 360, height: 6, borderRadius: 3, background: 'linear-gradient(90deg, rgba(160,190,255,0), rgba(160,190,255,0.6))', opacity: interpolate(carX, [570, 700, 1300], [0, 1, 0], clamp)}} />
+					))}
 				<Abs x={rival} y={360} style={{opacity: f > tOff - 6 && carX < 1200 ? 1 : 0}}>
 					<Person color={C.violet} size={240} />
 				</Abs>
@@ -211,7 +240,9 @@ export const S2bProblem: React.FC<{d: number}> = ({d}) => {
 			</div>
 			{blurIn > 0 && (
 				<div style={{position: 'absolute', inset: 0, opacity: blurIn}}>
-					<div style={{position: 'absolute', top: 260, width: '100%', textAlign: 'center', color: C.white, fontFamily: font, fontWeight: 800, fontSize: 70}}>Bestand?</div>
+					<div style={{position: 'absolute', top: 220, width: '100%'}}>
+						<Keyword text="Bestand?" color={C.warn} size={120} delay={tBlur - 6} />
+					</div>
 					{Array.from({length: 6}).map((_, i) => (
 						<Abs key={i} x={90 + (i % 2) * 470} y={420 + Math.floor(i / 2) * 300}>
 							<div style={{filter: 'blur(9px)', opacity: 0.8}}>
@@ -222,6 +253,7 @@ export const S2bProblem: React.FC<{d: number}> = ({d}) => {
 					))}
 				</div>
 			)}
+			<Particles seed="s2b" count={16} opacity={0.35} />
 		</Fill>
 	);
 };
@@ -233,7 +265,8 @@ export const S2cMehmet: React.FC<{d: number}> = () => {
 	return (
 		<Fill bg={`radial-gradient(circle at 50% 45%, #232c63 0%, ${C.nightDeep} 75%)`}>
 			<div style={{position: 'absolute', inset: 0, transform: `scale(${zoom})`}}>
-				<Abs x={140} y={330}>
+				<div style={{position: 'absolute', left: 140, top: 250, width: 800, height: 800, borderRadius: '50%', background: 'radial-gradient(circle, rgba(123,77,255,0.35) 0%, rgba(123,77,255,0) 65%)'}} />
+				<Abs x={140} y={330} style={{filter: 'drop-shadow(0 0 30px rgba(140,120,255,0.35))'}}>
 					<Mehmet pose="headInHands" size={800} />
 				</Abs>
 				<Desk y={1230} />
@@ -242,11 +275,12 @@ export const S2cMehmet: React.FC<{d: number}> = () => {
 				const y = -300 + ((f * 3 + i * 230) % 1700);
 				const x = 60 + ((i * 157) % 900) + Math.sin((f + i * 30) / 20) * 40;
 				return (
-					<Abs key={i} x={x} y={y} style={{opacity: 0.85}}>
-						<Sheet w={120} rot={Math.sin((f + i * 20) / 15) * 30} />
+					<Abs key={i} x={x} y={y} style={{opacity: 0.85, filter: i % 3 === 0 ? 'blur(6px)' : undefined}}>
+						<Sheet w={i % 3 === 0 ? 200 : 120} rot={Math.sin((f + i * 20) / 15) * 30} />
 					</Abs>
 				);
 			})}
+			<Particles seed="s2c" count={18} color="rgba(190,170,255,1)" opacity={0.4} />
 		</Fill>
 	);
 };
@@ -266,6 +300,7 @@ export const S3Tiefpunkt: React.FC<{d: number}> = () => {
 			<Abs x={830} y={980} style={{opacity: 0.6}}>
 				<Coffee steam={false} frame={f} />
 			</Abs>
+			<Particles seed="s3" count={14} color="rgba(150,170,255,1)" opacity={0.25} speed={0.25} />
 		</Fill>
 	);
 };
