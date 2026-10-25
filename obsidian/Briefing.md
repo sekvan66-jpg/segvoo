@@ -25,6 +25,9 @@ Kleine Autohändler in Deutschland, die Bestand, Verträge und Rechnungen heute 
 - **Motion Graphics**: flache 2D-Formen, Icons und kinetische Schrift, komplett in Remotion gebaut.
 - **Soundeffekte** auf wichtige Momente (z. B. Briefkasten, Papierrascheln, Klick, Erfolgston), erzeugt mit ElevenLabs, keine fremden Sounds.
 
+## Stimmen
+- **Zwei Stimmen**: ein Erzähler und eine eigene Stimme für Mehmet (seine zwei Sätze).
+
 ## Look von DB-Automobile (aus deinen Screenshots)
 - **Logo**: Schriftzug „db“ mit „Automobile“, in Blau und Violett auf weißem, abgerundetem Quadrat.
 - **Farben**: Startbildschirm dunkles Nachtblau bis Violett; in der App helle Fläche mit sanftem Blau-Lavendel-Verlauf, weiße Karten, kräftiges Blau für aktive Knöpfe, Balken im Verlauf von Blau zu Violett.
@@ -81,4 +84,3 @@ Claude Code (Planung, Code) · ElevenLabs (Stimme, Musik) · Whisper (Wortzeiten
 - Werden die optionalen Schwächen erwähnt?
 - Darf carVertical namentlich genannt werden?
 - Gibt es eine Webadresse oder einen Download-Hinweis für den Schluss?
-- Eine Sprecherstimme oder eine eigene Stimme für Mehmet?
