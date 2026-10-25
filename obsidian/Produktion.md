@@ -11,7 +11,7 @@ Regeln: keine erfundenen Fakten, keine urheberrechtlich geschützte Musik oder B
 | 4 Stimme und Musik | ⏳ Skript fertig (`tools/schritt4_audio.py`), Erzeugung wartet auf Schlüssel und Netzfreigabe |
 | 5 Wortzeiten (Whisper) | ⏳ Skript fertig (`tools/schritt5_whisper.py`), wartet auf Schritt 4 und Netzfreigabe |
 | 6 Video bauen (Remotion) | ✅ `video/`, Zeiten vorerst geschätzt, Tonspuren vorbereitet |
-| 7 Rendern (MP4, 9:16) | ⏳ stumme Vorschau gerendert (85 s, 1080×1920); endgültige Fassung nach Schritt 4 und 5 |
+| 7 Rendern (MP4, 9:16) | ⏳ stumme Vorschau gerendert (85 s, 1080×1920, zuletzt im vierten Versuch); endgültige Fassung nach Schritt 4 und 5 |
 
 ## Schritt 4: Plan
 - ElevenLabs-Schlüssel aus der Umgebungsvariable `ELEVENLABS_API_KEY` lesen.
@@ -50,6 +50,11 @@ Ablauf in der neuen Sitzung:
 - Wieder blockiert: `ELEVENLABS_API_KEY` ist in der Sitzung nicht gesetzt, und die Netzwerkregel lehnt `api.elevenlabs.io` und `openaipublic.azureedge.net` ab (403). Schritt 4 und 5 liefen deshalb nicht, `video/src/timing-whisper.json` ist unverändert.
 - Gerendert: stumme Vorschau mit dem Qualitätsschub (85 s, 1080×1920, ohne mobile.de-Zeile), `REMOTION_BROWSER` zeigt auf die vorinstallierte chrome-headless-shell. Nicht im Repo, nicht veröffentlicht.
 - Zum Beheben: In den Einstellungen der Umgebung den Schlüssel als `ELEVENLABS_API_KEY` eintragen (nicht in den Chat) und unter Network access die Domains `api.elevenlabs.io` und `openaipublic.azureedge.net` erlauben. Danach eine neue Sitzung starten und den Ablauf oben ausführen.
+
+## Schritt 4, 5 und 7: vierter Versuch (2026-10-25)
+- Wieder blockiert: `ELEVENLABS_API_KEY` ist in der Sitzung nicht gesetzt, und die Netzwerkregel lehnt `api.elevenlabs.io` und `openaipublic.azureedge.net` ab. `schritt4_audio.py alles` bricht beim Schlüssel ab. Ohne Sprachdateien läuft Schritt 5 nicht, `openai-whisper` ist nicht installiert.
+- Gerendert: stumme Vorschau, 85 s, 1080×1920, ohne mobile.de-Zeile. `REMOTION_BROWSER` zeigt auf `/opt/pw-browsers/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell`. Die Datei ist nicht im Repo und nicht veröffentlicht.
+- Ursache: Schlüssel und Domain-Freigabe sind wohl erst nach dem Start dieser Sitzung eingetragen worden. Sie gelten erst in einer neuen Sitzung.
 
 ## Schritt 6/7: Stand (2026-10-25)
 - Remotion-Projekt in `video/`: alle Szenen als Motion Graphics, Untertitel, App-Nachbau mit erfundenen Beispieldaten, Logo als vereinfachte Nachbildung.
