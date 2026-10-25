@@ -30,15 +30,15 @@ export function nutzungstage(v: VertragJoin, jahr: number): number {
   return (ende - start) / DAY + 1;
 }
 
-/** Verbrauch (Summe aller Zählerdifferenzen) einer Einheit im Jahr. */
-function einheitVerbrauch(einheitId: number, jahr: number): number {
-  const row = getDb()
-    .prepare(
-      `SELECT COALESCE(SUM(s.stand_ende - s.stand_anfang), 0) AS v
+/** Verbrauch (Summe der Zählerdifferenzen) einer Einheit im Jahr.
+ *  Optional auf eine Zählerart beschränkt (z.B. HEIZUNG, KALTWASSER). */
+function einheitVerbrauch(einheitId: number, jahr: number, art?: string): number {
+  const base = `SELECT COALESCE(SUM(s.stand_ende - s.stand_anfang), 0) AS v
        FROM zaehler z JOIN zaehlerstand s ON s.zaehler_id = z.id
-       WHERE z.einheit_id = ? AND s.jahr = ?`,
-    )
-    .get(einheitId, jahr) as { v: number };
+       WHERE z.einheit_id = ? AND s.jahr = ?`;
+  const row = art
+    ? (getDb().prepare(base + " AND z.art = ?").get(einheitId, jahr, art) as { v: number })
+    : (getDb().prepare(base).get(einheitId, jahr) as { v: number });
   return row.v;
 }
 
@@ -46,6 +46,7 @@ function einheitVerbrauch(einheitId: number, jahr: number): number {
 export interface Posten {
   kostenart: string;
   schluessel: string;
+  zaehlerart: string; // bei VERBRAUCH: z.B. "HEIZUNG", "KALTWASSER"
   gesamtbetrag: number; // Gesamtbetrag der Kostenart im Objekt
   gesamtBasisText: string; // Spalte "Gesamt" (z.B. "322 m²")
   anteilBasisText: string; // Spalte "Anteil" (z.B. "168 m² · 273/365 T")
@@ -86,13 +87,14 @@ export function berechneAbrechnung(objektId: number, jahr: number): Abrechnung |
   // Pro Kostenart: Gesamtbetrag aggregieren.
   const proArt = new Map<
     number,
-    { name: string; schluessel: string; umlagefaehig: boolean; betrag: number }
+    { name: string; schluessel: string; umlagefaehig: boolean; zaehlerart: string; betrag: number }
   >();
   for (const b of buchungen) {
     const cur = proArt.get(b.kostenart_id) ?? {
       name: b.kostenart_name,
       schluessel: b.schluessel,
       umlagefaehig: !!b.umlagefaehig,
+      zaehlerart: b.zaehlerart ?? "",
       betrag: 0,
     };
     cur.betrag += b.betrag;
@@ -131,7 +133,7 @@ export function berechneAbrechnung(objektId: number, jahr: number): Abrechnung |
           // Personen-Tage.
           return { r, w: v.personen * r.nutzungstage, measure: v.personen };
         case "VERBRAUCH": {
-          const c = einheitVerbrauch(v.einheit_id, jahr);
+          const c = einheitVerbrauch(v.einheit_id, jahr, art.zaehlerart || undefined);
           return { r, w: c, measure: c };
         }
         case "WOHNFLAECHE":
@@ -187,6 +189,7 @@ export function berechneAbrechnung(objektId: number, jahr: number): Abrechnung |
       g.r.posten.push({
         kostenart: art.name,
         schluessel: art.schluessel,
+        zaehlerart: art.zaehlerart,
         gesamtbetrag: art.betrag,
         gesamtBasisText: basisTotal,
         anteilBasisText,

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getVertrag, getVermieter } from "@/lib/queries";
 import { berechneAbrechnung } from "@/lib/nka";
-import { euro, datum, SCHLUESSEL_LABEL } from "@/lib/format";
+import { euro, datum, SCHLUESSEL_LABEL, ZAEHLERART_LABEL } from "@/lib/format";
 import { LogoMark } from "@/components/Logo";
 import PrintButton from "./PrintButton";
 
@@ -115,6 +115,7 @@ export default async function AbrechnungDetail({
                   {p.kostenart}
                   <div style={{ fontWeight: 400, fontSize: ".72rem", color: "var(--muted)" }}>
                     {SCHLUESSEL_LABEL[p.schluessel] ?? p.schluessel}
+                    {p.schluessel === "VERBRAUCH" && p.zaehlerart ? ` · ${ZAEHLERART_LABEL[p.zaehlerart] ?? p.zaehlerart}` : ""}
                   </div>
                 </td>
                 <td style={{ textAlign: "right", color: "var(--muted)", fontSize: ".82rem" }}>{p.gesamtBasisText}</td>

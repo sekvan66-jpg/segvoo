@@ -56,6 +56,7 @@ export interface Kostenart {
   name: string;
   schluessel: string;
   umlagefaehig: number;
+  zaehlerart: string;
 }
 export interface Kostenbuchung {
   id: number;
@@ -154,12 +155,13 @@ export interface BuchungJoin extends Kostenbuchung {
   kostenart_name: string;
   schluessel: string;
   umlagefaehig: number;
+  zaehlerart: string;
 }
 export function listBuchungen(objektId: number, jahr: number): BuchungJoin[] {
   return q()
     .prepare(
       `SELECT b.*, k.name AS kostenart_name, k.schluessel AS schluessel,
-              k.umlagefaehig AS umlagefaehig
+              k.umlagefaehig AS umlagefaehig, k.zaehlerart AS zaehlerart
        FROM kostenbuchung b JOIN kostenart k ON k.id = b.kostenart_id
        WHERE b.objekt_id = ? AND b.jahr = ?
        ORDER BY k.name`,

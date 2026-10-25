@@ -33,3 +33,13 @@ export const SCHLUESSEL_LABEL: Record<string, string> = {
   PERSONEN: "nach Personen",
   VERBRAUCH: "nach Verbrauch",
 };
+
+export const ZAEHLERART_LABEL: Record<string, string> = {
+  HEIZUNG: "Heizung",
+  WARMWASSER: "Warmwasser",
+  KALTWASSER: "Kaltwasser",
+  STROM: "Strom",
+  GAS: "Gas",
+};
+
+export const ZAEHLERARTEN = ["HEIZUNG", "WARMWASSER", "KALTWASSER", "STROM", "GAS"];

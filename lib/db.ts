@@ -99,7 +99,8 @@ function migrate(db: DB) {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
       schluessel TEXT NOT NULL DEFAULT 'WOHNFLAECHE',
-      umlagefaehig INTEGER NOT NULL DEFAULT 1
+      umlagefaehig INTEGER NOT NULL DEFAULT 1,
+      zaehlerart TEXT DEFAULT ''
     );
 
     CREATE TABLE IF NOT EXISTS kostenbuchung (
@@ -133,6 +134,7 @@ function migrate(db: DB) {
   addColumnIfMissing(db, "mieter", "plz", "TEXT DEFAULT ''");
   addColumnIfMissing(db, "mieter", "ort", "TEXT DEFAULT ''");
   addColumnIfMissing(db, "vermieter", "bic", "TEXT DEFAULT ''");
+  addColumnIfMissing(db, "kostenart", "zaehlerart", "TEXT DEFAULT ''");
 
   // Vermieter-Stammsatz (Einzelzeile) sicherstellen.
   db.exec("INSERT OR IGNORE INTO vermieter (id) VALUES (1);");

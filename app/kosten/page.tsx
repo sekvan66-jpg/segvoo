@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { listObjekte, listKostenarten, listBuchungen, jahreMitBuchungen } from "@/lib/queries";
-import { euro, SCHLUESSEL_LABEL } from "@/lib/format";
+import { euro, SCHLUESSEL_LABEL, ZAEHLERART_LABEL, ZAEHLERARTEN } from "@/lib/format";
 import { Card, PageHeader, Field, Empty } from "@/components/ui";
 import { saveKostenart, deleteKostenart, saveBuchung, deleteBuchung } from "../actions";
 
@@ -175,6 +175,7 @@ export default async function KostenPage({
                   <div style={{ fontWeight: 600, fontSize: ".88rem" }}>{k.name}</div>
                   <div style={{ fontSize: ".74rem", color: "var(--muted)" }}>
                     {SCHLUESSEL_LABEL[k.schluessel] ?? k.schluessel}
+                    {k.schluessel === "VERBRAUCH" && k.zaehlerart ? ` · ${ZAEHLERART_LABEL[k.zaehlerart] ?? k.zaehlerart}` : ""}
                     {!k.umlagefaehig && " · nicht umlegbar"}
                   </div>
                 </div>
@@ -205,6 +206,16 @@ export default async function KostenPage({
                 {SCHLUESSEL.map((s) => (
                   <option key={s} value={s}>
                     {SCHLUESSEL_LABEL[s]}
+                  </option>
+                ))}
+              </select>
+            </Field>
+            <Field label="Zählerart (nur bei „nach Verbrauch“)">
+              <select className="select" name="zaehlerart" defaultValue={editK?.zaehlerart ?? ""}>
+                <option value="">— alle Zähler der Einheit —</option>
+                {ZAEHLERARTEN.map((a) => (
+                  <option key={a} value={a}>
+                    {ZAEHLERART_LABEL[a]}
                   </option>
                 ))}
               </select>

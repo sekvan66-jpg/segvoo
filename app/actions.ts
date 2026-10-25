@@ -118,11 +118,13 @@ export async function deleteVertrag(fd: FormData) {
 export async function saveKostenart(fd: FormData) {
   const id = int(fd, "id");
   const db = getDb();
-  const args = [s(fd, "name"), s(fd, "schluessel"), fd.get("umlagefaehig") ? 1 : 0];
+  const schluessel = s(fd, "schluessel");
+  const zaehlerart = schluessel === "VERBRAUCH" ? s(fd, "zaehlerart") : "";
+  const args = [s(fd, "name"), schluessel, fd.get("umlagefaehig") ? 1 : 0, zaehlerart];
   if (id) {
-    db.prepare("UPDATE kostenart SET name=?, schluessel=?, umlagefaehig=? WHERE id=?").run(...args, id);
+    db.prepare("UPDATE kostenart SET name=?, schluessel=?, umlagefaehig=?, zaehlerart=? WHERE id=?").run(...args, id);
   } else {
-    db.prepare("INSERT INTO kostenart (name, schluessel, umlagefaehig) VALUES (?,?,?)").run(...args);
+    db.prepare("INSERT INTO kostenart (name, schluessel, umlagefaehig, zaehlerart) VALUES (?,?,?,?)").run(...args);
   }
   revalidatePath("/kosten");
   redirect("/kosten");
@@ -293,32 +295,36 @@ export async function seedDemo() {
     "Berliner Sparkasse",
   );
 
-  const arten: Array<[string, string, number]> = [
-    ["Abfallkosten", "WOHNFLAECHE", 1],
-    ["Grundsteuer", "WOHNFLAECHE", 1],
-    ["Gebäudeversicherung", "WOHNFLAECHE", 1],
-    ["Niederschlagswasser", "WOHNFLAECHE", 1],
-    ["Allgemeinstrom / Beleuchtung", "WOHNFLAECHE", 1],
-    ["Wartung Feuerlöscher", "EINHEIT", 1],
-    ["Wasserkosten + Kanal", "VERBRAUCH", 1],
-    ["Heizung", "VERBRAUCH", 1],
-    ["Winterdienst", "WOHNFLAECHE", 1],
-    ["Verwaltungskosten", "EINHEIT", 0],
+  const arten: Array<[string, string, number, string]> = [
+    ["Abfallkosten", "WOHNFLAECHE", 1, ""],
+    ["Grundsteuer", "WOHNFLAECHE", 1, ""],
+    ["Gebäudeversicherung", "WOHNFLAECHE", 1, ""],
+    ["Niederschlagswasser", "WOHNFLAECHE", 1, ""],
+    ["Allgemeinstrom / Beleuchtung", "WOHNFLAECHE", 1, ""],
+    ["Wartung Feuerlöscher", "EINHEIT", 1, ""],
+    ["Wasserkosten + Kanal", "VERBRAUCH", 1, "KALTWASSER"],
+    ["Heizung", "VERBRAUCH", 1, "HEIZUNG"],
+    ["Winterdienst", "WOHNFLAECHE", 1, ""],
+    ["Verwaltungskosten", "EINHEIT", 0, ""],
   ];
-  const insK = db.prepare("INSERT INTO kostenart (name, schluessel, umlagefaehig) VALUES (?,?,?)");
+  const insK = db.prepare("INSERT INTO kostenart (name, schluessel, umlagefaehig, zaehlerart) VALUES (?,?,?,?)");
   const insB = db.prepare("INSERT INTO kostenbuchung (objekt_id, kostenart_id, jahr, betrag, beschreibung) VALUES (?,?,?,?,?)");
   const betraege = [226.01, 420.82, 1090.24, 221.4, 325.38, 28.5, 1670.03, 4741.93, 60, 1800];
-  arten.forEach(([name, sch, uml], idx) => {
-    const kId = Number(insK.run(name, sch, uml).lastInsertRowid);
+  arten.forEach(([name, sch, uml, za], idx) => {
+    const kId = Number(insK.run(name, sch, uml, za).lastInsertRowid);
     insB.run(objId, kId, jahr, betraege[idx], `${name} ${jahr}`);
   });
 
+  // Separate Zähler je Einheit: Heizung (WMZ) und Kaltwasser (WZ).
   const insZ = db.prepare("INSERT INTO zaehler (einheit_id, art, nummer) VALUES (?,?,?)");
   const insZs = db.prepare("INSERT INTO zaehlerstand (zaehler_id, jahr, stand_anfang, stand_ende) VALUES (?,?,?,?)");
-  const verbrauch = [820, 610, 980, 700, 1250, 540];
+  const heizung = [820, 610, 980, 700, 1250, 540];
+  const wasser = [128, 95, 172, 140, 210, 84];
   einheitIds.forEach((eid, idx) => {
-    const zId = Number(insZ.run(eid, "HEIZUNG", `WMZ-${1000 + idx}`).lastInsertRowid);
-    insZs.run(zId, jahr, 0, verbrauch[idx]);
+    const zH = Number(insZ.run(eid, "HEIZUNG", `WMZ-${1000 + idx}`).lastInsertRowid);
+    insZs.run(zH, jahr, 0, heizung[idx]);
+    const zW = Number(insZ.run(eid, "KALTWASSER", `WZ-${2000 + idx}`).lastInsertRowid);
+    insZs.run(zW, jahr, 0, wasser[idx]);
   });
 
   revalidatePath("/", "layout");

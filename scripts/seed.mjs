@@ -16,7 +16,7 @@ db.exec(`
   CREATE TABLE IF NOT EXISTS mieter (id INTEGER PRIMARY KEY AUTOINCREMENT, vorname TEXT NOT NULL, nachname TEXT NOT NULL, email TEXT DEFAULT '', telefon TEXT DEFAULT '', strasse TEXT DEFAULT '', plz TEXT DEFAULT '', ort TEXT DEFAULT '', created_at TEXT DEFAULT (datetime('now')));
   CREATE TABLE IF NOT EXISTS vermieter (id INTEGER PRIMARY KEY CHECK (id = 1), firma TEXT DEFAULT '', name TEXT DEFAULT '', strasse TEXT DEFAULT '', plz TEXT DEFAULT '', ort TEXT DEFAULT '', telefon TEXT DEFAULT '', email TEXT DEFAULT '', iban TEXT DEFAULT '', bic TEXT DEFAULT '', bank TEXT DEFAULT '');
   CREATE TABLE IF NOT EXISTS mietvertrag (id INTEGER PRIMARY KEY AUTOINCREMENT, einheit_id INTEGER NOT NULL REFERENCES einheit(id) ON DELETE CASCADE, mieter_id INTEGER NOT NULL REFERENCES mieter(id) ON DELETE CASCADE, beginn TEXT NOT NULL, ende TEXT, kaltmiete REAL NOT NULL DEFAULT 0, nk_vorauszahlung REAL NOT NULL DEFAULT 0, personen INTEGER NOT NULL DEFAULT 1, created_at TEXT DEFAULT (datetime('now')));
-  CREATE TABLE IF NOT EXISTS kostenart (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, schluessel TEXT NOT NULL DEFAULT 'WOHNFLAECHE', umlagefaehig INTEGER NOT NULL DEFAULT 1);
+  CREATE TABLE IF NOT EXISTS kostenart (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, schluessel TEXT NOT NULL DEFAULT 'WOHNFLAECHE', umlagefaehig INTEGER NOT NULL DEFAULT 1, zaehlerart TEXT DEFAULT '');
   CREATE TABLE IF NOT EXISTS kostenbuchung (id INTEGER PRIMARY KEY AUTOINCREMENT, objekt_id INTEGER NOT NULL REFERENCES objekt(id) ON DELETE CASCADE, kostenart_id INTEGER NOT NULL REFERENCES kostenart(id) ON DELETE CASCADE, jahr INTEGER NOT NULL, betrag REAL NOT NULL DEFAULT 0, beschreibung TEXT DEFAULT '', datum TEXT DEFAULT (date('now')));
   CREATE TABLE IF NOT EXISTS zaehler (id INTEGER PRIMARY KEY AUTOINCREMENT, einheit_id INTEGER NOT NULL REFERENCES einheit(id) ON DELETE CASCADE, art TEXT NOT NULL DEFAULT 'STROM', nummer TEXT DEFAULT '');
   CREATE TABLE IF NOT EXISTS zaehlerstand (id INTEGER PRIMARY KEY AUTOINCREMENT, zaehler_id INTEGER NOT NULL REFERENCES zaehler(id) ON DELETE CASCADE, jahr INTEGER NOT NULL, stand_anfang REAL NOT NULL DEFAULT 0, stand_ende REAL NOT NULL DEFAULT 0);
@@ -81,31 +81,34 @@ db.prepare(
 );
 
 const arten = [
-  ["Abfallkosten", "WOHNFLAECHE", 1],
-  ["Grundsteuer", "WOHNFLAECHE", 1],
-  ["Gebäudeversicherung", "WOHNFLAECHE", 1],
-  ["Niederschlagswasser", "WOHNFLAECHE", 1],
-  ["Allgemeinstrom / Beleuchtung", "WOHNFLAECHE", 1],
-  ["Wartung Feuerlöscher", "EINHEIT", 1],
-  ["Wasserkosten + Kanal", "VERBRAUCH", 1],
-  ["Heizung", "VERBRAUCH", 1],
-  ["Winterdienst", "WOHNFLAECHE", 1],
-  ["Verwaltungskosten", "EINHEIT", 0],
+  ["Abfallkosten", "WOHNFLAECHE", 1, ""],
+  ["Grundsteuer", "WOHNFLAECHE", 1, ""],
+  ["Gebäudeversicherung", "WOHNFLAECHE", 1, ""],
+  ["Niederschlagswasser", "WOHNFLAECHE", 1, ""],
+  ["Allgemeinstrom / Beleuchtung", "WOHNFLAECHE", 1, ""],
+  ["Wartung Feuerlöscher", "EINHEIT", 1, ""],
+  ["Wasserkosten + Kanal", "VERBRAUCH", 1, "KALTWASSER"],
+  ["Heizung", "VERBRAUCH", 1, "HEIZUNG"],
+  ["Winterdienst", "WOHNFLAECHE", 1, ""],
+  ["Verwaltungskosten", "EINHEIT", 0, ""],
 ];
 const betraege = [226.01, 420.82, 1090.24, 221.4, 325.38, 28.5, 1670.03, 4741.93, 60, 1800];
-const insK = db.prepare("INSERT INTO kostenart (name, schluessel, umlagefaehig) VALUES (?,?,?)");
+const insK = db.prepare("INSERT INTO kostenart (name, schluessel, umlagefaehig, zaehlerart) VALUES (?,?,?,?)");
 const insB = db.prepare("INSERT INTO kostenbuchung (objekt_id, kostenart_id, jahr, betrag, beschreibung) VALUES (?,?,?,?,?)");
-arten.forEach(([name, sch, uml], idx) => {
-  const kId = Number(insK.run(name, sch, uml).lastInsertRowid);
+arten.forEach(([name, sch, uml, za], idx) => {
+  const kId = Number(insK.run(name, sch, uml, za).lastInsertRowid);
   insB.run(objId, kId, jahr, betraege[idx], `${name} ${jahr}`);
 });
 
-const verbrauch = [820, 610, 980, 700, 1250, 540];
+const heizung = [820, 610, 980, 700, 1250, 540];
+const wasser = [128, 95, 172, 140, 210, 84];
 const insZ = db.prepare("INSERT INTO zaehler (einheit_id, art, nummer) VALUES (?,?,?)");
 const insZs = db.prepare("INSERT INTO zaehlerstand (zaehler_id, jahr, stand_anfang, stand_ende) VALUES (?,?,?,?)");
 einheitIds.forEach((eid, idx) => {
-  const zId = Number(insZ.run(eid, "HEIZUNG", `WMZ-${1000 + idx}`).lastInsertRowid);
-  insZs.run(zId, jahr, 0, verbrauch[idx]);
+  const zH = Number(insZ.run(eid, "HEIZUNG", `WMZ-${1000 + idx}`).lastInsertRowid);
+  insZs.run(zH, jahr, 0, heizung[idx]);
+  const zW = Number(insZ.run(eid, "KALTWASSER", `WZ-${2000 + idx}`).lastInsertRowid);
+  insZs.run(zW, jahr, 0, wasser[idx]);
 });
 
 console.log(`Seed abgeschlossen für Abrechnungsjahr ${jahr}: 1 Objekt, 6 Einheiten, 6 Verträge, 10 Kostenarten, Vermieter-Stammdaten.`);
