@@ -1,8 +1,8 @@
 {
-  "name": "segvoo",
+  "name": "cek-mobile",
   "version": "0.1.0",
   "private": true,
-  "description": "Segvoo – Hausverwaltung & Nebenkostenabrechnung (Web-App)",
+  "description": "cek mobile – Nebenkostenabrechnung & Hausverwaltung (Web-App)",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

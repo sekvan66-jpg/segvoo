@@ -63,7 +63,23 @@ function migrate(db: DB) {
       nachname TEXT NOT NULL,
       email TEXT DEFAULT '',
       telefon TEXT DEFAULT '',
+      strasse TEXT DEFAULT '',
+      plz TEXT DEFAULT '',
+      ort TEXT DEFAULT '',
       created_at TEXT DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS vermieter (
+      id INTEGER PRIMARY KEY CHECK (id = 1),
+      firma TEXT DEFAULT '',
+      name TEXT DEFAULT '',
+      strasse TEXT DEFAULT '',
+      plz TEXT DEFAULT '',
+      ort TEXT DEFAULT '',
+      telefon TEXT DEFAULT '',
+      email TEXT DEFAULT '',
+      iban TEXT DEFAULT '',
+      bank TEXT DEFAULT ''
     );
 
     CREATE TABLE IF NOT EXISTS mietvertrag (
@@ -110,4 +126,19 @@ function migrate(db: DB) {
       stand_ende REAL NOT NULL DEFAULT 0
     );
   `);
+
+  // Migrationen für bestehende Datenbanken.
+  addColumnIfMissing(db, "mieter", "strasse", "TEXT DEFAULT ''");
+  addColumnIfMissing(db, "mieter", "plz", "TEXT DEFAULT ''");
+  addColumnIfMissing(db, "mieter", "ort", "TEXT DEFAULT ''");
+
+  // Vermieter-Stammsatz (Einzelzeile) sicherstellen.
+  db.exec("INSERT OR IGNORE INTO vermieter (id) VALUES (1);");
+}
+
+function addColumnIfMissing(db: DB, table: string, column: string, def: string) {
+  const cols = db.prepare(`PRAGMA table_info(${table})`).all() as { name: string }[];
+  if (!cols.some((c) => c.name === column)) {
+    db.exec(`ALTER TABLE ${table} ADD COLUMN ${column} ${def};`);
+  }
 }

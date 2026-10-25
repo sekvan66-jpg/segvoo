@@ -3,9 +3,9 @@ import "./globals.css";
 import Nav from "@/components/Nav";
 
 export const metadata: Metadata = {
-  title: "Segvoo – Hausverwaltung & Nebenkostenabrechnung",
+  title: "cek mobile – Nebenkostenabrechnung",
   description:
-    "Segvoo: Immobilien, Einheiten, Mieter und Verträge verwalten und rechtssichere Nebenkostenabrechnungen erstellen.",
+    "cek mobile: Immobilien, Einheiten, Mieter und Verträge verwalten und professionelle Nebenkostenabrechnungen erstellen.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

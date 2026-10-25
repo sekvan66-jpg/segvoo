@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Logo } from "./Logo";
 
 const links = [
   { href: "/", label: "Übersicht" },
@@ -7,6 +8,7 @@ const links = [
   { href: "/vertraege", label: "Mietverträge" },
   { href: "/kosten", label: "Betriebskosten" },
   { href: "/abrechnung", label: "Nebenkostenabrechnung" },
+  { href: "/einstellungen", label: "Einstellungen" },
 ];
 
 export default function Nav() {
@@ -14,7 +16,7 @@ export default function Nav() {
     <aside
       className="no-print"
       style={{
-        width: 240,
+        width: 248,
         flexShrink: 0,
         borderRight: "1px solid var(--border)",
         background: "var(--surface)",
@@ -22,24 +24,12 @@ export default function Nav() {
         position: "sticky",
         top: 0,
         height: "100vh",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
-      <Link href="/" style={{ textDecoration: "none" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: ".55rem", marginBottom: "1.5rem" }}>
-          <span
-            style={{
-              width: 34, height: 34, borderRadius: 9,
-              background: "var(--brand)", color: "var(--brand-fg)",
-              display: "grid", placeItems: "center", fontWeight: 800, fontSize: "1.05rem",
-            }}
-          >
-            S
-          </span>
-          <div>
-            <div style={{ fontWeight: 800, fontSize: "1.05rem", lineHeight: 1 }}>Segvoo</div>
-            <div style={{ fontSize: ".7rem", color: "var(--muted)" }}>Hausverwaltung</div>
-          </div>
-        </div>
+      <Link href="/" style={{ textDecoration: "none", marginBottom: "1.5rem" }}>
+        <Logo size={40} />
       </Link>
       <nav style={{ display: "flex", flexDirection: "column", gap: ".15rem" }}>
         {links.map((l) => (

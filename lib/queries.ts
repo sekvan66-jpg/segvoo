@@ -24,6 +24,21 @@ export interface Mieter {
   nachname: string;
   email: string;
   telefon: string;
+  strasse: string;
+  plz: string;
+  ort: string;
+}
+export interface Vermieter {
+  id: number;
+  firma: string;
+  name: string;
+  strasse: string;
+  plz: string;
+  ort: string;
+  telefon: string;
+  email: string;
+  iban: string;
+  bank: string;
 }
 export interface Mietvertrag {
   id: number;
@@ -81,9 +96,17 @@ export function listMieter(): Mieter[] {
     .all() as Mieter[];
 }
 
+/* ---------------- Vermieter (Stammdaten) ---------------- */
+export function getVermieter(): Vermieter {
+  return q().prepare("SELECT * FROM vermieter WHERE id = 1").get() as Vermieter;
+}
+
 /* ---------------- Mietverträge ---------------- */
 export interface VertragJoin extends Mietvertrag {
   mieter_name: string;
+  mieter_strasse: string;
+  mieter_plz: string;
+  mieter_ort: string;
   einheit_bez: string;
   objekt_id: number;
   objekt_name: string;
@@ -92,6 +115,7 @@ export interface VertragJoin extends Mietvertrag {
 export function listVertraege(objektId?: number): VertragJoin[] {
   const sql = `
     SELECT v.*, (m.vorname || ' ' || m.nachname) AS mieter_name,
+           m.strasse AS mieter_strasse, m.plz AS mieter_plz, m.ort AS mieter_ort,
            e.bezeichnung AS einheit_bez, e.wohnflaeche AS wohnflaeche,
            o.id AS objekt_id, o.name AS objekt_name
     FROM mietvertrag v
@@ -107,6 +131,7 @@ export function getVertrag(id: number): VertragJoin | undefined {
   return q()
     .prepare(
       `SELECT v.*, (m.vorname || ' ' || m.nachname) AS mieter_name,
+              m.strasse AS mieter_strasse, m.plz AS mieter_plz, m.ort AS mieter_ort,
               e.bezeichnung AS einheit_bez, e.wohnflaeche AS wohnflaeche,
               o.id AS objekt_id, o.name AS objekt_name
        FROM mietvertrag v

@@ -30,6 +30,11 @@ export default function MieterPage() {
                   <tr key={m.id}>
                     <td style={{ fontWeight: 600 }}>
                       {m.nachname}, {m.vorname}
+                      {(m.strasse || m.ort) && (
+                        <div style={{ fontWeight: 400, fontSize: ".78rem", color: "var(--muted)" }}>
+                          {[m.strasse, [m.plz, m.ort].filter(Boolean).join(" ")].filter(Boolean).join(", ")}
+                        </div>
+                      )}
                     </td>
                     <td style={{ color: "var(--muted)" }}>{m.email || "–"}</td>
                     <td style={{ color: "var(--muted)" }}>{m.telefon || "–"}</td>
@@ -57,6 +62,17 @@ export default function MieterPage() {
               </Field>
               <Field label="Nachname *">
                 <input className="input" name="nachname" required />
+              </Field>
+            </div>
+            <Field label="Straße & Nr.">
+              <input className="input" name="strasse" placeholder="Lindenstraße 12" />
+            </Field>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 2fr", gap: ".6rem" }}>
+              <Field label="PLZ">
+                <input className="input" name="plz" placeholder="10115" />
+              </Field>
+              <Field label="Ort">
+                <input className="input" name="ort" placeholder="Berlin" />
               </Field>
             </div>
             <Field label="E-Mail">

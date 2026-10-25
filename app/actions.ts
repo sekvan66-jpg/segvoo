@@ -57,8 +57,18 @@ export async function deleteEinheit(fd: FormData) {
 /* ---------------- Mieter ---------------- */
 export async function createMieter(fd: FormData) {
   getDb()
-    .prepare("INSERT INTO mieter (vorname, nachname, email, telefon) VALUES (?,?,?,?)")
-    .run(s(fd, "vorname"), s(fd, "nachname"), s(fd, "email"), s(fd, "telefon"));
+    .prepare(
+      "INSERT INTO mieter (vorname, nachname, email, telefon, strasse, plz, ort) VALUES (?,?,?,?,?,?,?)",
+    )
+    .run(
+      s(fd, "vorname"),
+      s(fd, "nachname"),
+      s(fd, "email"),
+      s(fd, "telefon"),
+      s(fd, "strasse"),
+      s(fd, "plz"),
+      s(fd, "ort"),
+    );
   revalidatePath("/mieter");
 }
 
@@ -119,6 +129,28 @@ export async function deleteBuchung(fd: FormData) {
   revalidatePath("/kosten");
 }
 
+/* ---------------- Vermieter / Einstellungen ---------------- */
+export async function saveVermieter(fd: FormData) {
+  getDb()
+    .prepare(
+      `UPDATE vermieter SET firma=?, name=?, strasse=?, plz=?, ort=?, telefon=?, email=?, iban=?, bank=?
+       WHERE id = 1`,
+    )
+    .run(
+      s(fd, "firma"),
+      s(fd, "name"),
+      s(fd, "strasse"),
+      s(fd, "plz"),
+      s(fd, "ort"),
+      s(fd, "telefon"),
+      s(fd, "email"),
+      s(fd, "iban"),
+      s(fd, "bank"),
+    );
+  revalidatePath("/", "layout");
+  redirect("/einstellungen");
+}
+
 /* ---------------- Demo-Daten ---------------- */
 export async function resetDemo() {
   const db = getDb();
@@ -168,22 +200,41 @@ export async function seedDemo() {
   }
 
   const tenants = [
-    ["Anna", "Weber", 2, 480, 150, `${jahr}-01-01`, null],
-    ["Mehmet", "Yilmaz", 1, 360, 110, `${jahr}-01-01`, null],
-    ["Familie", "Schulz", 4, 620, 210, `${jahr}-01-01`, null],
-    ["Laura", "Becker", 2, 500, 160, `${jahr}-04-01`, null], // Einzug unterm Jahr
-    ["Jonas", "Krüger", 3, 790, 250, `${jahr}-01-01`, null],
-    ["Sophie", "Hoffmann", 1, 340, 95, `${jahr}-01-01`, `${jahr}-09-30`], // Auszug unterm Jahr
+    ["Anna", "Weber", 2, 480, 185, `${jahr}-01-01`, null],
+    ["Mehmet", "Yilmaz", 1, 360, 140, `${jahr}-01-01`, null],
+    ["Gönül", "Demir", 4, 620, 260, `${jahr}-01-01`, null],
+    ["Laura", "Becker", 2, 500, 200, `${jahr}-04-01`, null], // Einzug unterm Jahr
+    ["Jonas", "Krüger", 3, 790, 300, `${jahr}-01-01`, null],
+    ["Sophie", "Hoffmann", 1, 340, 150, `${jahr}-01-01`, `${jahr}-09-30`], // Auszug unterm Jahr
   ] as const;
-  const insM = db.prepare("INSERT INTO mieter (vorname, nachname) VALUES (?,?)");
+  const insM = db.prepare(
+    "INSERT INTO mieter (vorname, nachname, strasse, plz, ort) VALUES (?,?,?,?,?)",
+  );
   const insV = db.prepare(
     "INSERT INTO mietvertrag (einheit_id, mieter_id, beginn, ende, kaltmiete, nk_vorauszahlung, personen) VALUES (?,?,?,?,?,?,?)",
   );
   tenants.forEach((t, idx) => {
     const [vn, nn, pers, kalt, nk, beg, end] = t;
-    const mId = Number(insM.run(vn, nn).lastInsertRowid);
+    const mId = Number(
+      insM.run(vn, nn, `Lindenstraße 12`, "10115", "Berlin").lastInsertRowid,
+    );
     insV.run(einheitIds[idx], mId, beg, end, kalt, nk, pers);
   });
+
+  // Vermieter-Stammdaten für die Vorlage.
+  db.prepare(
+    `UPDATE vermieter SET firma=?, name=?, strasse=?, plz=?, ort=?, telefon=?, email=?, iban=?, bank=? WHERE id = 1`,
+  ).run(
+    "cek mobile Hausverwaltung",
+    "C. Ekinci",
+    "Verwaltungsweg 3",
+    "10407",
+    "Berlin",
+    "+49 30 1234567",
+    "kontakt@cek-mobile.de",
+    "DE12 3456 7890 1234 5678 90",
+    "Berliner Sparkasse",
+  );
 
   const arten: Array<[string, string, number]> = [
     ["Grundsteuer", "WOHNFLAECHE", 1],

@@ -1,21 +1,22 @@
-# Segvoo – Hausverwaltung & Nebenkostenabrechnung
+# cek mobile – Nebenkostenabrechnung & Hausverwaltung
 
 Eine schlanke Web-App für Vermieter und kleine Hausverwaltungen: Immobilien,
-Einheiten, Mieter und Mietverträge verwalten – und daraus **tagesgenaue
-Nebenkostenabrechnungen** erstellen.
+Einheiten, Mieter und Mietverträge verwalten – und daraus **professionelle,
+druckfertige Nebenkostenabrechnungen** erstellen.
 
-> Eigenständige Anwendung mit eigenem Code und Branding. Inspiriert vom
-> Funktionsumfang gängiger Hausverwaltungs-Software, aber ohne fremde Inhalte.
+> Eigenständige Anwendung mit eigenem Code, eigenem Logo und Branding.
 
 ## Funktionen
 
 - **Dashboard** – Kennzahlen zum Portfolio (Objekte, Einheiten, Fläche, Mieten)
-- **Objekte** – Gebäude mit Adresse und Baujahr
-- **Einheiten** – Wohnungen je Objekt (Fläche, Zimmer, Lage, Status)
-- **Mieter** & **Mietverträge** – Kaltmiete, NK-Vorauszahlung, Personen, Zeitraum
+- **Objekte & Einheiten** – Gebäude und Wohnungen (Fläche, Zimmer, Lage, Status)
+- **Mieter & Mietverträge** – Adresse, Kaltmiete, NK-Vorauszahlung, Personen, Zeitraum
 - **Betriebskosten** – Kostenarten mit Verteilerschlüssel + Jahresbuchungen
 - **Nebenkostenabrechnung** – pro Mieter, tagesgenaue Umlage, Vorauszahlung
-  gegengerechnet → Nachzahlung/Guthaben, mit Druck-/PDF-Ansicht
+  gegengerechnet → Nachzahlung/Guthaben, **druckfertige A4-Vorlage** mit
+  Briefkopf, Empfängerblock, Betreff, Bankverbindung und Unterschrift
+- **Einstellungen** – Vermieter-/Bankdaten als Briefkopf für jede Abrechnung
+- **Logo** – eigenes SVG (Haus + Haken), auch als Favicon
 
 ### Verteilerschlüssel
 
@@ -26,9 +27,27 @@ Nebenkostenabrechnungen** erstellen.
 | `PERSONEN`    | nach Personen-Tagen                                               |
 | `VERBRAUCH`   | nach erfassten Zählerständen (Fallback: Wohnfläche)               |
 
-Alle zeitbasierten Schlüssel werden anhand der **Nutzungstage** im
-Abrechnungsjahr anteilig berechnet (Ein-/Auszug unterm Jahr wird korrekt
-berücksichtigt).
+Zeitbasierte Schlüssel werden anhand der **Nutzungstage** im Abrechnungsjahr
+anteilig berechnet (Ein-/Auszug unterm Jahr wird korrekt berücksichtigt).
+
+## Schnellstart (Web-App)
+
+```bash
+npm install
+npm run seed     # Beispieldaten (MFH mit 6 Einheiten, Verträgen, Kosten)
+npm run dev      # http://localhost:3000
+```
+
+1. **Beispieldaten laden** (Button auf der Übersicht oder `npm run seed`)
+2. Unter **Einstellungen** die eigenen Vermieter-/Bankdaten eintragen
+3. Unter **Nebenkostenabrechnung** Objekt + Jahr wählen → pro Mieter die
+   druckfertige Abrechnung öffnen und über **Drucken / PDF** speichern
+
+Produktionsbuild:
+
+```bash
+npm run build && npm start
+```
 
 ## Tech-Stack
 
@@ -36,24 +55,8 @@ berücksichtigt).
 - **Tailwind CSS v4**
 - **`node:sqlite`** – die in Node 22 eingebaute SQLite-Engine (keine nativen
   Abhängigkeiten, kein zusätzlicher Download)
-- Persistenz als SQLite-Datei unter `data/segvoo.sqlite` (per `SEGVOO_DB`
-  überschreibbar)
-
-## Entwicklung
-
-```bash
-npm install
-npm run dev      # http://localhost:3000
-```
-
-Auf der Übersichtsseite **„Beispieldaten laden"** klicken – es wird ein
-Mehrfamilienhaus mit 6 Einheiten, Mietern, Verträgen (inkl. Ein-/Auszug unterm
-Jahr) und Betriebskosten für das Vorjahr angelegt. Danach unter
-**Nebenkostenabrechnung** Objekt + Jahr wählen und die Abrechnungen erzeugen.
-
-```bash
-npm run build && npm start   # Produktionsbuild
-```
+- Persistenz als SQLite-Datei unter `data/cek.sqlite` bzw. `data/segvoo.sqlite`
+  (per `SEGVOO_DB` überschreibbar)
 
 ## Projektstruktur
 
@@ -63,13 +66,17 @@ app/            Routen (App Router) + Server Actions
   objekte/                Objekte + Einheiten
   mieter/ vertraege/      Stammdaten
   kosten/                 Kostenarten & Buchungen
-  abrechnung/             NKA-Übersicht + Druckansicht
+  abrechnung/             NKA-Übersicht + druckfertige Vorlage
+  einstellungen/          Vermieter-/Bankdaten
+  icon.svg                Favicon
 lib/
-  db.ts                   SQLite-Verbindung + Schema
+  db.ts                   SQLite-Verbindung + Schema/Migration
   queries.ts              Lesezugriffe
   nka.ts                  Abrechnungs-Engine
   format.ts               de-DE-Formatierung
-components/                Nav + UI-Bausteine
+components/
+  Logo.tsx                Logo (Bild- + Wortmarke)
+  Nav.tsx, ui.tsx         Navigation + UI-Bausteine
 ```
 
 ## Haftungshinweis
