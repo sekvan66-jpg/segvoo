@@ -10,8 +10,8 @@ Regeln: keine erfundenen Fakten, keine urheberrechtlich geschützte Musik oder B
 | 3 Skript | ✅ freigegeben, `obsidian/Skript.md` |
 | 4 Stimme und Musik | ⏳ Skript fertig (`tools/schritt4_audio.py`), Erzeugung wartet auf Schlüssel und Netzfreigabe |
 | 5 Wortzeiten (Whisper) | offen |
-| 6 Video bauen (Remotion) | offen |
-| 7 Rendern (MP4, 9:16) | offen |
+| 6 Video bauen (Remotion) | ✅ `video/`, Zeiten vorerst geschätzt, Tonspuren vorbereitet |
+| 7 Rendern (MP4, 9:16) | ⏳ stumme Vorschau gerendert (85 s, 1080×1920); endgültige Fassung nach Schritt 4 und 5 |
 
 ## Schritt 4: Plan
 - ElevenLabs-Schlüssel aus der Umgebungsvariable `ELEVENLABS_API_KEY` lesen.
@@ -33,6 +33,14 @@ Ablauf in der neuen Sitzung:
 1. `python3 tools/schritt4_audio.py alles` → Proben, Musik und SFX in `audio/`, Übersicht in `audio/manifest.json`
 2. Hörproben anbieten, Auswahl abwarten
 3. `python3 tools/schritt4_audio.py sprache --erzaehler E? --mehmet M?`
+
+## Schritt 6/7: Stand (2026-10-25)
+- Remotion-Projekt in `video/`: alle Szenen als Motion Graphics, Untertitel, App-Nachbau mit erfundenen Beispieldaten, Logo als vereinfachte Nachbildung.
+- mobile.de-Zeile ist ausgeblendet (`SHOW_MOBILEDE = false` in `video/src/timing.ts`), solange der Knopf nicht getestet ist.
+- Zeiten: Schätzungen aus dem Skript. Schritt 5 schreibt gemessene Zeiten nach `video/src/timing-whisper.json`, die dann Vorrang haben.
+- Ton: `npm run render` kopiert vorhandene Dateien aus `audio/` und legt Sprache, Musik und SFX automatisch an. Fehlt eine Datei, bleibt die Stelle still.
+- Rendern: `cd video && npm install && npm run render` → `video/out/mehmet_und_der_zettelberg.mp4` (nicht im Repo).
+- Die Vorschau ist nicht veröffentlicht.
 
 ## Datenschutz
 Die Screenshots der App dienen nur als Vorlage und kommen nicht ins Repo (es ist öffentlich). Im Video stehen nur erfundene Beispieldaten.
