@@ -21,6 +21,10 @@ Kleine Autohändler in Deutschland, die Bestand, Verträge und Rechnungen heute 
 - Szene 6: sachlich und fair, ohne Werbesprache.
 - Einfache Sprache, kein Fachjargon.
 
+## Stil
+- **Motion Graphics**: flache 2D-Formen, Icons und kinetische Schrift, komplett in Remotion gebaut.
+- **Soundeffekte** auf wichtige Momente (z. B. Briefkasten, Papierrascheln, Klick, Erfolgston), erzeugt mit ElevenLabs, keine fremden Sounds.
+
 ## Ziel
 Kleine Autohändler sollen DB-Automobile kennenlernen und verstehen, dass das Programm Bestand, Verträge und Rechnungen an einem Ort bündelt. Ehrliche Angaben zu den Grenzen sollen Vertrauen schaffen.
 Abschluss-Text: „DB-Automobile. Ordnung im Autohandel.“
@@ -70,5 +74,4 @@ Claude Code (Planung, Code) · ElevenLabs (Stimme, Musik) · Whisper (Wortzeiten
 - Darf carVertical namentlich genannt werden?
 - Gibt es eine Webadresse oder einen Download-Hinweis für den Schluss?
 - Gibt es ein Logo und Markenfarben von DB-Automobile?
-- Welchen Stil hat die Animation?
 - Eine Sprecherstimme oder eine eigene Stimme für Mehmet?
