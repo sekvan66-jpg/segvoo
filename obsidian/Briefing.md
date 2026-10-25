@@ -13,7 +13,7 @@ Animiertes Erklärvideo. Mehmet ist eine erfundene Figur und Autohändler. Er ve
 Kleine Autohändler in Deutschland, die Bestand, Verträge und Rechnungen heute noch auf Papier oder verstreut verwalten.
 
 ## Länge
-Laut Zeitplan im Skript ca. **85 Sekunden** (6 Szenen plus Schluss). In der Überschrift standen ca. 75 Sekunden, das ist noch zu klären.
+**85 Sekunden** (6 Szenen plus Schluss), entschieden. Keine zusätzliche Kurzfassung.
 
 ## Ton
 - Szenen 1 bis 3: erzählend und einfühlsam, Mehmets Stress wird spürbar, ohne Übertreibung.
@@ -66,7 +66,6 @@ Abschluss-Text: „DB-Automobile. Ordnung im Autohandel.“
 Claude Code (Planung, Code) · ElevenLabs (Stimme, Musik) · Whisper (Wortzeiten) · Remotion (Video) · Ausgabe als MP4 in 9:16
 
 ## Offene Punkte (für Schritt 2)
-- Endgültige Länge: 85 s, 75 s oder eine zusätzliche 30-s-Fassung?
 - Werden die optionalen Schwächen erwähnt?
 - Darf carVertical namentlich genannt werden?
 - Gibt es eine Webadresse oder einen Download-Hinweis für den Schluss?
