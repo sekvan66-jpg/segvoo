@@ -1,6 +1,6 @@
 ---
 projekt: Mehmet und der Zettelberg
-status: Schritt 1 – Briefing (Entwurf)
+status: Schritt 3 – Skript
 format: 9:16 (TikTok, Reels)
 ---
 
@@ -34,7 +34,7 @@ Kleine Autohändler in Deutschland, die Bestand, Verträge und Rechnungen heute 
 - **Bedienelemente**: Seitenleiste (Übersicht, Bestand, mobile.de, Kunden, Rechnungen …), Status „Cloud synchronisiert“, Knöpfe „+ Fahrzeug“ und „+ Kaufvertrag/Rechnung“, Anmeldung „Mit Google anmelden“.
 - **Umsetzung**: Die Oberfläche wird in Remotion als vereinfachte Motion-Graphics-Nachbildung gebaut, keine abgefilmten Screenshots.
 - **Datenschutz**: Im Video nur erfundene Beispieldaten (Kunden, Fahrgestellnummern, Beträge, Adresse). Die Screenshots dienen nur als Vorlage und kommen nicht ins Repo.
-- Menüpunkte wie „AUTO1 Preis-Check“, „Buchhaltung“, „Handelsbuch“ und „Termine“ sind sichtbar, stehen aber nicht in der Faktenliste. Im Sprechertext werden sie nur nach deiner Bestätigung erwähnt.
+- Menüpunkte wie „AUTO1 Preis-Check“, „Buchhaltung“, „Handelsbuch“ und „Termine“ sind sichtbar, stehen aber nicht in der Faktenliste. Entschieden: Sie stehen sichtbar in der Seitenleiste, werden im Sprechertext aber nicht genannt.
 
 ## Ziel
 Kleine Autohändler sollen DB-Automobile kennenlernen und verstehen, dass das Programm Bestand, Verträge und Rechnungen an einem Ort bündelt. Ehrliche Angaben zu den Grenzen sollen Vertrauen schaffen.
@@ -80,4 +80,6 @@ Abschluss-Text: „DB-Automobile. Ordnung im Autohandel.“ Nur Logo und Slogan,
 ## Technik
 Claude Code (Planung, Code) · ElevenLabs (Stimme, Musik) · Whisper (Wortzeiten) · Remotion (Video) · Ausgabe als MP4 in 9:16
 
-## Offene Punkte (für Schritt 2)
+## Offene Punkte
+- Logo-Datei in guter Qualität (PNG/SVG) für eine scharfe Darstellung
+- mobile.de-Knopf: Test bis zur Veröffentlichung?
