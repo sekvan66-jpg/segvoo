@@ -7,7 +7,7 @@ Aufrufe:
   python3 tools/schritt4_audio.py proben            # 3 Erzähler- und 2 Mehmet-Hörproben
   python3 tools/schritt4_audio.py musik             # Musikspur, ca. 85 s
   python3 tools/schritt4_audio.py sfx               # Soundeffekte laut Skript
-  python3 tools/schritt4_audio.py sprache --erzaehler E1 --mehmet M1
+  python3 tools/schritt4_audio.py sprache --erzaehler E4 --mehmet M1
                                                     # alle Skriptzeilen mit den gewählten Stimmen
   python3 tools/schritt4_audio.py alles             # proben + musik + sfx
   --dry-run zeigt nur, was angefragt würde (kein Schlüssel nötig).
@@ -34,6 +34,8 @@ ERZAEHLER = {
     "E1": {"name": "Daniel", "id": "onwK4e9ZLuTAKqWW03F9", "art": "ruhig, sachlich"},
     "E2": {"name": "George", "id": "JBFqnCBsd6RMkjVDRZzb", "art": "warm, erzählend"},
     "E3": {"name": "Brian", "id": "nPczCjzI2devNBz1zQrb", "art": "tief, vertrauensvoll"},
+    # Gewählt: deutsche Stimme aus der ElevenLabs Voice Library („Deep and Dynamic“).
+    "E4": {"name": "Helmut Stieglbauer", "id": "JiW03c2Gt43XNUQAumRP", "art": "tief, dynamisch, deutsch"},
 }
 MEHMET = {
     "M1": {"name": "Liam", "id": "TX3LPaxmHKxFdv7VOQHJ", "art": "jung, nahbar"},
@@ -228,7 +230,7 @@ def sprache(c, erzaehler, mehmet):
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("teil", choices=["proben", "musik", "sfx", "sprache", "alles"])
-    p.add_argument("--erzaehler", choices=list(ERZAEHLER), default="E1")
+    p.add_argument("--erzaehler", choices=list(ERZAEHLER), default="E4")
     p.add_argument("--mehmet", choices=list(MEHMET), default="M1")
     p.add_argument("--dry-run", action="store_true")
     a = p.parse_args()

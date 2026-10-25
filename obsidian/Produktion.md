@@ -42,7 +42,7 @@ Ablauf in der neuen Sitzung:
   - Offline mit stillen Platzhalterdateien getestet, die echte Messung steht noch aus.
 - Ablauf in einer Sitzung mit Schlüssel und Netz:
   1. `python3 tools/schritt4_audio.py alles`
-  2. `python3 tools/schritt4_audio.py sprache --erzaehler E1 --mehmet M1`
+  2. `python3 tools/schritt4_audio.py sprache --erzaehler E4 --mehmet M1`
   3. `pip install openai-whisper && python3 tools/schritt5_whisper.py`
   4. `cd video && npm install && npm run render`
 
@@ -67,6 +67,11 @@ Rückmeldung: Qualität wie die Beispiele (revid.ai „Claude Motion Graphics“
 - Glas-Karten, Linien-Icons und saubere Dokumente statt Comic-Papier; die App schwebt in 3D herein, mit Klick-Wellen und Lichtschimmer.
 - Kamera: langsamer Push-in je Szene, Szenenwechsel als Zoom-Blur, Lichtblitz zur Wende (`video/src/Video.tsx`).
 - Untertitel ohne Kasten, Wort für Wort mit leuchtendem aktuellem Wort. Wo das Bild den Satz schon groß zeigt (Mehmet, Szene 3), entfallen sie.
+
+## Stimme (2026-10-25)
+- Erzähler: **E4 Helmut Stieglbauer – Deep** (ElevenLabs Voice Library, ID `JiW03c2Gt43XNUQAumRP`), jetzt Standard in `tools/schritt4_audio.py`. Mehmet bleibt M1 Liam.
+- Die ID stammt aus einer Websuche (json2video.com), ElevenLabs selbst war nicht erreichbar. Vor dem Lauf im eigenen ElevenLabs-Konto prüfen und die Stimme dort unter „My Voices“ hinzufügen, sonst meldet die API `voice_not_found`.
+- Die Hörprobe dazu erzeugt `python3 tools/schritt4_audio.py proben`.
 
 ## Datenschutz
 Die Screenshots der App dienen nur als Vorlage und kommen nicht ins Repo (es ist öffentlich). Im Video stehen nur erfundene Beispieldaten.
