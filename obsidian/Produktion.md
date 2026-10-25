@@ -9,7 +9,7 @@ Regeln: keine erfundenen Fakten, keine urheberrechtlich geschützte Musik oder B
 | 2 Fragen | ✅ alle Entscheidungen im Briefing |
 | 3 Skript | ✅ freigegeben, `obsidian/Skript.md` |
 | 4 Stimme und Musik | ⏳ Skript fertig (`tools/schritt4_audio.py`), Erzeugung wartet auf Schlüssel und Netzfreigabe |
-| 5 Wortzeiten (Whisper) | offen |
+| 5 Wortzeiten (Whisper) | ⏳ Skript fertig (`tools/schritt5_whisper.py`), wartet auf Schritt 4 und Netzfreigabe |
 | 6 Video bauen (Remotion) | ✅ `video/`, Zeiten vorerst geschätzt, Tonspuren vorbereitet |
 | 7 Rendern (MP4, 9:16) | ⏳ stumme Vorschau gerendert (85 s, 1080×1920); endgültige Fassung nach Schritt 4 und 5 |
 
@@ -34,12 +34,24 @@ Ablauf in der neuen Sitzung:
 2. Hörproben anbieten, Auswahl abwarten
 3. `python3 tools/schritt4_audio.py sprache --erzaehler E? --mehmet M?`
 
+## Schritt 4 und 5: zweiter Versuch (2026-10-25)
+- Wieder blockiert: `ELEVENLABS_API_KEY` ist nicht gesetzt, `api.elevenlabs.io` und `openaipublic.azureedge.net` lehnt die Netzwerkregel ab (403). Ohne Sprachdateien gibt es nichts zu messen; `video/src/timing-whisper.json` bleibt leer, das Video nutzt die geschätzten Zeiten.
+- Neu: `tools/schritt5_whisper.py` misst die Wortzeiten mit Whisper (`pip install openai-whisper`, Modell `small`, umstellbar mit `--modell`) und schreibt Szenen und Untertitel nach `video/src/timing-whisper.json`.
+  - Text und `SHOW_MOBILEDE` liest es aus `video/src/timing.ts`; weicht der Text vom Skript ab, bricht es ab.
+  - Szenen werden zwischen den Musik-Ankern verteilt (Bruch 29–32 s, Schluss ab 81 s, Gesamtlänge 85 s). Passt die Sprache nicht hinein, rückt alles danach und es kommt eine Warnung.
+  - Offline mit stillen Platzhalterdateien getestet, die echte Messung steht noch aus.
+- Ablauf in einer Sitzung mit Schlüssel und Netz:
+  1. `python3 tools/schritt4_audio.py alles`
+  2. `python3 tools/schritt4_audio.py sprache --erzaehler E1 --mehmet M1`
+  3. `pip install openai-whisper && python3 tools/schritt5_whisper.py`
+  4. `cd video && npm install && npm run render`
+
 ## Schritt 6/7: Stand (2026-10-25)
 - Remotion-Projekt in `video/`: alle Szenen als Motion Graphics, Untertitel, App-Nachbau mit erfundenen Beispieldaten, Logo als vereinfachte Nachbildung.
 - mobile.de-Zeile ist ausgeblendet (`SHOW_MOBILEDE = false` in `video/src/timing.ts`), solange der Knopf nicht getestet ist.
 - Zeiten: Schätzungen aus dem Skript. Schritt 5 schreibt gemessene Zeiten nach `video/src/timing-whisper.json`, die dann Vorrang haben.
 - Ton: `npm run render` kopiert vorhandene Dateien aus `audio/` und legt Sprache, Musik und SFX automatisch an. Fehlt eine Datei, bleibt die Stelle still.
-- Rendern: `cd video && npm install && npm run render` → `video/out/mehmet_und_der_zettelberg.mp4` (nicht im Repo).
+- Rendern: `cd video && npm install && npm run render` → `video/out/mehmet_und_der_zettelberg.mp4` (nicht im Repo). Ohne heruntergeladenen Browser: `REMOTION_BROWSER=<Pfad zu chrome-headless-shell>` setzen.
 - Die Vorschau ist nicht veröffentlicht.
 
 ## Datenschutz

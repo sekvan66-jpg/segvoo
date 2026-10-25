@@ -23,3 +23,6 @@ rad.json
 TestResults.xml
 # Local secrets written by `elevenlabs onboard`
 /.env.local
+
+# Python
+__pycache__/

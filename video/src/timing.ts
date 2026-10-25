@@ -23,7 +23,8 @@ const ESTIMATE: Record<SceneId, [number, number]> = {
 };
 
 type Override = {scenes?: Partial<Record<SceneId, [number, number]>>; captions?: Caption[]};
-const override = timingOverride as Override;
+// Die JSON kennt nur number[], keine Tupel; Aufbau siehe tools/schritt5_whisper.py.
+const override = timingOverride as unknown as Override;
 
 export const SCENES: Record<SceneId, [number, number]> = {...ESTIMATE, ...(override.scenes ?? {})};
 export const TOTAL_SECONDS = SCENES.end[1];
