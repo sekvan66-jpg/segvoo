@@ -25,6 +25,14 @@ Kleine Autohändler in Deutschland, die Bestand, Verträge und Rechnungen heute 
 - **Motion Graphics**: flache 2D-Formen, Icons und kinetische Schrift, komplett in Remotion gebaut.
 - **Soundeffekte** auf wichtige Momente (z. B. Briefkasten, Papierrascheln, Klick, Erfolgston), erzeugt mit ElevenLabs, keine fremden Sounds.
 
+## Look von DB-Automobile (aus deinen Screenshots)
+- **Logo**: Schriftzug „db“ mit „Automobile“, in Blau und Violett auf weißem, abgerundetem Quadrat.
+- **Farben**: Startbildschirm dunkles Nachtblau bis Violett; in der App helle Fläche mit sanftem Blau-Lavendel-Verlauf, weiße Karten, kräftiges Blau für aktive Knöpfe, Balken im Verlauf von Blau zu Violett.
+- **Bedienelemente**: Seitenleiste (Übersicht, Bestand, mobile.de, Kunden, Rechnungen …), Status „Cloud synchronisiert“, Knöpfe „+ Fahrzeug“ und „+ Kaufvertrag/Rechnung“, Anmeldung „Mit Google anmelden“.
+- **Umsetzung**: Die Oberfläche wird in Remotion als vereinfachte Motion-Graphics-Nachbildung gebaut, keine abgefilmten Screenshots.
+- **Datenschutz**: Im Video nur erfundene Beispieldaten (Kunden, Fahrgestellnummern, Beträge, Adresse). Die Screenshots dienen nur als Vorlage und kommen nicht ins Repo.
+- Menüpunkte wie „AUTO1 Preis-Check“, „Buchhaltung“, „Handelsbuch“ und „Termine“ sind sichtbar, stehen aber nicht in der Faktenliste. Im Sprechertext werden sie nur nach deiner Bestätigung erwähnt.
+
 ## Ziel
 Kleine Autohändler sollen DB-Automobile kennenlernen und verstehen, dass das Programm Bestand, Verträge und Rechnungen an einem Ort bündelt. Ehrliche Angaben zu den Grenzen sollen Vertrauen schaffen.
 Abschluss-Text: „DB-Automobile. Ordnung im Autohandel.“
@@ -73,5 +81,4 @@ Claude Code (Planung, Code) · ElevenLabs (Stimme, Musik) · Whisper (Wortzeiten
 - Werden die optionalen Schwächen erwähnt?
 - Darf carVertical namentlich genannt werden?
 - Gibt es eine Webadresse oder einen Download-Hinweis für den Schluss?
-- Gibt es ein Logo und Markenfarben von DB-Automobile?
 - Eine Sprecherstimme oder eine eigene Stimme für Mehmet?
