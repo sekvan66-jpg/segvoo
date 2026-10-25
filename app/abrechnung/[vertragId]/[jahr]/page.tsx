@@ -25,6 +25,7 @@ export default async function AbrechnungDetail({
 
   const v = getVermieter();
   const nachzahlung = row.saldo < 0;
+  const gesamtkostenUml = row.posten.reduce((sum, p) => sum + p.gesamtbetrag, 0);
   const vermieterZeile = [
     v.firma || "cek mobile Hausverwaltung",
     v.strasse,
@@ -96,92 +97,73 @@ export default async function AbrechnungDetail({
           umlagefähigen Betriebskosten für das Jahr {jahr}.
         </p>
 
-        {/* Kostenaufstellung */}
+        {/* Kostenaufstellung – Spalten wie im gewohnten Abrechnungsformat */}
         <table className="data" style={{ marginBottom: "1.1rem" }}>
           <thead>
             <tr>
               <th>Kostenart</th>
-              <th>Verteilerschlüssel</th>
               <th style={{ textAlign: "right" }}>Gesamt</th>
-              <th>Ihr Anteil (Basis)</th>
-              <th style={{ textAlign: "right" }}>Ihr Betrag</th>
+              <th style={{ textAlign: "right" }}>Gesamtbetrag [€]</th>
+              <th style={{ textAlign: "right" }}>Anteil</th>
+              <th style={{ textAlign: "right" }}>Anteil [€]</th>
             </tr>
           </thead>
           <tbody>
             {row.posten.map((p, idx) => (
               <tr key={idx}>
-                <td style={{ fontWeight: 600 }}>{p.kostenart}</td>
-                <td style={{ color: "var(--muted)", fontSize: ".8rem" }}>
-                  {SCHLUESSEL_LABEL[p.schluessel] ?? p.schluessel}
+                <td style={{ fontWeight: 600 }}>
+                  {p.kostenart}
+                  <div style={{ fontWeight: 400, fontSize: ".72rem", color: "var(--muted)" }}>
+                    {SCHLUESSEL_LABEL[p.schluessel] ?? p.schluessel}
+                  </div>
                 </td>
+                <td style={{ textAlign: "right", color: "var(--muted)", fontSize: ".82rem" }}>{p.gesamtBasisText}</td>
                 <td style={{ textAlign: "right" }}>{euro(p.gesamtbetrag)}</td>
-                <td style={{ color: "var(--muted)", fontSize: ".74rem" }}>{p.basisText}</td>
+                <td style={{ textAlign: "right", color: "var(--muted)", fontSize: ".82rem" }}>{p.anteilBasisText}</td>
                 <td style={{ textAlign: "right", fontWeight: 600 }}>{euro(p.anteil)}</td>
               </tr>
             ))}
           </tbody>
           <tfoot>
-            <tr>
-              <td colSpan={4} style={{ textAlign: "right", fontWeight: 700, paddingTop: ".7rem" }}>
-                Summe Ihrer umlagefähigen Betriebskosten
-              </td>
+            <tr style={{ borderTop: "2px solid var(--border)" }}>
+              <td style={{ fontWeight: 800, paddingTop: ".7rem" }}>Gesamtkosten</td>
+              <td></td>
+              <td style={{ textAlign: "right", fontWeight: 700, paddingTop: ".7rem" }}>{euro(gesamtkostenUml)}</td>
+              <td></td>
               <td style={{ textAlign: "right", fontWeight: 800, paddingTop: ".7rem" }}>{euro(row.summeUmlage)}</td>
+            </tr>
+            <tr>
+              <td colSpan={4} style={{ textAlign: "right", color: "var(--muted)" }}>
+                ./. geleistete Vorauszahlungen ({jahr})
+              </td>
+              <td style={{ textAlign: "right" }}>{euro(row.vorauszahlung)}</td>
+            </tr>
+            <tr>
+              <td colSpan={4} style={{ textAlign: "right", fontWeight: 800, color: nachzahlung ? "var(--neg)" : "var(--pos)" }}>
+                {nachzahlung ? "Nachzahlung" : "Guthaben"}
+              </td>
+              <td style={{ textAlign: "right", fontWeight: 800, color: nachzahlung ? "var(--neg)" : "var(--pos)" }}>
+                {euro(Math.abs(row.saldo))}
+              </td>
             </tr>
           </tfoot>
         </table>
-
-        {/* Ergebnis */}
-        <div
-          style={{
-            background: "color-mix(in srgb, var(--accent) 8%, transparent)",
-            border: "1px solid var(--border)",
-            borderRadius: 12,
-            padding: "1rem 1.25rem",
-            marginBottom: "1.25rem",
-          }}
-        >
-          <div style={{ display: "flex", justifyContent: "space-between", fontSize: ".9rem", marginBottom: ".35rem" }}>
-            <span>Ihre geleisteten Vorauszahlungen ({jahr})</span>
-            <strong>{euro(row.vorauszahlung)}</strong>
-          </div>
-          <div style={{ display: "flex", justifyContent: "space-between", fontSize: ".9rem", marginBottom: ".55rem" }}>
-            <span>abzüglich tatsächlicher Betriebskosten</span>
-            <strong>− {euro(row.summeUmlage)}</strong>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              fontSize: "1.1rem",
-              fontWeight: 800,
-              borderTop: "1px solid var(--border)",
-              paddingTop: ".55rem",
-              color: nachzahlung ? "var(--neg)" : "var(--pos)",
-            }}
-          >
-            <span>{nachzahlung ? "Nachzahlung" : "Ihr Guthaben"}</span>
-            <span>{euro(Math.abs(row.saldo))}</span>
-          </div>
-        </div>
 
         {/* Zahlungs-/Guthabenhinweis */}
         <p style={{ fontSize: ".86rem", margin: "0 0 1.25rem", lineHeight: 1.6 }}>
           {nachzahlung ? (
             <>
               Bitte überweisen Sie den Nachzahlungsbetrag von{" "}
-              <strong>{euro(Math.abs(row.saldo))}</strong> innerhalb von 14 Tagen
-              {v.iban ? (
-                <>
-                  {" "}auf folgendes Konto:
-                  <br />
-                  <span style={{ color: "var(--muted)" }}>
-                    {v.firma || v.name} · IBAN {v.iban}
-                    {v.bank ? ` · ${v.bank}` : ""} · Verwendungszweck: NK {jahr} {row.vertrag.einheit_bez}
-                  </span>
-                </>
-              ) : (
-                <>.</>
-              )}
+              <strong>{euro(Math.abs(row.saldo))}</strong> innerhalb von 14 Tagen auf folgendes Konto
+              {v.bank ? ` ${v.bank}` : ""}:
+              <br />
+              <span style={{ color: "var(--muted)" }}>
+                Name: {v.firma || v.name}
+                {v.iban ? `   ·   IBAN: ${v.iban}` : ""}
+                {v.bic ? `   ·   BIC: ${v.bic}` : ""}
+                <br />
+                Verwendungszweck: NK {jahr} {row.vertrag.einheit_bez}
+              </span>
             </>
           ) : (
             <>

@@ -47,8 +47,9 @@ export interface Posten {
   kostenart: string;
   schluessel: string;
   gesamtbetrag: number; // Gesamtbetrag der Kostenart im Objekt
-  basisText: string; // z.B. "72,50 / 310,00 m²"
-  anteil: number; // auf diesen Vertrag entfallender Betrag
+  gesamtBasisText: string; // Spalte "Gesamt" (z.B. "322 m²")
+  anteilBasisText: string; // Spalte "Anteil" (z.B. "168 m² · 273/365 T")
+  anteil: number; // auf diesen Vertrag entfallender Betrag (Spalte "Anteil [€]")
 }
 export interface VertragsAbrechnung {
   vertrag: VertragJoin;
@@ -151,7 +152,8 @@ export function berechneAbrechnung(objektId: number, jahr: number): Abrechnung |
     } else {
       // PERSONEN / VERBRAUCH: Nenner = Summe der tatsächlichen Gewichte
       nenner = gewichte.reduce((s, g) => s + g.w, 0);
-      basisTotal = art.schluessel === "PERSONEN" ? "Personen-Tage" : "Verbrauchseinheiten";
+      const sumMeasure = gewichte.reduce((s, g) => s + g.measure, 0);
+      basisTotal = art.schluessel === "PERSONEN" ? `${sumMeasure} Pers.` : `${fmt(sumMeasure)} Verbr.`;
     }
 
     // Fallback: kein Verbrauch erfasst -> nach Wohnfläche verteilen.
@@ -163,29 +165,31 @@ export function berechneAbrechnung(objektId: number, jahr: number): Abrechnung |
 
     for (const g of gewichte) {
       let anteil = 0;
-      let basisText = "";
+      let anteilBasisText = "";
+      const teilzeit = g.r.nutzungstage < dIY ? ` · ${g.r.nutzungstage}/${dIY} T` : "";
       if (art.schluessel === "WOHNFLAECHE" || verbrauchFallback) {
         const zeit = g.r.nutzungstage / dIY;
         anteil = nenner > 0 ? art.betrag * ((g.r.vertrag.wohnflaeche * zeit) / nenner) : 0;
-        basisText = `${fmt(g.r.vertrag.wohnflaeche)} m² · ${g.r.nutzungstage}/${dIY} Tage`;
+        anteilBasisText = `${fmt(g.r.vertrag.wohnflaeche)} m²${teilzeit}`;
       } else if (art.schluessel === "EINHEIT") {
         const zeit = g.r.nutzungstage / dIY;
         anteil = nenner > 0 ? art.betrag * ((1 * zeit) / nenner) : 0;
-        basisText = `1/${nenner} Einh. · ${g.r.nutzungstage}/${dIY} Tage`;
+        anteilBasisText = `1 Einh.${teilzeit}`;
       } else if (art.schluessel === "PERSONEN") {
         anteil = nenner > 0 ? art.betrag * (g.w / nenner) : 0;
-        basisText = `${g.measure} Pers. · ${g.r.nutzungstage}/${dIY} Tage`;
+        anteilBasisText = `${g.measure} Pers.${teilzeit}`;
       } else {
         // VERBRAUCH mit Daten
         anteil = nenner > 0 ? art.betrag * (g.w / nenner) : 0;
-        basisText = `${fmt(g.measure)} Verbr.`;
+        anteilBasisText = `${fmt(g.measure)} Verbr.`;
       }
       anteil = Math.round(anteil * 100) / 100;
       g.r.posten.push({
         kostenart: art.name,
         schluessel: art.schluessel,
         gesamtbetrag: art.betrag,
-        basisText: `${basisText} von ${basisTotal}`,
+        gesamtBasisText: basisTotal,
+        anteilBasisText,
         anteil,
       });
       g.r.summeUmlage += anteil;

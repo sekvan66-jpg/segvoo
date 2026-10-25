@@ -1,7 +1,8 @@
+import Link from "next/link";
 import { listObjekte, listKostenarten, listBuchungen, jahreMitBuchungen } from "@/lib/queries";
 import { euro, SCHLUESSEL_LABEL } from "@/lib/format";
 import { Card, PageHeader, Field, Empty } from "@/components/ui";
-import { createKostenart, deleteKostenart, createBuchung, deleteBuchung } from "../actions";
+import { saveKostenart, deleteKostenart, saveBuchung, deleteBuchung } from "../actions";
 
 export const dynamic = "force-dynamic";
 
@@ -10,7 +11,7 @@ const SCHLUESSEL = ["WOHNFLAECHE", "EINHEIT", "PERSONEN", "VERBRAUCH"];
 export default async function KostenPage({
   searchParams,
 }: {
-  searchParams: Promise<{ objekt?: string; jahr?: string }>;
+  searchParams: Promise<{ objekt?: string; jahr?: string; editB?: string; editK?: string }>;
 }) {
   const sp = await searchParams;
   const objekte = listObjekte();
@@ -22,6 +23,10 @@ export default async function KostenPage({
   const vorhandeneJahre = objektId ? jahreMitBuchungen(objektId) : [];
   const summe = buchungen.reduce((s, b) => s + b.betrag, 0);
   const summeUml = buchungen.filter((b) => b.umlagefaehig).reduce((s, b) => s + b.betrag, 0);
+
+  const editB = Number(sp.editB) ? buchungen.find((b) => b.id === Number(sp.editB)) : undefined;
+  const editK = Number(sp.editK) ? kostenarten.find((k) => k.id === Number(sp.editK)) : undefined;
+  const backQ = `objekt=${objektId}&jahr=${jahr}`;
 
   return (
     <>
@@ -90,9 +95,14 @@ export default async function KostenPage({
                         )}
                       </td>
                       <td style={{ textAlign: "right" }}>{euro(b.betrag)}</td>
-                      <td style={{ textAlign: "right" }}>
-                        <form action={deleteBuchung}>
+                      <td style={{ textAlign: "right", whiteSpace: "nowrap" }}>
+                        <Link href={`/kosten?${backQ}&editB=${b.id}`} className="badge no-print" style={{ marginRight: ".4rem" }}>
+                          Bearb.
+                        </Link>
+                        <form action={deleteBuchung} style={{ display: "inline" }}>
                           <input type="hidden" name="id" value={b.id} />
+                          <input type="hidden" name="objekt_id" value={objektId} />
+                          <input type="hidden" name="jahr" value={jahr} />
                           <button className="btn btn-danger no-print" style={{ padding: ".25rem .5rem", fontSize: ".75rem" }}>
                             ✕
                           </button>
@@ -106,15 +116,18 @@ export default async function KostenPage({
           </Card>
 
           <Card>
-            <h2 style={{ fontSize: "1rem", fontWeight: 700, marginTop: 0 }}>Kostenbuchung erfassen</h2>
+            <h2 style={{ fontSize: "1rem", fontWeight: 700, marginTop: 0 }}>
+              {editB ? "Buchung bearbeiten" : "Kostenbuchung erfassen"}
+            </h2>
             {objekte.length === 0 || kostenarten.length === 0 ? (
               <p style={{ color: "var(--muted)", fontSize: ".85rem" }}>
                 Bitte zuerst ein Objekt und eine Kostenart anlegen.
               </p>
             ) : (
-              <form action={createBuchung} style={{ display: "grid", gridTemplateColumns: "2fr 2fr 1fr 1fr auto", gap: ".6rem", alignItems: "end" }}>
+              <form action={saveBuchung} style={{ display: "grid", gridTemplateColumns: "2fr 2fr 1fr 1fr auto", gap: ".6rem", alignItems: "end" }} key={sp.editB ?? "new"}>
+                {editB && <input type="hidden" name="id" value={editB.id} />}
                 <Field label="Objekt">
-                  <select className="select" name="objekt_id" defaultValue={String(objektId)}>
+                  <select className="select" name="objekt_id" defaultValue={String(editB?.objekt_id ?? objektId)}>
                     {objekte.map((o) => (
                       <option key={o.id} value={o.id}>
                         {o.name}
@@ -123,7 +136,8 @@ export default async function KostenPage({
                   </select>
                 </Field>
                 <Field label="Kostenart">
-                  <select className="select" name="kostenart_id" required>
+                  <select className="select" name="kostenart_id" required defaultValue={editB ? String(editB.kostenart_id) : ""}>
+                    {!editB && <option value="" disabled>bitte wählen</option>}
                     {kostenarten.map((k) => (
                       <option key={k.id} value={k.id}>
                         {k.name}
@@ -132,13 +146,18 @@ export default async function KostenPage({
                   </select>
                 </Field>
                 <Field label="Jahr">
-                  <input className="input" name="jahr" inputMode="numeric" defaultValue={String(jahr)} />
+                  <input className="input" name="jahr" inputMode="numeric" defaultValue={String(editB?.jahr ?? jahr)} />
                 </Field>
                 <Field label="Betrag €">
-                  <input className="input" name="betrag" inputMode="decimal" required />
+                  <input className="input" name="betrag" inputMode="decimal" required defaultValue={editB?.betrag ?? ""} />
                 </Field>
-                <button className="btn" type="submit">+</button>
+                <button className="btn" type="submit">{editB ? "✓" : "+"}</button>
               </form>
+            )}
+            {editB && (
+              <Link href={`/kosten?${backQ}`} className="btn btn-ghost no-print" style={{ marginTop: ".6rem" }}>
+                Abbrechen
+              </Link>
             )}
           </Card>
         </div>
@@ -159,21 +178,30 @@ export default async function KostenPage({
                     {!k.umlagefaehig && " · nicht umlegbar"}
                   </div>
                 </div>
-                <form action={deleteKostenart}>
-                  <input type="hidden" name="id" value={k.id} />
-                  <button className="btn btn-danger no-print" style={{ padding: ".2rem .45rem", fontSize: ".72rem" }}>
-                    ✕
-                  </button>
-                </form>
+                <div style={{ whiteSpace: "nowrap" }}>
+                  <Link href={`/kosten?${backQ}&editK=${k.id}`} className="badge no-print" style={{ marginRight: ".35rem" }}>
+                    Bearb.
+                  </Link>
+                  <form action={deleteKostenart} style={{ display: "inline" }}>
+                    <input type="hidden" name="id" value={k.id} />
+                    <button className="btn btn-danger no-print" style={{ padding: ".2rem .45rem", fontSize: ".72rem" }}>
+                      ✕
+                    </button>
+                  </form>
+                </div>
               </div>
             ))}
           </div>
-          <form action={createKostenart} style={{ display: "grid", gap: ".6rem", borderTop: "1px dashed var(--border)", paddingTop: ".9rem" }}>
-            <Field label="Neue Kostenart">
-              <input className="input" name="name" required placeholder="z. B. Gartenpflege" />
+          <form action={saveKostenart} style={{ display: "grid", gap: ".6rem", borderTop: "1px dashed var(--border)", paddingTop: ".9rem" }} key={sp.editK ?? "newK"}>
+            <h3 style={{ fontSize: ".85rem", fontWeight: 700, margin: 0 }}>
+              {editK ? "Kostenart bearbeiten" : "Neue Kostenart"}
+            </h3>
+            {editK && <input type="hidden" name="id" value={editK.id} />}
+            <Field label="Bezeichnung">
+              <input className="input" name="name" required defaultValue={editK?.name} placeholder="z. B. Gartenpflege" />
             </Field>
             <Field label="Verteilerschlüssel">
-              <select className="select" name="schluessel" defaultValue="WOHNFLAECHE">
+              <select className="select" name="schluessel" defaultValue={editK?.schluessel ?? "WOHNFLAECHE"}>
                 {SCHLUESSEL.map((s) => (
                   <option key={s} value={s}>
                     {SCHLUESSEL_LABEL[s]}
@@ -182,9 +210,12 @@ export default async function KostenPage({
               </select>
             </Field>
             <label style={{ display: "flex", alignItems: "center", gap: ".5rem", fontSize: ".85rem" }}>
-              <input type="checkbox" name="umlagefaehig" defaultChecked /> umlagefähig (auf Mieter umlegbar)
+              <input type="checkbox" name="umlagefaehig" defaultChecked={editK ? !!editK.umlagefaehig : true} /> umlagefähig (auf Mieter umlegbar)
             </label>
-            <button className="btn" type="submit">Kostenart anlegen</button>
+            <div style={{ display: "flex", gap: ".5rem" }}>
+              <button className="btn" type="submit">{editK ? "Speichern" : "Kostenart anlegen"}</button>
+              {editK && <Link href={`/kosten?${backQ}`} className="btn btn-ghost">Abbrechen</Link>}
+            </div>
           </form>
         </Card>
       </div>

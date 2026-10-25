@@ -50,9 +50,12 @@ export default function EinstellungenPage() {
             <p style={{ margin: 0, fontSize: ".8rem", color: "var(--muted)" }}>
               Wird bei Nachzahlungen auf der Abrechnung angegeben.
             </p>
-            <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: ".7rem" }}>
-              <Field label="IBAN">
-                <input className="input" name="iban" defaultValue={v.iban} placeholder="DE.." />
+            <Field label="IBAN">
+              <input className="input" name="iban" defaultValue={v.iban} placeholder="DE.." />
+            </Field>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: ".7rem" }}>
+              <Field label="BIC">
+                <input className="input" name="bic" defaultValue={v.bic} placeholder="FFVBDEFF" />
               </Field>
               <Field label="Bank">
                 <input className="input" name="bank" defaultValue={v.bank} />

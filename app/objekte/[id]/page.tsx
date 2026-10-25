@@ -1,18 +1,27 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getObjekt, listEinheiten, listVertraege } from "@/lib/queries";
+import { getObjekt, listEinheiten, listVertraege, getEinheit } from "@/lib/queries";
 import { euro, zahl } from "@/lib/format";
 import { Card, PageHeader, Field, Empty } from "@/components/ui";
-import { createEinheit, deleteEinheit, deleteObjekt } from "../../actions";
+import { saveEinheit, deleteEinheit, deleteObjekt } from "../../actions";
 
 export const dynamic = "force-dynamic";
 
-export default async function ObjektDetail({ params }: { params: Promise<{ id: string }> }) {
+export default async function ObjektDetail({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ edit?: string }>;
+}) {
   const { id } = await params;
+  const sp = await searchParams;
   const objektId = Number(id);
   const objekt = getObjekt(objektId);
   if (!objekt) notFound();
 
+  const editId = Number(sp.edit) || 0;
+  const editEinheit = editId ? getEinheit(editId) : undefined;
   const einheiten = listEinheiten(objektId);
   const vertraege = listVertraege(objektId);
   const flaeche = einheiten.reduce((s, e) => s + e.wohnflaeche, 0);
@@ -25,6 +34,7 @@ export default async function ObjektDetail({ params }: { params: Promise<{ id: s
         subtitle={[objekt.strasse, [objekt.plz, objekt.ort].filter(Boolean).join(" ")].filter(Boolean).join(", ")}
         action={
           <div style={{ display: "flex", gap: ".5rem" }} className="no-print">
+            <Link href={`/objekte?edit=${objekt.id}`} className="btn btn-ghost">Objekt bearbeiten</Link>
             <Link href={`/abrechnung`} className="btn btn-ghost">Abrechnung</Link>
             <form action={deleteObjekt}>
               <input type="hidden" name="id" value={objekt.id} />
@@ -74,8 +84,11 @@ export default async function ObjektDetail({ params }: { params: Promise<{ id: s
                         <span style={{ color: "var(--muted)", fontSize: ".82rem" }}>frei</span>
                       )}
                     </td>
-                    <td style={{ textAlign: "right" }}>
-                      <form action={deleteEinheit}>
+                    <td style={{ textAlign: "right", whiteSpace: "nowrap" }}>
+                      <Link href={`/objekte/${objektId}?edit=${e.id}`} className="badge no-print" style={{ marginRight: ".4rem" }}>
+                        Bearb.
+                      </Link>
+                      <form action={deleteEinheit} style={{ display: "inline" }}>
                         <input type="hidden" name="id" value={e.id} />
                         <input type="hidden" name="objekt_id" value={objektId} />
                         <button className="btn btn-danger no-print" style={{ padding: ".25rem .5rem", fontSize: ".75rem" }}>
@@ -91,24 +104,30 @@ export default async function ObjektDetail({ params }: { params: Promise<{ id: s
         </Card>
 
         <Card>
-          <h2 style={{ fontSize: "1rem", fontWeight: 700, marginTop: 0 }}>Neue Einheit</h2>
-          <form action={createEinheit} style={{ display: "grid", gap: ".7rem" }}>
+          <h2 style={{ fontSize: "1rem", fontWeight: 700, marginTop: 0 }}>
+            {editEinheit ? "Einheit bearbeiten" : "Neue Einheit"}
+          </h2>
+          <form action={saveEinheit} style={{ display: "grid", gap: ".7rem" }} key={editId}>
             <input type="hidden" name="objekt_id" value={objektId} />
+            {editEinheit && <input type="hidden" name="id" value={editEinheit.id} />}
             <Field label="Bezeichnung *">
-              <input className="input" name="bezeichnung" required placeholder="z. B. 1. OG links" />
+              <input className="input" name="bezeichnung" required defaultValue={editEinheit?.bezeichnung} placeholder="z. B. 1. OG links" />
             </Field>
             <Field label="Lage">
-              <input className="input" name="lage" placeholder="1. Obergeschoss" />
+              <input className="input" name="lage" defaultValue={editEinheit?.lage} placeholder="1. Obergeschoss" />
             </Field>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: ".6rem" }}>
               <Field label="Wohnfläche (m²)">
-                <input className="input" name="wohnflaeche" inputMode="decimal" placeholder="62,5" />
+                <input className="input" name="wohnflaeche" inputMode="decimal" defaultValue={editEinheit?.wohnflaeche ?? ""} placeholder="62,5" />
               </Field>
               <Field label="Zimmer">
-                <input className="input" name="zimmer" inputMode="decimal" placeholder="2,5" />
+                <input className="input" name="zimmer" inputMode="decimal" defaultValue={editEinheit?.zimmer ?? ""} placeholder="2,5" />
               </Field>
             </div>
-            <button className="btn" type="submit">Einheit hinzufügen</button>
+            <div style={{ display: "flex", gap: ".5rem" }}>
+              <button className="btn" type="submit">{editEinheit ? "Speichern" : "Einheit hinzufügen"}</button>
+              {editEinheit && <Link href={`/objekte/${objektId}`} className="btn btn-ghost">Abbrechen</Link>}
+            </div>
           </form>
           {vertraege.length > 0 && (
             <div style={{ marginTop: "1.25rem", fontSize: ".82rem", color: "var(--muted)" }}>

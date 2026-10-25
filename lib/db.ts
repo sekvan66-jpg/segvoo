@@ -79,6 +79,7 @@ function migrate(db: DB) {
       telefon TEXT DEFAULT '',
       email TEXT DEFAULT '',
       iban TEXT DEFAULT '',
+      bic TEXT DEFAULT '',
       bank TEXT DEFAULT ''
     );
 
@@ -131,6 +132,7 @@ function migrate(db: DB) {
   addColumnIfMissing(db, "mieter", "strasse", "TEXT DEFAULT ''");
   addColumnIfMissing(db, "mieter", "plz", "TEXT DEFAULT ''");
   addColumnIfMissing(db, "mieter", "ort", "TEXT DEFAULT ''");
+  addColumnIfMissing(db, "vermieter", "bic", "TEXT DEFAULT ''");
 
   // Vermieter-Stammsatz (Einzelzeile) sicherstellen.
   db.exec("INSERT OR IGNORE INTO vermieter (id) VALUES (1);");

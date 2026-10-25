@@ -3,6 +3,7 @@ import { listObjekte, jahreMitBuchungen } from "@/lib/queries";
 import { berechneAbrechnung } from "@/lib/nka";
 import { euro } from "@/lib/format";
 import { Card, PageHeader, Field, Empty, Stat } from "@/components/ui";
+import PrintButton from "@/components/PrintButton";
 
 export const dynamic = "force-dynamic";
 
@@ -46,6 +47,7 @@ export default async function AbrechnungIndex({
       <PageHeader
         title="Nebenkostenabrechnung"
         subtitle="Betriebskosten tagesgenau auf die Mieter umlegen"
+        action={abr && abr.vertraege.length > 0 ? <div className="no-print"><PrintButton label="🖨 Übersicht drucken" /></div> : undefined}
       />
 
       <Card style={{ marginBottom: "1.25rem" }}>

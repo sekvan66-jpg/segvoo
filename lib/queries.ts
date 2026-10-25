@@ -38,6 +38,7 @@ export interface Vermieter {
   telefon: string;
   email: string;
   iban: string;
+  bic: string;
   bank: string;
 }
 export interface Mietvertrag {
@@ -171,6 +172,32 @@ export function jahreMitBuchungen(objektId: number): number[] {
     .prepare("SELECT DISTINCT jahr FROM kostenbuchung WHERE objekt_id = ? ORDER BY jahr DESC")
     .all(objektId) as { jahr: number }[];
   return rows.map((r) => r.jahr);
+}
+
+/* ---------------- Zähler & Zählerstände ---------------- */
+export interface ZaehlerRow {
+  id: number;
+  einheit_id: number;
+  art: string;
+  nummer: string;
+  einheit_bez: string;
+  stand_anfang: number | null;
+  stand_ende: number | null;
+  verbrauch: number | null;
+}
+export function listZaehler(objektId: number, jahr: number): ZaehlerRow[] {
+  return q()
+    .prepare(
+      `SELECT z.id, z.einheit_id, z.art, z.nummer, e.bezeichnung AS einheit_bez,
+              s.stand_anfang AS stand_anfang, s.stand_ende AS stand_ende,
+              CASE WHEN s.id IS NULL THEN NULL ELSE (s.stand_ende - s.stand_anfang) END AS verbrauch
+       FROM zaehler z
+       JOIN einheit e ON e.id = z.einheit_id
+       LEFT JOIN zaehlerstand s ON s.zaehler_id = z.id AND s.jahr = ?
+       WHERE e.objekt_id = ?
+       ORDER BY e.bezeichnung, z.art`,
+    )
+    .all(jahr, objektId) as ZaehlerRow[];
 }
 
 /* ---------------- Kennzahlen ---------------- */

@@ -7,12 +7,12 @@ import { getDb } from "@/lib/db";
 function s(fd: FormData, k: string): string {
   return String(fd.get(k) ?? "").trim();
 }
-function n(fd: FormData, k: string): number {
+function num(fd: FormData, k: string): number {
   const raw = s(fd, k).replace(/\./g, "").replace(",", ".");
   const v = parseFloat(raw);
   return Number.isFinite(v) ? v : 0;
 }
-function i(fd: FormData, k: string): number {
+function int(fd: FormData, k: string): number {
   const v = parseInt(s(fd, k), 10);
   return Number.isFinite(v) ? v : 0;
 }
@@ -21,120 +21,191 @@ function nullable(v: string): string | null {
 }
 
 /* ---------------- Objekt ---------------- */
-export async function createObjekt(fd: FormData) {
-  getDb()
-    .prepare(
-      "INSERT INTO objekt (name, strasse, plz, ort, baujahr, notiz) VALUES (?,?,?,?,?,?)",
-    )
-    .run(s(fd, "name"), s(fd, "strasse"), s(fd, "plz"), s(fd, "ort"), i(fd, "baujahr") || null, s(fd, "notiz"));
+export async function saveObjekt(fd: FormData) {
+  const id = int(fd, "id");
+  const db = getDb();
+  const args = [s(fd, "name"), s(fd, "strasse"), s(fd, "plz"), s(fd, "ort"), int(fd, "baujahr") || null, s(fd, "notiz")];
+  if (id) {
+    db.prepare("UPDATE objekt SET name=?, strasse=?, plz=?, ort=?, baujahr=?, notiz=? WHERE id=?").run(...args, id);
+  } else {
+    db.prepare("INSERT INTO objekt (name, strasse, plz, ort, baujahr, notiz) VALUES (?,?,?,?,?,?)").run(...args);
+  }
   revalidatePath("/objekte");
   redirect("/objekte");
 }
 
 export async function deleteObjekt(fd: FormData) {
-  getDb().prepare("DELETE FROM objekt WHERE id = ?").run(i(fd, "id"));
+  getDb().prepare("DELETE FROM objekt WHERE id = ?").run(int(fd, "id"));
   revalidatePath("/objekte");
   redirect("/objekte");
 }
 
 /* ---------------- Einheit ---------------- */
-export async function createEinheit(fd: FormData) {
-  const objektId = i(fd, "objekt_id");
-  getDb()
-    .prepare(
-      "INSERT INTO einheit (objekt_id, bezeichnung, lage, wohnflaeche, zimmer) VALUES (?,?,?,?,?)",
-    )
-    .run(objektId, s(fd, "bezeichnung"), s(fd, "lage"), n(fd, "wohnflaeche"), n(fd, "zimmer"));
+export async function saveEinheit(fd: FormData) {
+  const id = int(fd, "id");
+  const objektId = int(fd, "objekt_id");
+  const db = getDb();
+  const args = [s(fd, "bezeichnung"), s(fd, "lage"), num(fd, "wohnflaeche"), num(fd, "zimmer")];
+  if (id) {
+    db.prepare("UPDATE einheit SET bezeichnung=?, lage=?, wohnflaeche=?, zimmer=? WHERE id=?").run(...args, id);
+  } else {
+    db.prepare("INSERT INTO einheit (objekt_id, bezeichnung, lage, wohnflaeche, zimmer) VALUES (?,?,?,?,?)").run(objektId, ...args);
+  }
   revalidatePath(`/objekte/${objektId}`);
+  redirect(`/objekte/${objektId}`);
 }
 
 export async function deleteEinheit(fd: FormData) {
-  const objektId = i(fd, "objekt_id");
-  getDb().prepare("DELETE FROM einheit WHERE id = ?").run(i(fd, "id"));
+  const objektId = int(fd, "objekt_id");
+  getDb().prepare("DELETE FROM einheit WHERE id = ?").run(int(fd, "id"));
   revalidatePath(`/objekte/${objektId}`);
+  redirect(`/objekte/${objektId}`);
 }
 
 /* ---------------- Mieter ---------------- */
-export async function createMieter(fd: FormData) {
-  getDb()
-    .prepare(
-      "INSERT INTO mieter (vorname, nachname, email, telefon, strasse, plz, ort) VALUES (?,?,?,?,?,?,?)",
-    )
-    .run(
-      s(fd, "vorname"),
-      s(fd, "nachname"),
-      s(fd, "email"),
-      s(fd, "telefon"),
-      s(fd, "strasse"),
-      s(fd, "plz"),
-      s(fd, "ort"),
-    );
+export async function saveMieter(fd: FormData) {
+  const id = int(fd, "id");
+  const db = getDb();
+  const args = [s(fd, "vorname"), s(fd, "nachname"), s(fd, "email"), s(fd, "telefon"), s(fd, "strasse"), s(fd, "plz"), s(fd, "ort")];
+  if (id) {
+    db.prepare("UPDATE mieter SET vorname=?, nachname=?, email=?, telefon=?, strasse=?, plz=?, ort=? WHERE id=?").run(...args, id);
+  } else {
+    db.prepare("INSERT INTO mieter (vorname, nachname, email, telefon, strasse, plz, ort) VALUES (?,?,?,?,?,?,?)").run(...args);
+  }
   revalidatePath("/mieter");
+  redirect("/mieter");
 }
 
 export async function deleteMieter(fd: FormData) {
-  getDb().prepare("DELETE FROM mieter WHERE id = ?").run(i(fd, "id"));
+  getDb().prepare("DELETE FROM mieter WHERE id = ?").run(int(fd, "id"));
   revalidatePath("/mieter");
+  redirect("/mieter");
 }
 
 /* ---------------- Mietvertrag ---------------- */
-export async function createVertrag(fd: FormData) {
-  getDb()
-    .prepare(
-      `INSERT INTO mietvertrag (einheit_id, mieter_id, beginn, ende, kaltmiete, nk_vorauszahlung, personen)
-       VALUES (?,?,?,?,?,?,?)`,
-    )
-    .run(
-      i(fd, "einheit_id"),
-      i(fd, "mieter_id"),
-      s(fd, "beginn"),
-      nullable(s(fd, "ende")),
-      n(fd, "kaltmiete"),
-      n(fd, "nk_vorauszahlung"),
-      i(fd, "personen") || 1,
-    );
+export async function saveVertrag(fd: FormData) {
+  const id = int(fd, "id");
+  const db = getDb();
+  const args = [
+    int(fd, "einheit_id"),
+    int(fd, "mieter_id"),
+    s(fd, "beginn"),
+    nullable(s(fd, "ende")),
+    num(fd, "kaltmiete"),
+    num(fd, "nk_vorauszahlung"),
+    int(fd, "personen") || 1,
+  ];
+  if (id) {
+    db.prepare(
+      "UPDATE mietvertrag SET einheit_id=?, mieter_id=?, beginn=?, ende=?, kaltmiete=?, nk_vorauszahlung=?, personen=? WHERE id=?",
+    ).run(...args, id);
+  } else {
+    db.prepare(
+      "INSERT INTO mietvertrag (einheit_id, mieter_id, beginn, ende, kaltmiete, nk_vorauszahlung, personen) VALUES (?,?,?,?,?,?,?)",
+    ).run(...args);
+  }
   revalidatePath("/vertraege");
+  redirect("/vertraege");
 }
 
 export async function deleteVertrag(fd: FormData) {
-  getDb().prepare("DELETE FROM mietvertrag WHERE id = ?").run(i(fd, "id"));
+  getDb().prepare("DELETE FROM mietvertrag WHERE id = ?").run(int(fd, "id"));
   revalidatePath("/vertraege");
+  redirect("/vertraege");
 }
 
 /* ---------------- Kostenart ---------------- */
-export async function createKostenart(fd: FormData) {
-  getDb()
-    .prepare("INSERT INTO kostenart (name, schluessel, umlagefaehig) VALUES (?,?,?)")
-    .run(s(fd, "name"), s(fd, "schluessel"), fd.get("umlagefaehig") ? 1 : 0);
+export async function saveKostenart(fd: FormData) {
+  const id = int(fd, "id");
+  const db = getDb();
+  const args = [s(fd, "name"), s(fd, "schluessel"), fd.get("umlagefaehig") ? 1 : 0];
+  if (id) {
+    db.prepare("UPDATE kostenart SET name=?, schluessel=?, umlagefaehig=? WHERE id=?").run(...args, id);
+  } else {
+    db.prepare("INSERT INTO kostenart (name, schluessel, umlagefaehig) VALUES (?,?,?)").run(...args);
+  }
   revalidatePath("/kosten");
+  redirect("/kosten");
 }
 
 export async function deleteKostenart(fd: FormData) {
-  getDb().prepare("DELETE FROM kostenart WHERE id = ?").run(i(fd, "id"));
+  getDb().prepare("DELETE FROM kostenart WHERE id = ?").run(int(fd, "id"));
   revalidatePath("/kosten");
+  redirect("/kosten");
 }
 
 /* ---------------- Kostenbuchung ---------------- */
-export async function createBuchung(fd: FormData) {
-  getDb()
-    .prepare(
-      "INSERT INTO kostenbuchung (objekt_id, kostenart_id, jahr, betrag, beschreibung) VALUES (?,?,?,?,?)",
-    )
-    .run(i(fd, "objekt_id"), i(fd, "kostenart_id"), i(fd, "jahr"), n(fd, "betrag"), s(fd, "beschreibung"));
+export async function saveBuchung(fd: FormData) {
+  const id = int(fd, "id");
+  const db = getDb();
+  const objektId = int(fd, "objekt_id");
+  const jahr = int(fd, "jahr");
+  const args = [objektId, int(fd, "kostenart_id"), jahr, num(fd, "betrag"), s(fd, "beschreibung")];
+  if (id) {
+    db.prepare("UPDATE kostenbuchung SET objekt_id=?, kostenart_id=?, jahr=?, betrag=?, beschreibung=? WHERE id=?").run(...args, id);
+  } else {
+    db.prepare("INSERT INTO kostenbuchung (objekt_id, kostenart_id, jahr, betrag, beschreibung) VALUES (?,?,?,?,?)").run(...args);
+  }
   revalidatePath("/kosten");
+  redirect(`/kosten?objekt=${objektId}&jahr=${jahr}`);
 }
 
 export async function deleteBuchung(fd: FormData) {
-  getDb().prepare("DELETE FROM kostenbuchung WHERE id = ?").run(i(fd, "id"));
+  const objektId = int(fd, "objekt_id");
+  const jahr = int(fd, "jahr");
+  getDb().prepare("DELETE FROM kostenbuchung WHERE id = ?").run(int(fd, "id"));
   revalidatePath("/kosten");
+  redirect(`/kosten?objekt=${objektId}&jahr=${jahr}`);
+}
+
+/* ---------------- Zähler & Zählerstände ---------------- */
+export async function saveZaehler(fd: FormData) {
+  const objektId = int(fd, "objekt_id");
+  const jahr = int(fd, "jahr");
+  getDb()
+    .prepare("INSERT INTO zaehler (einheit_id, art, nummer) VALUES (?,?,?)")
+    .run(int(fd, "einheit_id"), s(fd, "art"), s(fd, "nummer"));
+  revalidatePath("/zaehler");
+  redirect(`/zaehler?objekt=${objektId}&jahr=${jahr}`);
+}
+
+export async function deleteZaehler(fd: FormData) {
+  const objektId = int(fd, "objekt_id");
+  const jahr = int(fd, "jahr");
+  getDb().prepare("DELETE FROM zaehler WHERE id = ?").run(int(fd, "id"));
+  revalidatePath("/zaehler");
+  redirect(`/zaehler?objekt=${objektId}&jahr=${jahr}`);
+}
+
+export async function setZaehlerstand(fd: FormData) {
+  const objektId = int(fd, "objekt_id");
+  const zaehlerId = int(fd, "zaehler_id");
+  const jahr = int(fd, "jahr");
+  const anfang = num(fd, "stand_anfang");
+  const ende = num(fd, "stand_ende");
+  const db = getDb();
+  const existing = db
+    .prepare("SELECT id FROM zaehlerstand WHERE zaehler_id = ? AND jahr = ?")
+    .get(zaehlerId, jahr) as { id: number } | undefined;
+  if (existing) {
+    db.prepare("UPDATE zaehlerstand SET stand_anfang=?, stand_ende=? WHERE id=?").run(anfang, ende, existing.id);
+  } else {
+    db.prepare("INSERT INTO zaehlerstand (zaehler_id, jahr, stand_anfang, stand_ende) VALUES (?,?,?,?)").run(
+      zaehlerId,
+      jahr,
+      anfang,
+      ende,
+    );
+  }
+  revalidatePath("/zaehler");
+  redirect(`/zaehler?objekt=${objektId}&jahr=${jahr}`);
 }
 
 /* ---------------- Vermieter / Einstellungen ---------------- */
 export async function saveVermieter(fd: FormData) {
   getDb()
     .prepare(
-      `UPDATE vermieter SET firma=?, name=?, strasse=?, plz=?, ort=?, telefon=?, email=?, iban=?, bank=?
-       WHERE id = 1`,
+      `UPDATE vermieter SET firma=?, name=?, strasse=?, plz=?, ort=?, telefon=?, email=?, iban=?, bic=?, bank=? WHERE id = 1`,
     )
     .run(
       s(fd, "firma"),
@@ -145,6 +216,7 @@ export async function saveVermieter(fd: FormData) {
       s(fd, "telefon"),
       s(fd, "email"),
       s(fd, "iban"),
+      s(fd, "bic"),
       s(fd, "bank"),
     );
   revalidatePath("/", "layout");
@@ -154,16 +226,7 @@ export async function saveVermieter(fd: FormData) {
 /* ---------------- Demo-Daten ---------------- */
 export async function resetDemo() {
   const db = getDb();
-  for (const t of [
-    "zaehlerstand",
-    "zaehler",
-    "kostenbuchung",
-    "mietvertrag",
-    "kostenart",
-    "mieter",
-    "einheit",
-    "objekt",
-  ]) {
+  for (const t of ["zaehlerstand", "zaehler", "kostenbuchung", "mietvertrag", "kostenart", "mieter", "einheit", "objekt"]) {
     db.exec(`DELETE FROM ${t};`);
   }
   revalidatePath("/", "layout");
@@ -192,38 +255,31 @@ export async function seedDemo() {
     ["DG", "Dachgeschoss", 41.0, 1.5],
   ] as const;
   const einheitIds: number[] = [];
-  const insE = db.prepare(
-    "INSERT INTO einheit (objekt_id, bezeichnung, lage, wohnflaeche, zimmer) VALUES (?,?,?,?,?)",
-  );
+  const insE = db.prepare("INSERT INTO einheit (objekt_id, bezeichnung, lage, wohnflaeche, zimmer) VALUES (?,?,?,?,?)");
   for (const [bez, lage, fl, zi] of units) {
     einheitIds.push(Number(insE.run(objId, bez, lage, fl, zi).lastInsertRowid));
   }
 
   const tenants = [
-    ["Anna", "Weber", 2, 480, 185, `${jahr}-01-01`, null],
-    ["Mehmet", "Yilmaz", 1, 360, 140, `${jahr}-01-01`, null],
-    ["Gönül", "Demir", 4, 620, 260, `${jahr}-01-01`, null],
-    ["Laura", "Becker", 2, 500, 200, `${jahr}-04-01`, null], // Einzug unterm Jahr
-    ["Jonas", "Krüger", 3, 790, 300, `${jahr}-01-01`, null],
-    ["Sophie", "Hoffmann", 1, 340, 150, `${jahr}-01-01`, `${jahr}-09-30`], // Auszug unterm Jahr
+    ["Anna", "Weber", 2, 480, 100, `${jahr}-01-01`, null],
+    ["Mehmet", "Yilmaz", 1, 360, 110, `${jahr}-01-01`, null],
+    ["Gönül", "Demir", 4, 620, 130, `${jahr}-01-01`, null],
+    ["Laura", "Becker", 2, 500, 160, `${jahr}-04-01`, null],
+    ["Jonas", "Krüger", 3, 790, 150, `${jahr}-01-01`, null],
+    ["Sophie", "Hoffmann", 1, 340, 70, `${jahr}-01-01`, `${jahr}-09-30`],
   ] as const;
-  const insM = db.prepare(
-    "INSERT INTO mieter (vorname, nachname, strasse, plz, ort) VALUES (?,?,?,?,?)",
-  );
+  const insM = db.prepare("INSERT INTO mieter (vorname, nachname, strasse, plz, ort) VALUES (?,?,?,?,?)");
   const insV = db.prepare(
     "INSERT INTO mietvertrag (einheit_id, mieter_id, beginn, ende, kaltmiete, nk_vorauszahlung, personen) VALUES (?,?,?,?,?,?,?)",
   );
   tenants.forEach((t, idx) => {
     const [vn, nn, pers, kalt, nk, beg, end] = t;
-    const mId = Number(
-      insM.run(vn, nn, `Lindenstraße 12`, "10115", "Berlin").lastInsertRowid,
-    );
+    const mId = Number(insM.run(vn, nn, "Lindenstraße 12", "10115", "Berlin").lastInsertRowid);
     insV.run(einheitIds[idx], mId, beg, end, kalt, nk, pers);
   });
 
-  // Vermieter-Stammdaten für die Vorlage.
   db.prepare(
-    `UPDATE vermieter SET firma=?, name=?, strasse=?, plz=?, ort=?, telefon=?, email=?, iban=?, bank=? WHERE id = 1`,
+    `UPDATE vermieter SET firma=?, name=?, strasse=?, plz=?, ort=?, telefon=?, email=?, iban=?, bic=?, bank=? WHERE id = 1`,
   ).run(
     "cek mobile Hausverwaltung",
     "C. Ekinci",
@@ -233,36 +289,32 @@ export async function seedDemo() {
     "+49 30 1234567",
     "kontakt@cek-mobile.de",
     "DE12 3456 7890 1234 5678 90",
+    "BELADEBEXXX",
     "Berliner Sparkasse",
   );
 
   const arten: Array<[string, string, number]> = [
+    ["Abfallkosten", "WOHNFLAECHE", 1],
     ["Grundsteuer", "WOHNFLAECHE", 1],
     ["Gebäudeversicherung", "WOHNFLAECHE", 1],
-    ["Müllabfuhr", "PERSONEN", 1],
-    ["Hausreinigung", "WOHNFLAECHE", 1],
-    ["Hausmeister", "EINHEIT", 1],
-    ["Allgemeinstrom", "WOHNFLAECHE", 1],
-    ["Wasser / Abwasser", "PERSONEN", 1],
+    ["Niederschlagswasser", "WOHNFLAECHE", 1],
+    ["Allgemeinstrom / Beleuchtung", "WOHNFLAECHE", 1],
+    ["Wartung Feuerlöscher", "EINHEIT", 1],
+    ["Wasserkosten + Kanal", "VERBRAUCH", 1],
     ["Heizung", "VERBRAUCH", 1],
-    ["Verwaltungskosten", "EINHEIT", 0], // nicht umlagefähig
-    ["Instandhaltung", "WOHNFLAECHE", 0], // nicht umlagefähig
+    ["Winterdienst", "WOHNFLAECHE", 1],
+    ["Verwaltungskosten", "EINHEIT", 0],
   ];
   const insK = db.prepare("INSERT INTO kostenart (name, schluessel, umlagefaehig) VALUES (?,?,?)");
-  const insB = db.prepare(
-    "INSERT INTO kostenbuchung (objekt_id, kostenart_id, jahr, betrag, beschreibung) VALUES (?,?,?,?,?)",
-  );
-  const betraege = [1240, 1850, 980, 1460, 2100, 540, 1720, 6400, 1800, 2300];
+  const insB = db.prepare("INSERT INTO kostenbuchung (objekt_id, kostenart_id, jahr, betrag, beschreibung) VALUES (?,?,?,?,?)");
+  const betraege = [226.01, 420.82, 1090.24, 221.4, 325.38, 28.5, 1670.03, 4741.93, 60, 1800];
   arten.forEach(([name, sch, uml], idx) => {
     const kId = Number(insK.run(name, sch, uml).lastInsertRowid);
     insB.run(objId, kId, jahr, betraege[idx], `${name} ${jahr}`);
   });
 
-  // Heizungs-Zähler (für Verbrauchsverteilung)
   const insZ = db.prepare("INSERT INTO zaehler (einheit_id, art, nummer) VALUES (?,?,?)");
-  const insZs = db.prepare(
-    "INSERT INTO zaehlerstand (zaehler_id, jahr, stand_anfang, stand_ende) VALUES (?,?,?,?)",
-  );
+  const insZs = db.prepare("INSERT INTO zaehlerstand (zaehler_id, jahr, stand_anfang, stand_ende) VALUES (?,?,?,?)");
   const verbrauch = [820, 610, 980, 700, 1250, 540];
   einheitIds.forEach((eid, idx) => {
     const zId = Number(insZ.run(eid, "HEIZUNG", `WMZ-${1000 + idx}`).lastInsertRowid);

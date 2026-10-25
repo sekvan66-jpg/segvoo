@@ -14,7 +14,7 @@ db.exec(`
   CREATE TABLE IF NOT EXISTS objekt (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, strasse TEXT DEFAULT '', plz TEXT DEFAULT '', ort TEXT DEFAULT '', baujahr INTEGER, notiz TEXT DEFAULT '', created_at TEXT DEFAULT (datetime('now')));
   CREATE TABLE IF NOT EXISTS einheit (id INTEGER PRIMARY KEY AUTOINCREMENT, objekt_id INTEGER NOT NULL REFERENCES objekt(id) ON DELETE CASCADE, bezeichnung TEXT NOT NULL, lage TEXT DEFAULT '', wohnflaeche REAL NOT NULL DEFAULT 0, zimmer REAL DEFAULT 0, created_at TEXT DEFAULT (datetime('now')));
   CREATE TABLE IF NOT EXISTS mieter (id INTEGER PRIMARY KEY AUTOINCREMENT, vorname TEXT NOT NULL, nachname TEXT NOT NULL, email TEXT DEFAULT '', telefon TEXT DEFAULT '', strasse TEXT DEFAULT '', plz TEXT DEFAULT '', ort TEXT DEFAULT '', created_at TEXT DEFAULT (datetime('now')));
-  CREATE TABLE IF NOT EXISTS vermieter (id INTEGER PRIMARY KEY CHECK (id = 1), firma TEXT DEFAULT '', name TEXT DEFAULT '', strasse TEXT DEFAULT '', plz TEXT DEFAULT '', ort TEXT DEFAULT '', telefon TEXT DEFAULT '', email TEXT DEFAULT '', iban TEXT DEFAULT '', bank TEXT DEFAULT '');
+  CREATE TABLE IF NOT EXISTS vermieter (id INTEGER PRIMARY KEY CHECK (id = 1), firma TEXT DEFAULT '', name TEXT DEFAULT '', strasse TEXT DEFAULT '', plz TEXT DEFAULT '', ort TEXT DEFAULT '', telefon TEXT DEFAULT '', email TEXT DEFAULT '', iban TEXT DEFAULT '', bic TEXT DEFAULT '', bank TEXT DEFAULT '');
   CREATE TABLE IF NOT EXISTS mietvertrag (id INTEGER PRIMARY KEY AUTOINCREMENT, einheit_id INTEGER NOT NULL REFERENCES einheit(id) ON DELETE CASCADE, mieter_id INTEGER NOT NULL REFERENCES mieter(id) ON DELETE CASCADE, beginn TEXT NOT NULL, ende TEXT, kaltmiete REAL NOT NULL DEFAULT 0, nk_vorauszahlung REAL NOT NULL DEFAULT 0, personen INTEGER NOT NULL DEFAULT 1, created_at TEXT DEFAULT (datetime('now')));
   CREATE TABLE IF NOT EXISTS kostenart (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, schluessel TEXT NOT NULL DEFAULT 'WOHNFLAECHE', umlagefaehig INTEGER NOT NULL DEFAULT 1);
   CREATE TABLE IF NOT EXISTS kostenbuchung (id INTEGER PRIMARY KEY AUTOINCREMENT, objekt_id INTEGER NOT NULL REFERENCES objekt(id) ON DELETE CASCADE, kostenart_id INTEGER NOT NULL REFERENCES kostenart(id) ON DELETE CASCADE, jahr INTEGER NOT NULL, betrag REAL NOT NULL DEFAULT 0, beschreibung TEXT DEFAULT '', datum TEXT DEFAULT (date('now')));
@@ -50,12 +50,12 @@ const insE = db.prepare("INSERT INTO einheit (objekt_id, bezeichnung, lage, wohn
 for (const [bez, lage, fl, zi] of units) einheitIds.push(Number(insE.run(objId, bez, lage, fl, zi).lastInsertRowid));
 
 const tenants = [
-  ["Anna", "Weber", 2, 480, 185, `${jahr}-01-01`, null],
-  ["Mehmet", "Yilmaz", 1, 360, 140, `${jahr}-01-01`, null],
-  ["Gönül", "Demir", 4, 620, 260, `${jahr}-01-01`, null],
-  ["Laura", "Becker", 2, 500, 200, `${jahr}-04-01`, null],
-  ["Jonas", "Krüger", 3, 790, 300, `${jahr}-01-01`, null],
-  ["Sophie", "Hoffmann", 1, 340, 150, `${jahr}-01-01`, `${jahr}-09-30`],
+  ["Anna", "Weber", 2, 480, 100, `${jahr}-01-01`, null],
+  ["Mehmet", "Yilmaz", 1, 360, 110, `${jahr}-01-01`, null],
+  ["Gönül", "Demir", 4, 620, 130, `${jahr}-01-01`, null],
+  ["Laura", "Becker", 2, 500, 160, `${jahr}-04-01`, null],
+  ["Jonas", "Krüger", 3, 790, 150, `${jahr}-01-01`, null],
+  ["Sophie", "Hoffmann", 1, 340, 70, `${jahr}-01-01`, `${jahr}-09-30`],
 ];
 const insM = db.prepare("INSERT INTO mieter (vorname, nachname, strasse, plz, ort) VALUES (?,?,?,?,?)");
 const insV = db.prepare("INSERT INTO mietvertrag (einheit_id, mieter_id, beginn, ende, kaltmiete, nk_vorauszahlung, personen) VALUES (?,?,?,?,?,?,?)");
@@ -66,7 +66,7 @@ tenants.forEach((t, idx) => {
 });
 
 db.prepare(
-  "UPDATE vermieter SET firma=?, name=?, strasse=?, plz=?, ort=?, telefon=?, email=?, iban=?, bank=? WHERE id = 1",
+  "UPDATE vermieter SET firma=?, name=?, strasse=?, plz=?, ort=?, telefon=?, email=?, iban=?, bic=?, bank=? WHERE id = 1",
 ).run(
   "cek mobile Hausverwaltung",
   "C. Ekinci",
@@ -76,22 +76,23 @@ db.prepare(
   "+49 30 1234567",
   "kontakt@cek-mobile.de",
   "DE12 3456 7890 1234 5678 90",
+  "BELADEBEXXX",
   "Berliner Sparkasse",
 );
 
 const arten = [
+  ["Abfallkosten", "WOHNFLAECHE", 1],
   ["Grundsteuer", "WOHNFLAECHE", 1],
   ["Gebäudeversicherung", "WOHNFLAECHE", 1],
-  ["Müllabfuhr", "PERSONEN", 1],
-  ["Hausreinigung", "WOHNFLAECHE", 1],
-  ["Hausmeister", "EINHEIT", 1],
-  ["Allgemeinstrom", "WOHNFLAECHE", 1],
-  ["Wasser / Abwasser", "PERSONEN", 1],
+  ["Niederschlagswasser", "WOHNFLAECHE", 1],
+  ["Allgemeinstrom / Beleuchtung", "WOHNFLAECHE", 1],
+  ["Wartung Feuerlöscher", "EINHEIT", 1],
+  ["Wasserkosten + Kanal", "VERBRAUCH", 1],
   ["Heizung", "VERBRAUCH", 1],
+  ["Winterdienst", "WOHNFLAECHE", 1],
   ["Verwaltungskosten", "EINHEIT", 0],
-  ["Instandhaltung", "WOHNFLAECHE", 0],
 ];
-const betraege = [1240, 1850, 980, 1460, 2100, 540, 1720, 6400, 1800, 2300];
+const betraege = [226.01, 420.82, 1090.24, 221.4, 325.38, 28.5, 1670.03, 4741.93, 60, 1800];
 const insK = db.prepare("INSERT INTO kostenart (name, schluessel, umlagefaehig) VALUES (?,?,?)");
 const insB = db.prepare("INSERT INTO kostenbuchung (objekt_id, kostenart_id, jahr, betrag, beschreibung) VALUES (?,?,?,?,?)");
 arten.forEach(([name, sch, uml], idx) => {

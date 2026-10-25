@@ -1,11 +1,18 @@
 import Link from "next/link";
-import { listObjekte, listEinheiten } from "@/lib/queries";
+import { listObjekte, listEinheiten, getObjekt } from "@/lib/queries";
 import { Card, PageHeader, Field, Empty } from "@/components/ui";
-import { createObjekt } from "../actions";
+import { saveObjekt } from "../actions";
 
 export const dynamic = "force-dynamic";
 
-export default function ObjektePage() {
+export default async function ObjektePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ edit?: string }>;
+}) {
+  const sp = await searchParams;
+  const editId = Number(sp.edit) || 0;
+  const edit = editId ? getObjekt(editId) : undefined;
   const objekte = listObjekte();
   const einheiten = listEinheiten();
   const countFor = (id: number) => einheiten.filter((e) => e.objekt_id === id).length;
@@ -40,7 +47,10 @@ export default function ObjektePage() {
                       </span>
                     </td>
                     <td>{countFor(o.id)}</td>
-                    <td style={{ textAlign: "right" }}>
+                    <td style={{ textAlign: "right", whiteSpace: "nowrap" }}>
+                      <Link href={`/objekte?edit=${o.id}`} className="badge no-print" style={{ marginRight: ".4rem" }}>
+                        Bearbeiten
+                      </Link>
                       <Link href={`/objekte/${o.id}`} className="badge">Verwalten →</Link>
                     </td>
                   </tr>
@@ -51,29 +61,37 @@ export default function ObjektePage() {
         </Card>
 
         <Card>
-          <h2 style={{ fontSize: "1rem", fontWeight: 700, marginTop: 0 }}>Neues Objekt</h2>
-          <form action={createObjekt} style={{ display: "grid", gap: ".7rem" }}>
+          <h2 style={{ fontSize: "1rem", fontWeight: 700, marginTop: 0 }}>
+            {edit ? "Objekt bearbeiten" : "Neues Objekt"}
+          </h2>
+          <form action={saveObjekt} style={{ display: "grid", gap: ".7rem" }} key={editId}>
+            {edit && <input type="hidden" name="id" value={edit.id} />}
             <Field label="Name *">
-              <input className="input" name="name" required placeholder="z. B. MFH Lindenstraße" />
+              <input className="input" name="name" required defaultValue={edit?.name} placeholder="z. B. MFH Lindenstraße" />
             </Field>
             <Field label="Straße & Nr.">
-              <input className="input" name="strasse" placeholder="Lindenstraße 12" />
+              <input className="input" name="strasse" defaultValue={edit?.strasse} placeholder="Lindenstraße 12" />
             </Field>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 2fr", gap: ".6rem" }}>
               <Field label="PLZ">
-                <input className="input" name="plz" placeholder="10115" />
+                <input className="input" name="plz" defaultValue={edit?.plz} placeholder="10115" />
               </Field>
               <Field label="Ort">
-                <input className="input" name="ort" placeholder="Berlin" />
+                <input className="input" name="ort" defaultValue={edit?.ort} placeholder="Berlin" />
               </Field>
             </div>
             <Field label="Baujahr">
-              <input className="input" name="baujahr" inputMode="numeric" placeholder="1998" />
+              <input className="input" name="baujahr" inputMode="numeric" defaultValue={edit?.baujahr ?? ""} placeholder="1998" />
             </Field>
             <Field label="Notiz">
-              <input className="input" name="notiz" placeholder="optional" />
+              <input className="input" name="notiz" defaultValue={edit?.notiz} placeholder="optional" />
             </Field>
-            <button className="btn" type="submit">Objekt anlegen</button>
+            <div style={{ display: "flex", gap: ".5rem" }}>
+              <button className="btn" type="submit">{edit ? "Speichern" : "Objekt anlegen"}</button>
+              {edit && (
+                <Link href="/objekte" className="btn btn-ghost">Abbrechen</Link>
+              )}
+            </div>
           </form>
         </Card>
       </div>

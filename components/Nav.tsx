@@ -7,6 +7,7 @@ const links = [
   { href: "/mieter", label: "Mieter" },
   { href: "/vertraege", label: "Mietverträge" },
   { href: "/kosten", label: "Betriebskosten" },
+  { href: "/zaehler", label: "Zähler" },
   { href: "/abrechnung", label: "Nebenkostenabrechnung" },
   { href: "/einstellungen", label: "Einstellungen" },
 ];

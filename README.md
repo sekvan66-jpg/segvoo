@@ -12,10 +12,14 @@ druckfertige Nebenkostenabrechnungen** erstellen.
 - **Objekte & Einheiten** – Gebäude und Wohnungen (Fläche, Zimmer, Lage, Status)
 - **Mieter & Mietverträge** – Adresse, Kaltmiete, NK-Vorauszahlung, Personen, Zeitraum
 - **Betriebskosten** – Kostenarten mit Verteilerschlüssel + Jahresbuchungen
+- **Zähler & Zählerstände** – Grundlage für den Verbrauchsschlüssel
 - **Nebenkostenabrechnung** – pro Mieter, tagesgenaue Umlage, Vorauszahlung
-  gegengerechnet → Nachzahlung/Guthaben, **druckfertige A4-Vorlage** mit
-  Briefkopf, Empfängerblock, Betreff, Bankverbindung und Unterschrift
+  gegengerechnet → Nachzahlung/Guthaben, **druckfertige A4-Vorlage** im
+  gewohnten Format (Spalten *Kostenart · Gesamt · Gesamtbetrag [€] · Anteil ·
+  Anteil [€]*, Briefkopf, Empfängerblock, Betreff, Bankzeile mit IBAN + BIC,
+  Unterschrift)
 - **Einstellungen** – Vermieter-/Bankdaten als Briefkopf für jede Abrechnung
+- **Vollständiges CRUD** – alle Stammdaten lassen sich anlegen, **bearbeiten** und löschen
 - **Logo** – eigenes SVG (Haus + Haken), auch als Favicon
 
 ### Verteilerschlüssel
