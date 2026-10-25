@@ -1,6 +1,6 @@
 ---
 projekt: Mehmet und der Zettelberg
-status: Schritt 3 – Skript (Entwurf, wartet auf Freigabe)
+status: Schritt 3 – Skript (freigegeben)
 länge: 85 s · 9:16
 ---
 
