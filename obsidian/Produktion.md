@@ -46,6 +46,11 @@ Ablauf in der neuen Sitzung:
   3. `pip install openai-whisper && python3 tools/schritt5_whisper.py`
   4. `cd video && npm install && npm run render`
 
+## Schritt 4, 5 und 7: dritter Versuch (2026-10-25)
+- Wieder blockiert: `ELEVENLABS_API_KEY` ist in der Sitzung nicht gesetzt, und die Netzwerkregel lehnt `api.elevenlabs.io` und `openaipublic.azureedge.net` ab (403). Schritt 4 und 5 liefen deshalb nicht, `video/src/timing-whisper.json` ist unverändert.
+- Gerendert: stumme Vorschau mit dem Qualitätsschub (85 s, 1080×1920, ohne mobile.de-Zeile), `REMOTION_BROWSER` zeigt auf die vorinstallierte chrome-headless-shell. Nicht im Repo, nicht veröffentlicht.
+- Zum Beheben: In den Einstellungen der Umgebung den Schlüssel als `ELEVENLABS_API_KEY` eintragen (nicht in den Chat) und unter Network access die Domains `api.elevenlabs.io` und `openaipublic.azureedge.net` erlauben. Danach eine neue Sitzung starten und den Ablauf oben ausführen.
+
 ## Schritt 6/7: Stand (2026-10-25)
 - Remotion-Projekt in `video/`: alle Szenen als Motion Graphics, Untertitel, App-Nachbau mit erfundenen Beispieldaten, Logo als vereinfachte Nachbildung.
 - mobile.de-Zeile ist ausgeblendet (`SHOW_MOBILEDE = false` in `video/src/timing.ts`), solange der Knopf nicht getestet ist.
