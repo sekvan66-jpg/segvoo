@@ -73,7 +73,11 @@ Messages**, **Google Telefon** (falls angeboten), **Chrome** oder **Firefox**,
 
 ## Schritt 5 – Skripte ausführen
 
-**Windows (PowerShell im Ordner `xiaomi-global`):**
+**Windows, am einfachsten:** Doppelklick auf **`START.bat`** und dann im
+Menü die Nummer wählen. Mit Punkt 1 wird das Ergebnis zusätzlich in
+`check-ergebnis.txt` gespeichert.
+
+**Windows, manuell (PowerShell im Ordner `xiaomi-global`):**
 
 ```powershell
 Set-ExecutionPolicy -Scope Process Bypass   # nur für dieses Fenster
