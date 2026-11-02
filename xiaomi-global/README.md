@@ -216,8 +216,8 @@ Ein anderes Android-Handy (z. B. OnePlus) ersetzt den PC.
    (f-droid.org/packages/com.termux – nicht Termux:Tasker, nicht Play Store).
 2. In Termux:
    ```
-   ln -sf $PREFIX/etc/termux/mirrors/default $PREFIX/etc/termux/chosen_mirrors
-   pkg update -y && pkg install -y android-tools
+   echo "deb https://packages-cf.termux.dev/apt/termux-main stable main" > $PREFIX/etc/apt/sources.list
+   apt update && apt install -y android-tools
    ```
 3. Am Xiaomi: **Entwickleroptionen → Kabelloses Debugging** einschalten
    (beide Handys im selben WLAN) → *Gerät mit Kopplungscode koppeln*.
