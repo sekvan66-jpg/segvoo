@@ -113,6 +113,23 @@ Werksreset stellt ebenfalls alles wieder her.
 Die Liste darf mehr enthalten, als auf deinem Gerät ist. Fehlende Pakete
 werden übersprungen. Eigene Einträge ergänzt du einfach in `pakete.txt`.
 
+### Ohne PC: `handy.sh` direkt auf dem Handy
+
+1. Entwickleroptionen → **Kabelloses Debugging** an (WLAN nötig), **Shizuku**
+   aus dem Play Store installieren, koppeln und starten.
+2. **aShell You** (F-Droid / IzzyOnDroid) installieren und Shizuku erlauben.
+3. `handy.sh` nach **Download** speichern und in aShell eintippen:
+
+```sh
+sh /sdcard/Download/handy.sh
+```
+
+Das Skript entfernt nichts. Es holt Systempakete zurück, die für Leistung und
+Bedienung wichtig sind (z. B. `com.xiaomi.joyose`), setzt die
+Berührungs- und Haltezeit auf 400 ms zurück und schreibt einen Bericht nach
+`/sdcard/Download/check-ergebnis.txt`. Mit `sh /sdcard/Download/handy.sh optimieren`
+werden zusätzlich alle Apps neu optimiert (hilft gegen Ruckeln nach Updates).
+
 ## Schritt 6 – Benachrichtigungen zuverlässig machen
 
 Die China-ROM beendet Hintergrund-Apps sehr aggressiv. Dann kommen zum
