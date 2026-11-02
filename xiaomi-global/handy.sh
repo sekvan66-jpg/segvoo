@@ -83,11 +83,17 @@ china_apps_entfernen() {
       echo "entfernt: $p"; echo "$p" >> "$LOG"; n=$((n+1))
     elif pm disable-user --user 0 "$p" 2>&1 | grep -q disabled; then
       echo "deaktiviert: $p"; echo "$p" >> "$LOG"; n=$((n+1))
+    elif pm suspend --user 0 "$p" 2>&1 | grep -q "suspended state: true"; then
+      # HyperOS ohne Root: Entfernen/Deaktivieren gesperrt → einfrieren + Hintergrund verbieten
+      cmd appops set "$p" RUN_ANY_IN_BACKGROUND ignore >/dev/null 2>&1
+      cmd appops set "$p" RUN_IN_BACKGROUND ignore >/dev/null 2>&1
+      am force-stop "$p" >/dev/null 2>&1
+      echo "eingefroren: $p"; echo "$p" >> "$LOG"; n=$((n+1))
     else
       echo "FEHLER: $p"
     fi
   done
-  echo "→ $n Apps entfernt/deaktiviert. Rückgängig: sh $DL/handy.sh zurueck"
+  echo "→ $n Apps entfernt/deaktiviert/eingefroren. Rückgängig: sh $DL/handy.sh zurueck"
   echo
 }
 
@@ -184,6 +190,9 @@ bericht() {
           [ -z "$p" ] && continue
           cmd package install-existing --user 0 "$p" >/dev/null 2>&1
           pm enable --user 0 "$p" >/dev/null 2>&1
+          pm unsuspend --user 0 "$p" >/dev/null 2>&1
+          cmd appops set "$p" RUN_ANY_IN_BACKGROUND allow >/dev/null 2>&1
+          cmd appops set "$p" RUN_IN_BACKGROUND allow >/dev/null 2>&1
           echo "wiederhergestellt: $p"
         done < "$LOG"
         mv "$LOG" "$LOG.alt"

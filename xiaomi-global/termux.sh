@@ -22,7 +22,8 @@ case "$MODUS" in ''|global|optimieren|zurueck) ;; *)
   echo "Unbekannter Modus: $MODUS  (erlaubt: global, optimieren, zurueck oder nichts)"; exit 1 ;;
 esac
 
-QUELLE="https://raw.githubusercontent.com/sekvan66-jpg/segvoo/claude/xiaomi-18-pro-max-global-w7pzu0/xiaomi-global/handy.sh"
+# Über die GitHub-API laden: liefert immer den neuesten Stand (raw.githubusercontent cacht bis zu 5 Min).
+QUELLE="https://api.github.com/repos/sekvan66-jpg/segvoo/contents/xiaomi-global/handy.sh?ref=claude/xiaomi-18-pro-max-global-w7pzu0"
 HIER="$(cd "$(dirname "$0")" && pwd)"
 
 command -v adb >/dev/null || { echo "adb fehlt → zuerst: pkg install -y android-tools"; exit 1; }
@@ -49,13 +50,13 @@ case "$MARKE" in
   *) echo "Das ist kein Xiaomi – Abbruch, damit nicht das falsche Handy geändert wird."; exit 1 ;;
 esac
 
-# handy.sh holen: liegt es daneben, das nehmen, sonst frisch aus GitHub laden.
-if [ -f "$HIER/handy.sh" ]; then
+# handy.sh holen: im Repo-Ordner die lokale Datei, sonst immer frisch aus GitHub.
+if [ -f "$HIER/handy.sh" ] && [ -f "$HIER/pakete.txt" ]; then
   SKRIPT="$HIER/handy.sh"
 else
   SKRIPT="$HOME/handy.sh"
   echo "Lade handy.sh …"
-  curl -fsSL "$QUELLE" -o "$SKRIPT"
+  curl -fsSL -H "Accept: application/vnd.github.raw" "$QUELLE" -o "$SKRIPT"
 fi
 
 adb push "$SKRIPT" /sdcard/Download/handy.sh >/dev/null
