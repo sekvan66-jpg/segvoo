@@ -1,5 +1,6 @@
 #!/system/bin/sh
-# Läuft direkt auf dem Handy – ohne PC – in aShell (über Shizuku).
+# Läuft direkt auf dem Handy – ohne PC – in aShell (über Shizuku),
+# oder von einem zweiten Handy aus per Termux + ADB: siehe termux.sh.
 #
 #   sh /sdcard/Download/handy.sh              nur prüfen + wichtige Systempakete reparieren
 #   sh /sdcard/Download/handy.sh global       alles: reparieren, China-Apps entfernen,

@@ -205,3 +205,29 @@ Anleitung dort.
 - XimiTime: [Inoffizieller Bootloader-Unlock für Xiaomi 18 Pro / Fold](https://ximitime.com/xiaomi-18-pro-and-fold-get-unofficial-bootloader-unlock-101065/)
 - XDA: [Brick-Risiko beim Flashen eines gesperrten China-Geräts](https://xdaforums.com/t/how-to-open-chinese-hyperos-bootloader.4698829/)
 - miuirom.org: [Firmware-Übersicht Xiaomi 18 Pro Max](https://miuirom.org/phones/xiaomi-18-pro-max)
+
+---
+
+## Ohne PC: vom zweiten Handy aus (Termux + ADB)
+
+Ein anderes Android-Handy (z. B. OnePlus) ersetzt den PC.
+
+1. Auf dem zweiten Handy **Termux** von F-Droid installieren
+   (f-droid.org/packages/com.termux – nicht Termux:Tasker, nicht Play Store).
+2. In Termux:
+   ```
+   ln -sf $PREFIX/etc/termux/mirrors/default $PREFIX/etc/termux/chosen_mirrors
+   pkg update -y && pkg install -y android-tools
+   ```
+3. Am Xiaomi: **Entwickleroptionen → Kabelloses Debugging** einschalten
+   (beide Handys im selben WLAN) → *Gerät mit Kopplungscode koppeln*.
+4. In Termux: `adb pair IP:PORT` (Code eingeben), danach
+   `adb connect IP:PORT` (IP und Port von der Hauptseite „Kabelloses Debugging“).
+5. Skript holen und starten:
+   ```
+   curl -fsSLO https://raw.githubusercontent.com/sekvan66-jpg/segvoo/claude/xiaomi-18-pro-max-global-w7pzu0/xiaomi-global/termux.sh
+   bash termux.sh            # nur prüfen
+   bash termux.sh global     # globalisieren
+   ```
+`termux.sh` prüft, dass wirklich ein Xiaomi verbunden ist, schiebt `handy.sh`
+aufs Xiaomi und führt es dort aus. Rückgängig: `bash termux.sh zurueck`.
