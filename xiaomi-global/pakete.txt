@@ -1,0 +1,78 @@
+# Paketliste für das Debloating der China-ROM (HyperOS CN)
+#
+# Format:  paketname|stufe|beschreibung
+#   stufe = sicher    -> wird standardmäßig entfernt
+#   stufe = optional  -> nur mit "--alle" (bzw. -Alle unter Windows)
+#
+# Entfernt wird nur für den Benutzer 0 ("pm uninstall --user 0"). Die Apps
+# bleiben in der Systempartition und lassen sich jederzeit mit "restore"
+# zurückholen. Pakete, die auf dem Gerät nicht installiert sind, werden
+# übersprungen – die Liste darf also mehr enthalten als dein Handy hat.
+#
+# NICHT in diese Liste aufnehmen (bricht das System):
+#   com.miui.securitycenter, com.miui.home, com.xiaomi.joyose, com.miui.daemon,
+#   com.xiaomi.account, com.miui.core, com.lbe.security.miui, com.android.*
+
+# --- Werbung, Tracking, Telemetrie -------------------------------------------
+com.miui.systemAdSolution|sicher|MSA – Werbedienst der China-ROM
+com.miui.msa.global|sicher|MSA – Werbedienst (globale Variante)
+com.miui.analytics|sicher|Xiaomi Analytics / Telemetrie
+com.miui.bugreport|sicher|Fehlerberichte an Xiaomi
+com.miui.miservice|sicher|Dienste & Feedback (China)
+com.xiaomi.vipaccount|sicher|Xiaomi Community (China)
+
+# --- China-Dienste von Xiaomi -------------------------------------------------
+com.miui.hybrid|sicher|Quick Apps (chinesische Mini-Apps)
+com.miui.hybrid.accessory|sicher|Quick Apps – Zubehör
+com.miui.contentextension|sicher|Taplus (Inhaltserkennung, China)
+com.miui.newhome|sicher|News-Feed (China)
+com.miui.yellowpage|sicher|Gelbe Seiten (China)
+com.miui.virtualsim|sicher|Mi Virtual SIM (China)
+com.mipay.wallet|sicher|Mi Pay Wallet (China)
+com.miui.nextpay|sicher|Mi Pay (China)
+com.xiaomi.payment|sicher|Xiaomi Payment (China)
+com.xiaomi.youpin|sicher|Youpin Shop
+com.xiaomi.shop|sicher|Mi Store (China)
+com.xiaomi.gamecenter|sicher|Game Center (China)
+com.xiaomi.mirecycle|sicher|Mi Recycle
+com.miui.newmidrive|sicher|Mi Drive (China)
+com.duokan.reader|sicher|Duokan Reader
+com.miui.video|sicher|Mi Video (China, mit Werbung)
+com.miui.player|sicher|Mi Music (China, mit Werbung)
+
+# --- Chinesische Tastaturen (werden übersprungen, wenn gerade aktiv) ---------
+com.sohu.inputmethod.sogou.xiaomi|sicher|Sogou-Tastatur
+com.baidu.input_mi|sicher|Baidu-Tastatur
+com.iflytek.inputmethod.miui|sicher|iFlytek-Tastatur
+
+# --- Vorinstallierte Dritt-Apps (China) ---------------------------------------
+com.sina.weibo|sicher|Weibo
+com.ss.android.article.news|sicher|Toutiao
+com.ss.android.ugc.aweme|sicher|Douyin (chinesisches TikTok)
+com.smile.gifmaker|sicher|Kuaishou
+com.dragon.read|sicher|Fanqie Novels
+com.taobao.taobao|sicher|Taobao
+com.jingdong.app.mall|sicher|JD.com
+com.xunmeng.pinduoduo|sicher|Pinduoduo
+com.autonavi.minimap|sicher|Amap (Gaode Maps)
+com.baidu.searchbox|sicher|Baidu
+com.UCMobile|sicher|UC Browser
+com.qiyi.video|sicher|iQIYI
+com.youku.phone|sicher|Youku
+com.tencent.qqlive|sicher|Tencent Video
+com.zhihu.android|sicher|Zhihu
+com.ximalaya.ting.android|sicher|Ximalaya
+com.eg.android.AlipayGphone|sicher|Alipay (behalten, wenn du in China bezahlst)
+
+# --- Optional: funktioniert, ist aber China-lastig ----------------------------
+com.miui.voiceassist|optional|XiaoAi Sprachassistent (Ersatz: Google Assistant/Gemini)
+com.miui.voicetrigger|optional|XiaoAi Sprachaktivierung
+com.xiaomi.mibrain.speech|optional|XiaoAi Spracherkennung
+com.xiaomi.aiasst.service|optional|XiaoAi Anrufassistent
+com.miui.personalassistant|optional|App Vault / Minus-1-Bildschirm (Widgets!)
+com.android.browser|optional|Mi Browser (China) – vorher anderen Browser installieren
+com.xiaomi.market|optional|GetApps China – aktualisiert auch System-Apps
+com.miui.cleanmaster|optional|Cleaner (China)
+com.miui.carlink|optional|CarWith / Carlink (China)
+com.xiaomi.migameservice|optional|Game Turbo Dienst
+com.android.thememanager|optional|Themes (China-Store)
