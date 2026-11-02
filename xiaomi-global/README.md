@@ -124,7 +124,13 @@ werden übersprungen. Eigene Einträge ergänzt du einfach in `pakete.txt`.
 sh /sdcard/Download/handy.sh
 ```
 
-Das Skript entfernt nichts. Es holt Systempakete zurück, die für Leistung und
+Mit `sh /sdcard/Download/handy.sh global` wird **alles in einem Rutsch**
+erledigt: Reparatur, China-Apps entfernen (Liste wie `pakete.txt`, Stufe
+*sicher*), Gboard und 24h setzen und alle Xiaomi-, Google- und Nutzer-Apps auf
+Deutsch stellen (ohne Deutsch zeigen sie Englisch). Rückgängig:
+`sh /sdcard/Download/handy.sh zurueck`.
+
+Ohne Zusatz entfernt das Skript nichts. Es holt Systempakete zurück, die für Leistung und
 Bedienung wichtig sind (z. B. `com.xiaomi.joyose`), setzt die
 Berührungs- und Haltezeit auf 400 ms zurück und schreibt einen Bericht nach
 `/sdcard/Download/check-ergebnis.txt`. Mit `sh /sdcard/Download/handy.sh optimieren`
