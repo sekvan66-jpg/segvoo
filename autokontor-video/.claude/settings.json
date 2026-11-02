@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install*)",
+      "Bash(npm run *)",
+      "Bash(npx remotion *)",
+      "Bash(node tools/*)",
+      "Bash(.venv/Scripts/python tools/*)",
+      "Bash(.venv\\Scripts\\python tools\\*)",
+      "Bash(.venv/bin/python tools/*)",
+      "Bash(ffmpeg *)",
+      "Bash(ffprobe *)"
+    ]
+  }
+}

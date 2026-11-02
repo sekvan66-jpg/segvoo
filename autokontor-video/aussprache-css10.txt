@@ -1,0 +1,23 @@
+# Aussprache für die Frauenstimme css10 (tools/voice_offline.py --modell css10)
+# Das Modell liest Buchstaben – hier steht, wie ein Wort geschrieben werden muss, damit es richtig klingt.
+# Format:   Wort = so wird es gesprochen
+# Im Video wird immer das Wort aus dem Skript angezeigt.
+
+AutoKontor            = Autokontor
+Software              = Softwär
+Excel                 = Ecksel
+PC                    = Pe Zeh
+PDF                   = Pe De Eff
+ZUGFeRD               = Zugferd
+XRechnung             = Iks-Rechnung
+E-Rechnung            = E-Rechnung
+GoBD-Anforderungen    = Geh Oh Beh Deh Anforderungen
+Windows               = Windous
+Mac                   = Mäck
+Linux                 = Linux
+Cloud                 = Klaud
+Laptop                = Läptop
+Internet              = Internet
+19                    = neunzehn
+€                     = Euro
+7                     = sieben

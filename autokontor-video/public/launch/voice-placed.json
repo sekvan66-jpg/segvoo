@@ -1,0 +1,356 @@
+[
+ {
+  "word": "Zettel",
+  "start": 0.5,
+  "end": 1.046,
+  "line": 0
+ },
+ {
+  "word": "Excel",
+  "start": 1.5,
+  "end": 2.011,
+  "line": 0
+ },
+ {
+  "word": "Ordner",
+  "start": 2.5,
+  "end": 3.045,
+  "line": 0
+ },
+ {
+  "word": "Chaos",
+  "start": 3.5,
+  "end": 3.941,
+  "line": 0
+ },
+ {
+  "word": "AutoKontor.",
+  "start": 7.0,
+  "end": 7.766,
+  "line": 1
+ },
+ {
+  "word": "Die",
+  "start": 8.147,
+  "end": 8.229,
+  "line": 1
+ },
+ {
+  "word": "Software",
+  "start": 8.322,
+  "end": 8.844,
+  "line": 1
+ },
+ {
+  "word": "für",
+  "start": 8.902,
+  "end": 9.03,
+  "line": 1
+ },
+ {
+  "word": "Gebrauchtwagenhändler.",
+  "start": 9.065,
+  "end": 10.156,
+  "line": 1
+ },
+ {
+  "word": "Fahrzeuge",
+  "start": 13.0,
+  "end": 13.558,
+  "line": 2
+ },
+ {
+  "word": "und",
+  "start": 13.72,
+  "end": 13.952,
+  "line": 2
+ },
+ {
+  "word": "Kunden",
+  "start": 14.01,
+  "end": 14.324,
+  "line": 2
+ },
+ {
+  "word": "an",
+  "start": 14.417,
+  "end": 14.533,
+  "line": 2
+ },
+ {
+  "word": "einem",
+  "start": 14.568,
+  "end": 14.777,
+  "line": 2
+ },
+ {
+  "word": "Ort.",
+  "start": 14.823,
+  "end": 14.939,
+  "line": 2
+ },
+ {
+  "word": "Kaufvertrag",
+  "start": 23.0,
+  "end": 23.685,
+  "line": 3
+ },
+ {
+  "word": "und",
+  "start": 23.836,
+  "end": 24.01,
+  "line": 3
+ },
+ {
+  "word": "Rechnung",
+  "start": 24.068,
+  "end": 24.474,
+  "line": 3
+ },
+ {
+  "word": "mit",
+  "start": 24.521,
+  "end": 24.648,
+  "line": 3
+ },
+ {
+  "word": "wenigen",
+  "start": 24.695,
+  "end": 25.101,
+  "line": 3
+ },
+ {
+  "word": "Klicks.",
+  "start": 25.136,
+  "end": 25.403,
+  "line": 3
+ },
+ {
+  "word": "Auch",
+  "start": 27.0,
+  "end": 27.279,
+  "line": 4
+ },
+ {
+  "word": "als",
+  "start": 27.337,
+  "end": 27.499,
+  "line": 4
+ },
+ {
+  "word": "E-Rechnung,",
+  "start": 27.534,
+  "end": 28.15,
+  "line": 4
+ },
+ {
+  "word": "ZUGFeRD",
+  "start": 28.254,
+  "end": 28.672,
+  "line": 4
+ },
+ {
+  "word": "oder",
+  "start": 28.742,
+  "end": 29.055,
+  "line": 4
+ },
+ {
+  "word": "XRechnung.",
+  "start": 29.136,
+  "end": 29.705,
+  "line": 4
+ },
+ {
+  "word": "Läuft",
+  "start": 33.0,
+  "end": 33.406,
+  "line": 5
+ },
+ {
+  "word": "offline",
+  "start": 33.534,
+  "end": 33.963,
+  "line": 5
+ },
+ {
+  "word": "auf",
+  "start": 34.137,
+  "end": 34.265,
+  "line": 5
+ },
+ {
+  "word": "deinem",
+  "start": 34.312,
+  "end": 34.648,
+  "line": 5
+ },
+ {
+  "word": "PC.",
+  "start": 34.695,
+  "end": 35.055,
+  "line": 5
+ },
+ {
+  "word": "Windows,",
+  "start": 36.0,
+  "end": 36.43,
+  "line": 6
+ },
+ {
+  "word": "Mac",
+  "start": 36.616,
+  "end": 36.86,
+  "line": 6
+ },
+ {
+  "word": "und",
+  "start": 36.894,
+  "end": 37.115,
+  "line": 6
+ },
+ {
+  "word": "Linux.",
+  "start": 37.161,
+  "end": 37.568,
+  "line": 6
+ },
+ {
+  "word": "Deine",
+  "start": 41.0,
+  "end": 41.255,
+  "line": 7
+ },
+ {
+  "word": "Daten",
+  "start": 41.336,
+  "end": 41.743,
+  "line": 7
+ },
+ {
+  "word": "bleiben",
+  "start": 41.778,
+  "end": 42.184,
+  "line": 7
+ },
+ {
+  "word": "bei",
+  "start": 42.23,
+  "end": 42.393,
+  "line": 7
+ },
+ {
+  "word": "dir.",
+  "start": 42.439,
+  "end": 42.66,
+  "line": 7
+ },
+ {
+  "word": "Automatische",
+  "start": 43.5,
+  "end": 44.278,
+  "line": 8
+ },
+ {
+  "word": "Datensicherung.",
+  "start": 44.336,
+  "end": 45.125,
+  "line": 8
+ },
+ {
+  "word": "Unterstützt",
+  "start": 45.5,
+  "end": 46.092,
+  "line": 9
+ },
+ {
+  "word": "GoBD-Anforderungen.",
+  "start": 46.197,
+  "end": 47.741,
+  "line": 9
+ },
+ {
+  "word": "Start,",
+  "start": 49.0,
+  "end": 49.395,
+  "line": 10
+ },
+ {
+  "word": "Basic",
+  "start": 49.604,
+  "end": 49.848,
+  "line": 10
+ },
+ {
+  "word": "oder",
+  "start": 49.883,
+  "end": 50.161,
+  "line": 10
+ },
+ {
+  "word": "Pro.",
+  "start": 50.22,
+  "end": 50.359,
+  "line": 10
+ },
+ {
+  "word": "Ab",
+  "start": 50.74,
+  "end": 50.868,
+  "line": 10
+ },
+ {
+  "word": "19",
+  "start": 50.903,
+  "end": 51.425,
+  "line": 10
+ },
+ {
+  "word": "€",
+  "start": 51.483,
+  "end": 51.866,
+  "line": 10
+ },
+ {
+  "word": "im",
+  "start": 51.948,
+  "end": 52.075,
+  "line": 10
+ },
+ {
+  "word": "Monat.",
+  "start": 52.098,
+  "end": 52.377,
+  "line": 10
+ },
+ {
+  "word": "AutoKontor.",
+  "start": 56.0,
+  "end": 56.754,
+  "line": 11
+ },
+ {
+  "word": "7",
+  "start": 57.0,
+  "end": 57.302,
+  "line": 12
+ },
+ {
+  "word": "Tage",
+  "start": 57.349,
+  "end": 57.627,
+  "line": 12
+ },
+ {
+  "word": "kostenlos",
+  "start": 57.674,
+  "end": 58.312,
+  "line": 12
+ },
+ {
+  "word": "testen.",
+  "start": 58.37,
+  "end": 58.684,
+  "line": 12
+ }
+]

@@ -1,0 +1,17 @@
+# AutoKontor Launch-Film (60 s, 120 BPM) – nur Sprechertext; jede Zeile wird in tools/launch_voice.py auf ihren Beat gelegt.
+# Konzept: „Vom Zettelchaos zum sauberen Dashboard.“ – Bild und Sprecher: src/launch/Launch.tsx
+# stimme: launch   (python tools/voice_piper.py --fassung launch --stimme thorsten-emotional --gefuehl neutral --tempo 0.95 --pause 0.3 --takes 6)
+# Hinweis: Zeile 1 sprechen die Einzelwörter aus tools/launch_opener.py (deutlicher); tools/launch_voice.py legt jedes Wort einzeln auf seinen Beat.
+w   | Zettel, Excel, Ordner, Chaos?
+s2  | AutoKontor. Die Software für Gebrauchtwagenhändler.
+s3  | Fahrzeuge und Kunden an einem Ort.
+s4a | Kaufvertrag und Rechnung mit wenigen Klicks.
+s4b | Auch als E-Rechnung, ZUGFeRD oder XRechnung.
+s5a | Läuft offline auf deinem PC.
+s5b | Windows, Mac und Linux.
+s6a | Deine Daten bleiben bei dir.
+s6b | Automatische Datensicherung.
+s6c | Unterstützt GoBD-Anforderungen.
+s7  | Start, Basic oder Pro. Ab 19 € im Monat.
+s8a | AutoKontor.
+s8b | 7 Tage kostenlos testen.

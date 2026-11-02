@@ -1,0 +1,17 @@
+# Aussprache für die Piper-Stimme (tools/voice_piper.py, Lautschrift von eSpeak)
+# Format:   Wort = so wird es gesprochen        (Text)
+#           Wort = [[lautschrift]]               (eSpeak-IPA, nur wenn Text nicht reicht)
+# Im Video wird immer das Wort aus dem Skript angezeigt, gesprochen wird die rechte Seite.
+# Groß-/Kleinschreibung links egal, Satzzeichen am Wortende werden automatisch beachtet.
+
+AutoKontor            = Auto-Kontor
+Gebrauchtwagenhändler = Gebrauchtwagen-Händler
+Software              = Softwär
+Excel                 = Exel
+ZUGFeRD               = Zugferd
+GoBD-Anforderungen    = Ge O Be De Anforderungen
+Mac                   = Mäck
+Cloud                 = Klaud
+Laptop                = Läptop
+Autohändler           = Auto-Händler
+GoBD                   = Ge O Be De

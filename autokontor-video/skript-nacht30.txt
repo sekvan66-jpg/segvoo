@@ -1,0 +1,23 @@
+# AutoKontor – 30 Sekunden im Nacht-Stil („AutoKontor bei Nacht“: Automobil-Look, Chrom, Cyan-Licht)
+# stil: nacht
+# musik: musik-nacht30.mp3   (python tools/musik.py nacht30 --stil nacht)
+# stimme: nacht30            (python tools/voice_piper.py --fassung nacht30 --klang tief --tempo 1.0 --pause 0.34 --takes 6)
+#
+# *Wort* = leuchtet cyan. Szenen stehen in src/nacht/scenes.tsx:
+#   strasse, stopp, zuendung, silhouetten, cockpit, schluessel, leuchten, rechner, wolke,
+#   tacho, kennzeichen, preisschild, kuendbar, finale
+
+strasse     | Zettel, Excel, Ordner *überall?*
+stopp       | Damit ist jetzt Schluss.
+zuendung    | Das ist AutoKontor,
+silhouetten | die Software für große und kleine *Autohändler.*
+cockpit     | Fahrzeuge, Kunden, Kaufverträge und Rechnungen als PDF,
+schluessel  | mit wenigen *Klicks.*
+leuchten    | Auch als E-Rechnung, ZUGFeRD und XRechnung.
+rechner     | Deine Daten bleiben auf *deinem* *Rechner,*
+wolke       | nicht in der *Cloud.*
+tacho       | Automatische Sicherung *jeden* *Tag.*
+kennzeichen | Für Windows, Mac und Linux.
+preisschild | Ab 19 € *im* *Monat,*
+kuendbar    | monatlich *kündbar.*
+finale      | Jetzt 7 Tage kostenlos testen!
